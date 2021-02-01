@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:calendar/screen/pushPlan.dart';
-import 'package:calendar/screen/ex.dart';
+import './screen/ex.dart';
+import './screen/pushPlan.dart';
 
 void main() {
   runApp(MyApp());
