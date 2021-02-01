@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import '../data/data.dart';
+import 'package:calendar/screen/ex.dart';
 
 class PushPlan extends StatefulWidget {
   final String title = '제목';
@@ -11,17 +11,17 @@ class PushPlan extends StatefulWidget {
 
 class _PushPlanState extends State<PushPlan> {
   GlobalKey<FormState> _fKey = GlobalKey<FormState>();
-  String planName, located;
   String yearMonthDayTime, yearMonthDayTime1, yearMonthDay;
+  TextEditingController yController = TextEditingController();
+  TextEditingController mController = TextEditingController();
   TextEditingController ymdController = TextEditingController();
   TextEditingController ymdtController = TextEditingController();
   TextEditingController ymdtController1 = TextEditingController();
-  final planNameController = TextEditingController();
-  final locatedController = TextEditingController();
 
-  bool allDaySwitched = false; //하루종일,알람 스위치버튼
+  bool autovalidate = false;
+  bool isSwitched = false;
   bool alramisSwitched = false;
-  bool endTimeisSwitched = true; // 알림받기 스위치버튼
+  bool endTimeisSwitched = true;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,6 @@ class _PushPlanState extends State<PushPlan> {
                     Padding(
                       padding: EdgeInsets.only(left: 15),
                       child: TextFormField(
-                        controller: planNameController,
                         maxLength: 20,
                         decoration: InputDecoration(
                           labelText: '일정제목',
@@ -69,10 +68,6 @@ class _PushPlanState extends State<PushPlan> {
                     Padding(
                       padding: EdgeInsets.only(left: 15),
                       child: TextFormField(
-                        controller: locatedController,
-                        onSaved: (val) {
-                          located = locatedController.text;
-                        },
                         maxLength: 20,
                         decoration: InputDecoration(
                           labelText: '위치',
@@ -104,10 +99,10 @@ class _PushPlanState extends State<PushPlan> {
                 ),
               ),
               trailing: Switch(
-                value: allDaySwitched,
+                value: isSwitched,
                 onChanged: (value) {
                   setState(() {
-                    allDaySwitched = value;
+                    isSwitched = value;
                   });
                 },
               ),
@@ -130,7 +125,7 @@ class _PushPlanState extends State<PushPlan> {
                 },
               ),
             ),
-            !allDaySwitched
+            !isSwitched
                 ? Row(
                     children: <Widget>[
                       Expanded(
@@ -185,7 +180,7 @@ class _PushPlanState extends State<PushPlan> {
                                 filled: true,
                               ),
                               onSaved: (val) {
-                                yearMonthDayTime = ymdController.text;
+                                yearMonthDay = ymdController.text;
                               },
                               validator: (val) {
                                 if (val == null || val.isEmpty) {
@@ -201,7 +196,7 @@ class _PushPlanState extends State<PushPlan> {
                   ),
 
             SizedBox(height: 5.0),
-            !allDaySwitched && endTimeisSwitched
+            !isSwitched && endTimeisSwitched
                 ? Row(
                     children: <Widget>[
                       Expanded(
@@ -294,36 +289,12 @@ class _PushPlanState extends State<PushPlan> {
                   buttonColor: Colors.red,
                   child: OutlinedButton.icon(
                     onPressed: () {
-                      if (allDaySwitched) {
-                        PlanInfo pi = PlanInfo();
-                        pi.setPlanName = planNameController.text;
-                        pi.Setlocated = locatedController.text;
-                        pi.SetallDaySwitched = allDaySwitched;
-                        pi.SetendTimeisSwitched = endTimeisSwitched;
-                        pi.SetalramisSwitched = alramisSwitched;
-                        pi.Settime = ymdController.text;
-                        pi.prtall();
-                      } else if (endTimeisSwitched) {
-                        PlanInfo pi = PlanInfo();
-                        pi.setPlanName = planNameController.text;
-                        pi.Setlocated = locatedController.text;
-                        pi.SetallDaySwitched = allDaySwitched;
-                        pi.SetendTimeisSwitched = endTimeisSwitched;
-                        pi.SetalramisSwitched = alramisSwitched;
-                        pi.Setstarttime = ymdtController.text;
-                        pi.Setendtime = ymdtController1.text;
-                        pi.prtall();
-                      } else {
-                        PlanInfo pi = PlanInfo();
-                        pi.setPlanName = planNameController.text;
-                        pi.Setlocated = locatedController.text;
-                        pi.SetallDaySwitched = allDaySwitched;
-                        pi.SetendTimeisSwitched = endTimeisSwitched;
-                        pi.SetalramisSwitched = alramisSwitched;
-                        pi.Setstarttime = ymdtController.text;
-                        pi.Setendtime = ymdtController1.text;
-                        pi.prtall();
-                      }
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (BuildContext context) => YearMonthPicker(),
+                      //   ),
+                      // );
                     },
                     icon: Icon(
                       Icons.save,
