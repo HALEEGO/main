@@ -7,6 +7,7 @@ class AlreadyHaveAnAccountCheck extends StatelessWidget {
   const AlreadyHaveAnAccountCheck({
     Key key,
     this.login = true,
+    this.press,
   }) : super(key: key);
 
   @override
