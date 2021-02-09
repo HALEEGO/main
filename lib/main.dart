@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'screen/PushPlan/pushPlan.dart';
 import './screen/Welcome/welcome_screen.dart';
 import 'constants.dart';
 import 'package:intl/date_symbol_data_local.dart';

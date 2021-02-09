@@ -1,4 +1,4 @@
-import 'package:calendar/screen/Calendar/calendar.dart';
+import '../AddCalendar/addCalendar.dart';
 
 import './components/body.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +14,7 @@ class WelcomeScreen extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) {
-                return Calendar();
+                return AddCalendar();
               },
             ),
           );
