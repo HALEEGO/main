@@ -1,3 +1,7 @@
+// import 'package:calendar/screen/Calendar/tabBar.dart';
+
+import 'package:calendar/screen/Main/mainmenu.dart';
+
 import '../AddCalendar/addCalendar.dart';
 
 import './components/body.dart';
@@ -14,7 +18,7 @@ class WelcomeScreen extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) {
-                return AddCalendar();
+                return Mainmenu();
               },
             ),
           );
