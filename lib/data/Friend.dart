@@ -1,4 +1,4 @@
-import 'package:calendar/data/User.dart';
+import 'User.dart';
 
 class Friend {
   List<User> _FriendList;

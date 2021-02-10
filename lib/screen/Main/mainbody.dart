@@ -1,5 +1,6 @@
 import 'package:calendar/screen/Calendar/calendar.dart';
 import 'package:flutter/material.dart';
+import '../Home/home_screen.dart';
 
 class MainBody extends StatefulWidget {
   @override
@@ -58,6 +59,7 @@ class _MainBodyState extends State<MainBody> {
 
   List _widgetOptions = [
     //여기에 페이지 넣으면됨
+    HomeScreen(),
     Text(
       'Music',
       style: TextStyle(fontSize: 30, fontFamily: 'DoHyeonRegular'),

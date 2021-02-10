@@ -1,5 +1,5 @@
-import 'package:calendar/data/Calendar.dart';
-import 'package:calendar/data/User.dart';
+import 'Calendar.dart';
+import 'User.dart';
 
 class Calendar_has_User {
   List<User> _calendarHasUserList; // 일정이 가지고있는 유저 리스트

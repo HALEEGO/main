@@ -12,7 +12,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        //title: 'snsCalendar',
         color: Colors.grey,
         theme: ThemeData(
             primaryColor: kPrimaryColor, scaffoldBackgroundColor: Colors.white),
