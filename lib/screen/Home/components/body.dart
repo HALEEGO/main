@@ -175,7 +175,7 @@ class Body extends StatelessWidget {
                       child: Text("${entries[index]}=====${colorCodes[index]}"),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(20)),
-                          border: Border.all(width: 0.8, color: Colors.yellow)),
+                          border: Border.all(width: 0.3, color: Colors.black)),
                     );
                   }),
             )

@@ -64,8 +64,10 @@ class _BodyState extends State<Body> {
                 press: () async {
                   Response response = await get(
                       "http://192.168.219.134:8000/calendar/read/user/${id}");
+                  // User user = User.fromJson(json.decode(response.body));  //테스트해봐야댐
                   Map<String, dynamic> person = json.decode(response.body);
                   print(person['userPW']);
+                  // print(user.getUserID);
                   if (person['userPW'] == pw) {
                     print("ok!");
                     Navigator.push(

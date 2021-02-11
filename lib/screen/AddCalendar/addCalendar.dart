@@ -17,7 +17,15 @@ class _AddCalendarState extends State<AddCalendar> {
       finishTIME,
       scheduleLOCATION;
 
-  Calendar calendar = Calendar();
+  Calendar calendar = Calendar(
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+  );
   TextEditingController datecontroller = TextEditingController();
   TextEditingController starttimecontroller = TextEditingController();
   TextEditingController finishtimecontroller = TextEditingController();

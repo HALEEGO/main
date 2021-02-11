@@ -1,5 +1,6 @@
 import 'package:calendar/screen/AddCalendar/addCalendar.dart';
 import 'package:calendar/screen/Calendar/calendar.dart';
+import 'package:calendar/screen/Friend/Friend_screen.dart';
 import 'package:flutter/material.dart';
 import '../Home/home_screen.dart';
 
@@ -83,10 +84,7 @@ class _MainBodyState extends State<MainBody> {
   List _widgetOptions = [
     //여기에 페이지 넣으면됨
     HomeScreen(),
-    Text(
-      'Music',
-      style: TextStyle(fontSize: 30, fontFamily: 'DoHyeonRegular'),
-    ),
+    Friendscreen(),
     Calendar(),
     Text(
       'News',

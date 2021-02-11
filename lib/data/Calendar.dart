@@ -30,7 +30,8 @@ class Calendar {
   set setFinishTIME(String finishTIME) => _finishTIME = finishTIME;
   set setScheduleLOCATION(String scheduleLOCATION) =>
       _scheduleLOCATION = scheduleLOCATION;
-
+  Calendar(_calendarNUM, _scheduleTYPE, _scheduleDETAIL, _scheduleDATE,
+      _startTIME, _finishTIME, _scheduleLOCATION);
   void pALL() {
     print(_calendarNUM);
     print(_scheduleTYPE);
@@ -40,4 +41,22 @@ class Calendar {
     print(_finishTIME);
     print(_scheduleLOCATION);
   }
+
+  Calendar.fromJson(Map<String, dynamic> json)
+      : _calendarNUM = json['calendarNUM'],
+        _scheduleTYPE = json['scheduleTYPE'],
+        _scheduleDETAIL = json['scheduleDETAIL'],
+        _scheduleDATE = json['scheduleDATE'],
+        _startTIME = json['startTIME'],
+        _finishTIME = json['finishTIME'],
+        _scheduleLOCATION = json['scheduleLOCATION'];
+
+  Map<String, dynamic> toJson() => {
+        '_scheduleTYPE': _scheduleTYPE,
+        '_scheduleDETAIL': _scheduleDETAIL,
+        '_scheduleDATE': _scheduleDATE,
+        '_startTIME': _startTIME,
+        '_finishTIME': _finishTIME,
+        '_scheduleLOCATION': _scheduleLOCATION,
+      };
 }
