@@ -22,4 +22,15 @@ class User {
   set setUserROLE(String userROLE) => _userROLE = userROLE;
 
   User(_userIDK, _userID, _userPW, _userNAME, _userROLE);
+
+  User.fromJson(Map<String, dynamic> json)
+      : _userID = json['userID'],
+        _userPW = json['userPW'],
+        _userNAME = json['userNAME'];
+
+  Map<String, dynamic> toJson() => {
+        'userID': _userID,
+        'userPW': _userPW,
+        'userNAME': _userNAME,
+      };
 }

@@ -1,13 +1,21 @@
+import 'dart:convert';
+
 import 'package:calendar/components/already_have_an_account_check.dart';
 import 'package:calendar/components/rounded_button.dart';
 import 'package:calendar/components/rounded_input_field.dart';
 import 'package:calendar/components/rounded_password_field.dart';
+import 'package:calendar/data/User.dart';
 import 'package:calendar/screen/Login/login_screen.dart';
 import 'package:calendar/screen/Signup/components/background.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:http/http.dart';
 
 class Body extends StatelessWidget {
+  String id;
+  String pw;
+  String name = "사용자";
+  User user = User(null, null, null, null, null);
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -28,14 +36,32 @@ class Body extends StatelessWidget {
               ),
               RoundedInputField(
                 hintText: "Your Email",
-                onChanged: (value) {},
+                onChanged: (value) {
+                  id = value;
+                },
               ),
               RoundedPasswordField(
-                onChanged: (value) {},
+                onChanged: (value) {
+                  pw = value;
+                  print(pw);
+                },
               ),
               RoundedButton(
                 text: "SIGNUP",
-                press: () {},
+                press: () async {
+                  user.setUserID = id;
+                  print(user.getUserID);
+                  user.setUserPW = pw;
+                  user.setUserNAME = name;
+
+                  var json = jsonEncode(user);
+                  print(json);
+                  Response response = await post(
+                      "http://192.168.219.134:8000/calendar/insert/user",
+                      body: json,
+                      headers: {'Content-Type': "application/json"});
+                  print(response.body);
+                },
               ),
               SizedBox(height: size.height * 0.03),
               AlreadyHaveAnAccountCheck(
