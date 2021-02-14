@@ -50,7 +50,6 @@ class Body extends StatelessWidget {
                 text: "SIGNUP",
                 press: () async {
                   user.setUserID = id;
-                  print(user.getUserID);
                   user.setUserPW = pw;
                   user.setUserNAME = name;
 

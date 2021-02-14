@@ -7,13 +7,18 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return ListView(
-      physics: BouncingScrollPhysics(),
-      children: <Widget>[
-        Background(
-          child: Container(),
-        ),
-      ],
+    return Background(
+      child: ListView.builder(
+          physics: BouncingScrollPhysics(),
+          itemCount: 10,
+          itemBuilder: (BuildContext context, int i) {
+            return ListTile(
+              leading: Icon(Icons.people),
+              title: Text("사용자${i + 1}"),
+              trailing: Icon(Icons.ac_unit),
+              onTap: () {},
+            );
+          }),
     );
   }
 }

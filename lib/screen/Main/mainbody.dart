@@ -1,22 +1,48 @@
 import 'package:calendar/screen/AddCalendar/addCalendar.dart';
 import 'package:calendar/screen/Calendar/calendar.dart';
 import 'package:calendar/screen/Friend/Friend_screen.dart';
+import 'package:calendar/screen/Welcome/welcome_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../Home/home_screen.dart';
 
 class MainBody extends StatefulWidget {
+  final String id;
+  MainBody({this.id});
+
   @override
   _MainBodyState createState() => _MainBodyState();
 }
 
 class _MainBodyState extends State<MainBody> {
+  static final storage = FlutterSecureStorage();
+  String userInfo;
+  String id = '';
+
+  @override
+  void initState() {
+    super.initState();
+    id = widget.id;
+    print(id);
+    firstPage();
+    // HomeScreen(id: id);
+  }
+
+  _asyncMethod() async {
+    userInfo = await storage.read(key: "login");
+    print(userInfo);
+    id = userInfo;
+    // HomeScreen(id: id);
+  }
+
   int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: Icon(Icons.calendar_today_sharp),
-        title: Text('~~의' + '\n' + 'SNS CALENDAR'),
+        title: Text('${widget.id}의' + '\n' + 'SNS CALENDAR'),
         actions: [
           IconButton(
             icon: Icon(Icons.add_circle_outline),
@@ -34,6 +60,11 @@ class _MainBodyState extends State<MainBody> {
           IconButton(
               icon: Icon(Icons.person_pin_outlined),
               onPressed: () {
+                storage.delete(key: "login");
+                Navigator.pushReplacement(
+                  context,
+                  CupertinoPageRoute(builder: (context) => WelcomeScreen()),
+                );
                 //내정보 확인할 수 있는 페이지로
               }),
           Padding(padding: EdgeInsets.only(left: 10)),
@@ -83,16 +114,25 @@ class _MainBodyState extends State<MainBody> {
 
   List _widgetOptions = [
     //여기에 페이지 넣으면됨
-    HomeScreen(),
+    null,
     Friendscreen(),
     Calendar(),
     Text(
       'News',
-      style: TextStyle(fontSize: 30, fontFamily: 'DoHyeonRegular'),
+      style: TextStyle(
+        fontSize: 30,
+      ),
     ),
     Text(
       'News',
-      style: TextStyle(fontSize: 30, fontFamily: 'DoHyeonRegular'),
+      style: TextStyle(
+        fontSize: 30,
+      ),
     ),
   ];
+  void firstPage() {
+    _widgetOptions[0] = HomeScreen(
+      id: id,
+    );
+  }
 }
