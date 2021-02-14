@@ -34,13 +34,16 @@ dependencies:
   flutter:
     sdk: flutter
   http: ^0.12.2 # http 통신
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
+  # local db사용
+  sqflite: ^1.1.6
+  path_provider: ^1.2.0
+  path: ^1.6.2
   cupertino_icons: ^1.0.2
   flutter_svg: ^0.18.0 # svg 파일때문에 0.18 업뎃함
   table_calendar: ^2.3.3 #달력
   intl: ^0.16.1 #언어
+  shared_preferences: ^0.5.12
+  flutter_secure_storage: ^3.3.5
 
 dev_dependencies:
   flutter_test:
