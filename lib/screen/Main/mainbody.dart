@@ -1,3 +1,4 @@
+import 'package:calendar/constants.dart';
 import 'package:calendar/screen/AddCalendar/addCalendar.dart';
 import 'package:calendar/screen/Calendar/calendar.dart';
 import 'package:calendar/screen/Friend/Friend_screen.dart';
@@ -26,14 +27,7 @@ class _MainBodyState extends State<MainBody> {
     id = widget.id;
     print(id);
     firstPage();
-    // HomeScreen(id: id);
-  }
-
-  _asyncMethod() async {
-    userInfo = await storage.read(key: "login");
-    print(userInfo);
-    id = userInfo;
-    // HomeScreen(id: id);
+    secondPage(); // first페이지로 id전달
   }
 
   int _selectedIndex = 0;
@@ -41,11 +35,21 @@ class _MainBodyState extends State<MainBody> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(Icons.calendar_today_sharp),
-        title: Text('${widget.id}의' + '\n' + 'SNS CALENDAR'),
+        backgroundColor: Colors.white,
+        leading: Icon(
+          Icons.calendar_today_sharp,
+          color: kPrimaryColor,
+        ),
+        title: Text(
+          '${widget.id}의' + '\n' + 'SNS CALENDAR',
+          style: TextStyle(color: kPrimaryColor),
+        ),
         actions: [
           IconButton(
-            icon: Icon(Icons.add_circle_outline),
+            icon: Icon(
+              Icons.add_circle_outline,
+              color: kPrimaryColor,
+            ),
             onPressed: () {
               Navigator.push(
                 context,
@@ -58,7 +62,10 @@ class _MainBodyState extends State<MainBody> {
             },
           ),
           IconButton(
-              icon: Icon(Icons.person_pin_outlined),
+              icon: Icon(
+                Icons.person_pin_outlined,
+                color: kPrimaryColor,
+              ),
               onPressed: () {
                 storage.delete(key: "login");
                 Navigator.pushReplacement(
@@ -115,7 +122,7 @@ class _MainBodyState extends State<MainBody> {
   List _widgetOptions = [
     //여기에 페이지 넣으면됨
     null,
-    Friendscreen(),
+    null,
     Calendar(),
     Text(
       'News',
@@ -134,5 +141,9 @@ class _MainBodyState extends State<MainBody> {
     _widgetOptions[0] = HomeScreen(
       id: id,
     );
+  }
+
+  void secondPage() {
+    _widgetOptions[1] = Friendscreen(id: id);
   }
 }

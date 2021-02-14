@@ -1,8 +1,22 @@
 import 'package:flutter/material.dart';
 import 'background.dart';
 
-class Body extends StatelessWidget {
-  // List<User> userlist = [user,user1,user2,user3,user4];
+class Body extends StatefulWidget {
+  final String id;
+  Body({this.id});
+  @override
+  _BodyState createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
+  String id;
+  @override
+  void initState() {
+    super.initState();
+    id = widget.id;
+
+    print("이것은 $id");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +28,7 @@ class Body extends StatelessWidget {
           itemBuilder: (BuildContext context, int i) {
             return ListTile(
               leading: Icon(Icons.people),
-              title: Text("사용자${i + 1}"),
+              title: Text("$id의친구${i + 1}"),
               trailing: Icon(Icons.ac_unit),
               onTap: () {},
             );
