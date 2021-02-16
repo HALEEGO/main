@@ -123,7 +123,9 @@ class _MainBodyState extends State<MainBody> {
     //여기에 페이지 넣으면됨
     null,
     null,
-    Calendar(),
+    Calendar(
+      title: 'Table Calendar Demo',
+    ),
     Text(
       'News',
       style: TextStyle(
