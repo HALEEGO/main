@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'background.dart';
 
 class Body extends StatefulWidget {
@@ -13,11 +16,20 @@ class _BodyState extends State<Body> {
   var monthstamp = DateTime.now().month;
 
   String id;
+  String URL = "http://3.35.39.202:8000/calendar";
+
+  void CalendarInfo(String userid) async {
+    Response response = await get("$URL/read/usercalendar/$userid");
+    List<Map<String, dynamic>> calendarList = jsonDecode(response.body);
+    int tmp = calendarList[0]['calendarNUM'];
+    print(tmp);
+  }
 
   @override
   void initState() {
     super.initState();
     id = widget.id;
+    CalendarInfo(id);
   }
 
   @override

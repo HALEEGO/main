@@ -28,13 +28,34 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   String _id = '';
   String _pw = '';
-
+  String URL = "http://3.35.39.202:8000/calendar";
   String userInfo = "";
   static final storage = new FlutterSecureStorage();
 
   @override
   void initState() {
     super.initState();
+  }
+
+  void showAlertDialog(BuildContext context, String tmp) async {
+    String result = await showDialog(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('$tmp 오류'),
+          content: Text("$tmp가 잘못 되었습니다."),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.pop(context, "OK");
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -74,33 +95,22 @@ class _BodyState extends State<Body> {
               RoundedButton(
                 text: "Sign In",
                 press: () async {
-                  await storage.write(key: "login", value: "$_id");
+                  Response response = await get("$URL/read/user/${_id}");
+                  Map<String, dynamic> userInfo = json.decode(response.body);
+                  if (userInfo['userID'] == null) {
+                    showAlertDialog(context, "아이디");
+                  } else if (userInfo['userPW'] == _pw) {
+                    await storage.write(key: "login", value: "$_id");
 
-                  Navigator.pushReplacement(
-                      context,
-                      CupertinoPageRoute(
-                          builder: (context) => Mainmenu(
-                                id: _id,
-                              )));
-                  // Response response = await get(
-                  // "http://192.168.219.134:8000/calendar/read/user/${id}");
-                  // User user = User.fromJson(json.decode(response.body));  //테스트해봐야댐
-                  // Map<String, dynamic> person = json.decode(response.body);
-                  // print(person['userPW']);
-                  // print(user.getUserID);
-                  // if (person['userPW'] == pw) {
-                  // print("ok!");
-                  // Navigator.push(
-                  // context,
-                  // MaterialPageRoute(
-                  // builder: (context) {
-                  // return Mainmenu();
-                  // },
-                  // ),
-                  // );
-                  // } else
-                  // print('no!');
-                  // print(id);
+                    Navigator.pushReplacement(
+                        context,
+                        CupertinoPageRoute(
+                            builder: (context) => Mainmenu(
+                                  id: _id,
+                                )));
+                  } else {
+                    showAlertDialog(context, "비밀번호");
+                  }
                 },
               ),
               SizedBox(

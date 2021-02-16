@@ -86,7 +86,7 @@ class _CalendarState extends State<Calendar> {
             TableCalendar(
               rowHeight: 100,
               locale: 'ko_KO', // 한국어 설정
-              initialCalendarFormat: CalendarFormat.week,
+              initialCalendarFormat: CalendarFormat.month,
               calendarStyle: CalendarStyle(
                 todayColor: Colors.orange,
                 selectedColor: Theme.of(context).primaryColor,
