@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
-import './screen/ex.dart';
-import './screen/pushPlan.dart';
+import './screen/Welcome/welcome_screen.dart';
+import 'constants.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() {
-  runApp(MyApp());
+  // runApp(MyApp());
+  initializeDateFormatting().then((_) => runApp(MyApp()));
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'snsCalendar',
-      color: Colors.grey,
-      home: PushPlan(),
-    );
+        color: Colors.grey,
+        theme: ThemeData(
+            primaryColor: kPrimaryColor, scaffoldBackgroundColor: Colors.white),
+        home: WelcomeScreen());
   }
 }
