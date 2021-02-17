@@ -40,7 +40,7 @@ class _CalendarState extends State<Calendar> with TickerProviderStateMixin {
       'Easter Monday'
     ],
   };
-  Map<DateTime, List> _eventss;
+  var _eventss = Map<DateTime, List>();
   Map<DateTime, List> _events;
   List _selectedEvents;
   AnimationController _animationController;
@@ -106,6 +106,9 @@ class _CalendarState extends State<Calendar> with TickerProviderStateMixin {
         'Event C14'
       ],
     };
+    _eventss = {
+      DateTime(2021, 2, 21): ['events a14']
+    };
 
     _selectedEvents = _events[_selectedDay] ?? [];
     _calendarController = CalendarController();
@@ -135,19 +138,19 @@ class _CalendarState extends State<Calendar> with TickerProviderStateMixin {
       calendarTYPEList.add(calendarList[i]["scheduleTYPE"]);
       DateTime dt =
           DateTime.parse("${calendarList[i]["scheduleDATE"]} 00:00:00.000");
-      if (i == 0) {
-        _eventss[dt] = [calendarList[i]["scheduleTYPE"]];
-      }
       if (_eventss.containsKey(dt)) {
         _eventss[dt].add(calendarList[i]["scheduleTYPE"]);
+        _eventss[dt].add(calendarList[i]["calendarNUM"]);
       } else {
-        print("4");
         _eventss[dt] = [calendarList[i]["scheduleTYPE"]];
+        _eventss[dt].add(calendarList[i]["calendarNUM"]);
       }
+      // if(_eventss.containsKey(key))
 
-      print("이름 : $_eventss");
-      // print(object)
+      // print("이름 : $_eventss");
+
     }
+    print(_eventss);
   }
 
   void _onDaySelected(DateTime day, List events, List holidays) {
@@ -179,11 +182,11 @@ class _CalendarState extends State<Calendar> with TickerProviderStateMixin {
   }
 
   showMenu(DateTime day) {
-    bool tmp = _holidays.containsKey(DateTime.parse(
+    bool tmp = _eventss.containsKey(DateTime.parse(
         day.toString().replaceAll("12", "00").replaceAll("Z", "")));
     int temp;
     if (tmp) {
-      temp = _holidays[DateTime.parse(
+      temp = _eventss[DateTime.parse(
               day.toString().replaceAll("12", "00").replaceAll("Z", ""))]
           .length;
     } else {
@@ -247,11 +250,10 @@ class _CalendarState extends State<Calendar> with TickerProviderStateMixin {
                                   physics: BouncingScrollPhysics(),
                                   itemCount: temp,
                                   itemBuilder: (BuildContext context, int i) {
-                                    int a;
                                     return ListTile(
                                       leading: Icon(Icons.people),
                                       title: Text(
-                                          "${_holidays[DateTime.parse(day.toString().replaceAll("12", "00").replaceAll("Z", ""))][i]}"),
+                                          "${_eventss[DateTime.parse(day.toString().replaceAll("12", "00").replaceAll("Z", ""))][i]}"),
                                       trailing: Icon(Icons.ac_unit),
                                       onTap: () {
                                         print(day
