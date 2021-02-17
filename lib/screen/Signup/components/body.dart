@@ -56,7 +56,7 @@ class Body extends StatelessWidget {
                   var json = jsonEncode(user);
                   print(json);
                   Response response = await post(
-                      "http://192.168.219.134:8000/calendar/insert/user",
+                      "http://3.35.39.202:8000/calendar/insert/user",
                       body: json,
                       headers: {'Content-Type': "application/json"});
                   print(response.body);

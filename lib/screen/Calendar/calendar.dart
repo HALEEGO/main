@@ -1,7 +1,10 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:table_calendar/table_calendar.dart';
+import '../Main/mainmenu.dart';
 
 class Calendar extends StatefulWidget {
   Calendar({Key key, this.title}) : super(key: key);
@@ -12,6 +15,10 @@ class Calendar extends StatefulWidget {
 }
 
 class _CalendarState extends State<Calendar> with TickerProviderStateMixin {
+  String id;
+  List<dynamic> calendarList;
+  var calendarTYPEList = List();
+  final String URL = "http://3.35.39.202:8000/calendar";
   final Map<DateTime, List> _holidays = {
     DateTime(2021, 2, 1): [
       'New Year\'s Day',
@@ -33,6 +40,7 @@ class _CalendarState extends State<Calendar> with TickerProviderStateMixin {
       'Easter Monday'
     ],
   };
+  Map<DateTime, List> _eventss;
   Map<DateTime, List> _events;
   List _selectedEvents;
   AnimationController _animationController;
@@ -41,6 +49,8 @@ class _CalendarState extends State<Calendar> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    id = widget.title;
+    searchcalendar();
     final _selectedDay = DateTime.now();
 
     _events = {
@@ -115,6 +125,31 @@ class _CalendarState extends State<Calendar> with TickerProviderStateMixin {
     super.dispose();
   }
 
+  void searchcalendar() async {
+    Response response = await get("$URL/read/usercalendar/$id");
+    print("1");
+    calendarList = jsonDecode(response.body);
+    print("2");
+    print(calendarList[0]["calendarNUM"]);
+    for (int i = 0; i < calendarList.length; i++) {
+      calendarTYPEList.add(calendarList[i]["scheduleTYPE"]);
+      DateTime dt =
+          DateTime.parse("${calendarList[i]["scheduleDATE"]} 00:00:00.000");
+      if (i == 0) {
+        _eventss[dt] = [calendarList[i]["scheduleTYPE"]];
+      }
+      if (_eventss.containsKey(dt)) {
+        _eventss[dt].add(calendarList[i]["scheduleTYPE"]);
+      } else {
+        print("4");
+        _eventss[dt] = [calendarList[i]["scheduleTYPE"]];
+      }
+
+      print("이름 : $_eventss");
+      // print(object)
+    }
+  }
+
   void _onDaySelected(DateTime day, List events, List holidays) {
     print('CALLBACK: _onDaySelected');
     print("$day");
@@ -137,16 +172,7 @@ class _CalendarState extends State<Calendar> with TickerProviderStateMixin {
       body: Column(
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-          // Switch out 2 lines below to play with TableCalendar's settings
-          //-----------------------
-          // _buildTableCalendar(),
           _buildTableCalendarWithBuilders(),
-
-          // const SizedBox(
-          //   height: 8.0,
-          // ),
-          // const SizedBox(height: 8.0),
-          // Expanded(child: _buildEventList()),
         ],
       ),
     );
@@ -228,10 +254,10 @@ class _CalendarState extends State<Calendar> with TickerProviderStateMixin {
                                           "${_holidays[DateTime.parse(day.toString().replaceAll("12", "00").replaceAll("Z", ""))][i]}"),
                                       trailing: Icon(Icons.ac_unit),
                                       onTap: () {
-                                        print(_holidays[day
+                                        print(day
                                             .toString()
                                             .replaceAll("12", "00")
-                                            .replaceAll("Z", "")]);
+                                            .replaceAll("Z", ""));
                                       },
                                     );
                                   }),
@@ -246,27 +272,6 @@ class _CalendarState extends State<Calendar> with TickerProviderStateMixin {
             ),
           );
         });
-  }
-
-  // Simple TableCalendar configuration (using Styles)
-  Widget _buildTableCalendar() {
-    return TableCalendar(
-      locale: 'ko_KO',
-      calendarController: _calendarController,
-      events: _events,
-      holidays: _holidays,
-      startingDayOfWeek: StartingDayOfWeek.sunday,
-      calendarStyle: CalendarStyle(
-        selectedColor: Colors.deepOrange[400],
-        todayColor: Colors.deepOrange[200],
-        markersColor: Colors.brown[700],
-        outsideDaysVisible: true,
-      ),
-      headerStyle: HeaderStyle(formatButtonVisible: false),
-      onDaySelected: _onDaySelected,
-      onVisibleDaysChanged: _onVisibleDaysChanged,
-      onCalendarCreated: _onCalendarCreated,
-    );
   }
 
   // More advanced TableCalendar configuration (using Builders & Styles)
@@ -425,11 +430,7 @@ class _CalendarState extends State<Calendar> with TickerProviderStateMixin {
       duration: const Duration(milliseconds: 300),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: _calendarController.isSelected(date)
-            ? Colors.brown[500]
-            : _calendarController.isToday(date)
-                ? Colors.brown[300]
-                : Colors.blue[400],
+        color: Colors.blue[400],
       ),
       width: 20.0,
       height: 20.0,

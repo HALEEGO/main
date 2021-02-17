@@ -27,7 +27,8 @@ class _MainBodyState extends State<MainBody> {
     id = widget.id;
     print(id);
     firstPage();
-    secondPage(); // first페이지로 id전달
+    secondPage();
+    thirdPage(); // first페이지로 id전달
   }
 
   int _selectedIndex = 0;
@@ -123,9 +124,7 @@ class _MainBodyState extends State<MainBody> {
     //여기에 페이지 넣으면됨
     null,
     null,
-    Calendar(
-      title: 'Table Calendar Demo',
-    ),
+    null,
     Text(
       'News',
       style: TextStyle(
@@ -147,5 +146,9 @@ class _MainBodyState extends State<MainBody> {
 
   void secondPage() {
     _widgetOptions[1] = Friendscreen(id: id);
+  }
+
+  void thirdPage() {
+    _widgetOptions[2] = Calendar(title: id);
   }
 }
