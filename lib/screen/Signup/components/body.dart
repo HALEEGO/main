@@ -14,7 +14,7 @@ import 'package:http/http.dart';
 class Body extends StatelessWidget {
   String id;
   String pw;
-  String name = "사용자";
+  String name;
   User user = User(null, null, null, null, null);
   @override
   Widget build(BuildContext context) {
@@ -33,6 +33,14 @@ class Body extends StatelessWidget {
               SvgPicture.asset(
                 'assets/images/HA/meeting.svg',
                 height: size.height * 0.3,
+              ),
+              SizedBox(height: size.height * 0.02),
+              RoundedInputField(
+                hintText: 'Your Name',
+                icon: Icons.sentiment_satisfied_alt_outlined,
+                onChanged: (value) {
+                  name = value;
+                },
               ),
               RoundedInputField(
                 hintText: "Your Email",
