@@ -2,6 +2,7 @@ import 'package:calendar/constants.dart';
 import 'package:calendar/screen/AddCalendar/addCalendar.dart';
 import 'package:calendar/screen/Calendar/calendar.dart';
 import 'package:calendar/screen/Friend/Friend_screen.dart';
+import 'package:calendar/screen/Home/screen/userInfo_screen.dart';
 import 'package:calendar/screen/Welcome/welcome_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -68,11 +69,8 @@ class _MainBodyState extends State<MainBody> {
                 color: kPrimaryColor,
               ),
               onPressed: () {
-                storage.delete(key: "login");
-                Navigator.pushReplacement(
-                  context,
-                  CupertinoPageRoute(builder: (context) => WelcomeScreen()),
-                );
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => UserInfo()));
                 //내정보 확인할 수 있는 페이지로
               }),
           Padding(padding: EdgeInsets.only(left: 10)),
