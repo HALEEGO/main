@@ -54,7 +54,11 @@ class _CalendarState extends State<Calendar> with TickerProviderStateMixin {
                   context,
                 );
               } else {
-                return Container();
+                return Expanded(
+                    child: Container(
+                  alignment: Alignment.center,
+                  child: CircularProgressIndicator(),
+                ));
               }
             },
           )
