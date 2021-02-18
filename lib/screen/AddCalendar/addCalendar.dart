@@ -402,8 +402,10 @@ class _AddCalendarState extends State<AddCalendar> {
     if (pickedTime != null) {
       hour = pickedTime.hour.toString();
       min = pickedTime.minute.toString();
+      hour.length == 1 ? hour = '0' + hour : hour = hour;
+      min.length == 1 ? min = '0' + min : min = min;
 
-      starttimecontroller.text = '$hour' + '시' + ' ' + '$min' + '분';
+      starttimecontroller.text = '$hour:$min';
     }
   }
 
@@ -419,8 +421,9 @@ class _AddCalendarState extends State<AddCalendar> {
     if (pickedTime != null) {
       hour = pickedTime.hour.toString();
       min = pickedTime.minute.toString();
-
-      finishtimecontroller.text = '$hour' + '시' + ' ' + '$min' + '분';
+      hour.length == 1 ? hour = '0' + hour : hour = hour;
+      min.length == 1 ? min = '0' + min : min = min;
+      finishtimecontroller.text = '$hour:$min';
     }
   }
 

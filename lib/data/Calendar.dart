@@ -13,6 +13,8 @@ class Calendar {
 
   String _scheduleLOCATION;
 
+  List<String> _friendList;
+
   int get getCalendarNUM => _calendarNUM;
   String get getScheduleTYPE => _scheduleTYPE;
   String get getScheduleDETAIL => _scheduleDETAIL;
@@ -20,6 +22,7 @@ class Calendar {
   String get getStartTIME => _startTIME;
   String get getFinishTIME => _finishTIME;
   String get getScheduleLOCATION => _scheduleLOCATION;
+  List get getFriendList => _friendList;
 
   set setCalendarNUM(int calendarNUM) => _calendarNUM = calendarNUM;
   set setScheduleTYPE(String scheduleTYPE) => _scheduleTYPE = scheduleTYPE;
@@ -30,6 +33,10 @@ class Calendar {
   set setFinishTIME(String finishTIME) => _finishTIME = finishTIME;
   set setScheduleLOCATION(String scheduleLOCATION) =>
       _scheduleLOCATION = scheduleLOCATION;
+  void setFriendList(friend) {
+    _friendList.add(friend);
+  }
+
   Calendar(_calendarNUM, _scheduleTYPE, _scheduleDETAIL, _scheduleDATE,
       _startTIME, _finishTIME, _scheduleLOCATION);
   void pALL() {
