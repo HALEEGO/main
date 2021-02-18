@@ -14,6 +14,38 @@ class WithFriend extends StatefulWidget {
 }
 
 class _WithFriendState extends State<WithFriend> {
+  var _isChecked = List<bool>();
+
+  Widget pickedFriend(
+    friendList,
+  ) {
+    bool vr = false;
+    print("리스트만들기 시작");
+    int tmp = 0;
+    print("${friendList}");
+
+    friendList == null ? tmp = 0 : tmp = friendList.length;
+    print("리스트만들기끝");
+    return ListView.builder(
+        physics: BouncingScrollPhysics(),
+        itemCount: tmp,
+        itemBuilder: (BuildContext context, int i) {
+          _isChecked.add(true);
+          return CheckboxListTile(
+            value: _isChecked[i],
+            onChanged: (value) {
+              print("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ$value ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
+              setState(() {
+                _isChecked[i] = value;
+                print("mmmmmmmmmmmmmmmmmmmmmmmmm$_isChecked mmmmmmmmmmmmmmmmm");
+              });
+            },
+            controlAffinity: ListTileControlAffinity.leading,
+            title: Text("${friendList[i]["userNAME"]}"),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +59,9 @@ class _WithFriendState extends State<WithFriend> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               print("퓨쳐빌더 시작");
-              return pickedFriend(fuu);
+              return pickedFriend(
+                fuu,
+              );
             } else {
               print("퓨쳐빌더 엘스문 시작");
               return Container();

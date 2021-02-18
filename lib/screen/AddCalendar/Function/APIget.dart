@@ -12,7 +12,6 @@ Future<List> searchFriend(id) async {
   Response response = await get("$URL/read/userfriend/$id");
   print("여기는 왔나요~?");
   print("${response.body}");
-  print(fu);
   List tmp = jsonDecode(response.body);
   print("우루룰ㄹ루루${tmp[0]}");
   Map<String, dynamic> temp = tmp[0];
