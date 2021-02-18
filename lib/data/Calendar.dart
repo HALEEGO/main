@@ -13,8 +13,7 @@ class Calendar {
 
   String _scheduleLOCATION;
 
-  List<String> _friendList;
-
+  var _friendList = List<String>();
   int get getCalendarNUM => _calendarNUM;
   String get getScheduleTYPE => _scheduleTYPE;
   String get getScheduleDETAIL => _scheduleDETAIL;
@@ -38,7 +37,7 @@ class Calendar {
   }
 
   Calendar(_calendarNUM, _scheduleTYPE, _scheduleDETAIL, _scheduleDATE,
-      _startTIME, _finishTIME, _scheduleLOCATION);
+      _startTIME, _finishTIME, _scheduleLOCATION, _friendList);
   void pALL() {
     print(_calendarNUM);
     print(_scheduleTYPE);
@@ -47,6 +46,7 @@ class Calendar {
     print(_startTIME);
     print(_finishTIME);
     print(_scheduleLOCATION);
+    print(_friendList.toString());
   }
 
   Calendar.fromJson(Map<String, dynamic> json)
