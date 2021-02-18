@@ -57,7 +57,7 @@ class _MainBodyState extends State<MainBody> {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return AddCalendar();
+                    return AddCalendar(title: "일정 추가하기");
                   },
                 ),
               );

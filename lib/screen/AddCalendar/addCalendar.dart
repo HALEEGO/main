@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 class AddCalendar extends StatefulWidget {
+  final String title;
+  final calendarNUM;
+  AddCalendar({@required this.title, this.calendarNUM});
+
   @override
   _AddCalendarState createState() => _AddCalendarState();
 }
