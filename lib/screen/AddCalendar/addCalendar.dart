@@ -8,7 +8,7 @@ import 'package:flutter/cupertino.dart';
 
 class AddCalendar extends StatefulWidget {
   final String title;
-  final calendarNUM;
+  final String calendarNUM;
   AddCalendar({@required this.title, this.calendarNUM});
 
   @override
@@ -369,7 +369,7 @@ class _AddCalendarState extends State<AddCalendar> {
                 ),
               );
             } else {
-              return new Container();
+              return Container();
             }
           }),
     );
@@ -432,6 +432,7 @@ class _AddCalendarState extends State<AddCalendar> {
     }
 
     _fKey.currentState.save();
+    calendar.setCalendarNUM = int.parse(calendarNUM);
     calendar.setScheduleTYPE = scheduleTYPE;
     calendar.setScheduleDETAIL = scheduleDETAIL;
     calendar.setScheduleDATE = scheduleDATE;
