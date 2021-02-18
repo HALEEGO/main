@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:calendar/screen/AddCalendar/Function/withFriend.dart';
 import 'package:http/http.dart';
 
 import '../../data/Calendar.dart';
@@ -329,7 +330,12 @@ class _AddCalendarState extends State<AddCalendar> {
                         ),
                       ),
                       trailing: Icon(Icons.chevron_right),
-                      onTap: () {}, //친구 선택하는 페이지로 라우트
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => WithFriend(id: id)));
+                      }, //친구 선택하는 페이지로 라우트
                     ),
                     Row(
                         mainAxisAlignment: MainAxisAlignment.end,

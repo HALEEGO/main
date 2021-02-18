@@ -1,7 +1,7 @@
 import 'User.dart';
 
 class Friend {
-  List<User> _FriendList;
+  var _FriendList = List<User>();
 
   List<User> get getFriendList => _FriendList;
 
