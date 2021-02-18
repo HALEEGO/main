@@ -9,7 +9,8 @@ import 'package:flutter/cupertino.dart';
 class AddCalendar extends StatefulWidget {
   final String title;
   final String calendarNUM;
-  AddCalendar({@required this.title, this.calendarNUM});
+  final String id;
+  AddCalendar({@required this.title, this.calendarNUM, @required this.id});
 
   @override
   _AddCalendarState createState() => _AddCalendarState();
@@ -18,6 +19,7 @@ class AddCalendar extends StatefulWidget {
 class _AddCalendarState extends State<AddCalendar> {
   GlobalKey<FormState> _fKey = GlobalKey<FormState>();
   bool autovalidate = false;
+  String id;
   String title;
   String calendarNUM;
   String scheduleTYPE,
@@ -34,6 +36,8 @@ class _AddCalendarState extends State<AddCalendar> {
     if (widget.calendarNUM != null) {
       calendarNUM = widget.calendarNUM;
     }
+    id = widget.id;
+    calendar.setFriendList(id);
   }
 
   final String URL = "http://3.35.39.202:8000/calendar";
@@ -58,15 +62,7 @@ class _AddCalendarState extends State<AddCalendar> {
     }
   }
 
-  Calendar calendar = Calendar(
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-  );
+  Calendar calendar = Calendar(null, null, null, null, null, null, null, null);
   TextEditingController scheduleTYPEcontroller = TextEditingController();
   TextEditingController scheduleDETAILcontroller = TextEditingController();
   TextEditingController scheduleLOCATIONcontroller = TextEditingController();

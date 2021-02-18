@@ -49,10 +49,7 @@ class _CalendarState extends State<Calendar> with TickerProviderStateMixin {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return buildTableCalendarWithBuilders(
-                  _calendarController,
-                  _animationController,
-                  context,
-                );
+                    _calendarController, _animationController, context, id);
               } else {
                 return Expanded(
                     child: Container(

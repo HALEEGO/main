@@ -3,12 +3,8 @@ import 'dart:ui';
 import 'package:calendar/screen/AddCalendar/addCalendar.dart';
 import 'package:flutter/material.dart';
 
-void showmenu(
-  DateTime day,
-  Map<DateTime, List> _allEvents,
-  BuildContext context,
-  _animationController,
-) {
+void showmenu(DateTime day, Map<DateTime, List> _allEvents,
+    BuildContext context, _animationController, id) {
   var sizecount = 0;
   final size = MediaQuery.of(context).size;
   Alignment _dragAlignment = Alignment.center;
@@ -99,15 +95,18 @@ void showmenu(
                                             "${_allEvents[DateTime.parse(day.toString().replaceAll("12", "00").replaceAll("Z", ""))][i]}"),
                                         trailing: Icon(Icons.ac_unit),
                                         onTap: () {
+                                          // print("object");
                                           Navigator.push(
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
+                                                      // print("object");
                                                       AddCalendar(
                                                         title:
                                                             "${_allEvents[DateTime.parse(day.toString().replaceAll("12", "00").replaceAll("Z", ""))][i]}",
                                                         calendarNUM:
                                                             "${_allEvents[DateTime.parse(day.toString().replaceAll("12", "00").replaceAll("Z", ""))][i + 1]}",
+                                                        id: id,
                                                       )));
                                         },
                                       );
