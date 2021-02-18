@@ -6,10 +6,21 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import './Function/APIget.dart';
 
-void _onDaySelected(DateTime day, List events, List holidays, context) {
+void _onDaySelected(
+  DateTime day,
+  List events,
+  List holidays,
+  context,
+  _animationController,
+) {
   //선택되는날 함수
   print('CALLBACK: _onDaySelected');
-  showmenu(day, allEvents, context);
+  showmenu(
+    day,
+    allEvents,
+    context,
+    _animationController,
+  );
 }
 
 void _onVisibleDaysChanged(
@@ -29,7 +40,10 @@ void _onCalendarCreated(
 }
 
 Widget buildTableCalendarWithBuilders(
-    _calendarController, _animationController, context) {
+  _calendarController,
+  _animationController,
+  context,
+) {
   return TableCalendar(
     rowHeight: 70, //날짜 높이
     locale: 'ko_KO', //언어
@@ -124,7 +138,7 @@ Widget buildTableCalendarWithBuilders(
       },
     ),
     onDaySelected: (date, events, holidays) {
-      _onDaySelected(date, events, holidays, context);
+      _onDaySelected(date, events, holidays, context, _animationController);
       _animationController.forward(from: 0.0);
     },
     onVisibleDaysChanged: _onVisibleDaysChanged,
