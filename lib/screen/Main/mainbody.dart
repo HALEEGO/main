@@ -2,6 +2,7 @@ import 'package:calendar/constants.dart';
 import 'package:calendar/screen/AddCalendar/addCalendar.dart';
 import 'package:calendar/screen/Calendar/calendar.dart';
 import 'package:calendar/screen/Friend/Friend_screen.dart';
+import 'package:calendar/screen/Home/screen/changename.dart';
 import 'package:calendar/screen/Home/screen/userInfo_screen.dart';
 import 'package:calendar/screen/Welcome/welcome_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -70,7 +71,7 @@ class _MainBodyState extends State<MainBody> {
               ),
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => UserInfo()));
+                    MaterialPageRoute(builder: (context) => UserInfo(id: id)));
                 //내정보 확인할 수 있는 페이지로
               }),
           Padding(padding: EdgeInsets.only(left: 10)),
