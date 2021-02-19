@@ -38,7 +38,7 @@ class _AddCalendarState extends State<AddCalendar> {
       calendarNUM = widget.calendarNUM;
     }
     id = widget.id;
-    calendar.setFriendList(id);
+    calendar.setFriendLIST(id);
   }
 
   final String URL = "http://3.35.39.202:8000/calendar";
@@ -63,7 +63,15 @@ class _AddCalendarState extends State<AddCalendar> {
     }
   }
 
-  Calendar calendar = Calendar(null, null, null, null, null, null, null, null);
+  Calendar calendar = Calendar(
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+  );
   TextEditingController scheduleTYPEcontroller = TextEditingController();
   TextEditingController scheduleDETAILcontroller = TextEditingController();
   TextEditingController scheduleLOCATIONcontroller = TextEditingController();
@@ -86,7 +94,26 @@ class _AddCalendarState extends State<AddCalendar> {
         title: Text(
           '$title',
         ),
-        actions: [IconButton(icon: Icon(Icons.save), onPressed: () {})],
+        centerTitle: true,
+        actions: [
+          IconButton(
+              icon: Icon(Icons.arrow_forward),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => WithFriend(
+                              id: id,
+                              calendarNUM: calendarNUM,
+                              scheduleDATE: scheduleDATE,
+                              scheduleTYPE: scheduleTYPE,
+                              scheduleDETAIL: scheduleDETAIL,
+                              scheduleLOCATION: scheduleLOCATION,
+                              startTIME: startTIME,
+                              finishTIME: finishTIME,
+                            )));
+              })
+        ],
       ),
       body: FutureBuilder(
           future: api(),
@@ -320,53 +347,36 @@ class _AddCalendarState extends State<AddCalendar> {
                             ],
                           )
                         : new Container(),
-                    ListTile(
-                      leading: Icon(Icons.accessibility_new),
-                      title: Text(
-                        '함께하는사람 설정하기',
-                        style: TextStyle(
-                          color: Colors.grey[900],
-                          fontSize: 12,
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(left: 10, right: 10),
+                      child: ButtonTheme(
+                        child: OutlinedButton.icon(
+                          onPressed: () {
+                            submit();
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => WithFriend(
+                                          id: id,
+                                          calendarNUM: calendarNUM,
+                                          scheduleDATE: scheduleDATE,
+                                          scheduleTYPE: scheduleTYPE,
+                                          scheduleDETAIL: scheduleDETAIL,
+                                          scheduleLOCATION: scheduleLOCATION,
+                                          startTIME: startTIME,
+                                          finishTIME: finishTIME,
+                                        )));
+                          },
+                          icon: Icon(
+                            Icons.person_add_alt_1,
+                          ),
+                          label: Text('함께하는 친구 설정하기'),
                         ),
                       ),
-                      trailing: Icon(Icons.chevron_right),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => WithFriend(id: id)));
-                      }, //친구 선택하는 페이지로 라우트
                     ),
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          new Container(
-                            margin: const EdgeInsets.only(left: 10, right: 10),
-                            child: ButtonTheme(
-                              child: OutlinedButton.icon(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                icon: Icon(
-                                  Icons.close,
-                                ),
-                                label: Text('취소하기'),
-                              ),
-                            ),
-                          ),
-                          new Container(
-                            margin: const EdgeInsets.only(left: 10, right: 10),
-                            child: ButtonTheme(
-                              child: OutlinedButton.icon(
-                                onPressed: () => submit(),
-                                icon: Icon(
-                                  Icons.save,
-                                ),
-                                label: Text('저장하기'),
-                              ),
-                            ),
-                          )
-                        ])
                   ],
                 ),
               );
@@ -431,20 +441,9 @@ class _AddCalendarState extends State<AddCalendar> {
 
   submit() {
     setState(() => autovalidate = true);
-
     if (!_fKey.currentState.validate()) {
       return;
     }
-
     _fKey.currentState.save();
-    calendar.setCalendarNUM = int.parse(calendarNUM);
-    calendar.setScheduleTYPE = scheduleTYPE;
-    calendar.setScheduleDETAIL = scheduleDETAIL;
-    calendar.setScheduleDATE = scheduleDATE;
-    calendar.setStartTIME = startTIME;
-    calendar.setFinishTIME = finishTIME;
-    calendar.setScheduleLOCATION = scheduleLOCATION;
-
-    calendar.pALL();
   }
 }
