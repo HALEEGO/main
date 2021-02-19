@@ -1,19 +1,33 @@
 import 'package:calendar/components/rounded_button.dart';
 import 'package:calendar/components/rounded_input_field.dart';
 import 'package:calendar/screen/Home/screen/changepassword.dart';
+import 'package:calendar/screen/Welcome/welcome_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 import 'package:calendar/screen/Home/screen/changename.dart';
 
 class UserInfo extends StatefulWidget {
+  final String id;
+  UserInfo({this.id});
   @override
   _UserInfoState createState() => _UserInfoState();
 }
 
 class _UserInfoState extends State<UserInfo> {
+  String id;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    id = widget.id;
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final storage = FlutterSecureStorage();
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
@@ -102,8 +116,10 @@ class _UserInfoState extends State<UserInfo> {
               RoundedButton(
                 text: 'CHANGE NAME',
                 press: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => ChangeName()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ChangeName(id: id)));
                 },
               ),
               SizedBox(
@@ -115,7 +131,7 @@ class _UserInfoState extends State<UserInfo> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ChangePassword()));
+                          builder: (context) => ChangePassword(id: id)));
                 },
               ),
               SizedBox(
@@ -123,7 +139,13 @@ class _UserInfoState extends State<UserInfo> {
               ),
               RoundedButton(
                 text: 'LOG OUT',
-                press: () {},
+                press: () {
+                  storage.delete(key: "login");
+                  Navigator.pushReplacement(
+                    context,
+                    CupertinoPageRoute(builder: (context) => WelcomeScreen()),
+                  );
+                },
                 // welcompage route + ID history remove
               ),
               SizedBox(
