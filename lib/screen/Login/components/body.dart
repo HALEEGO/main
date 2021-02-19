@@ -102,10 +102,11 @@ class _BodyState extends State<Body> {
                   } else if (userInfo['userPW'] == _pw) {
                     await storage.write(key: "login", value: "$_id");
 
-                    Navigator.pushReplacement(
+                    Navigator.pushAndRemoveUntil(
                         context,
                         CupertinoPageRoute(
-                            builder: (context) => Mainmenu(id: _id)));
+                            builder: (context) => Mainmenu(id: _id)),
+                        (route) => false);
                   } else {
                     showAlertDialog(context, "비밀번호");
                   }
