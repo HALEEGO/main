@@ -24,7 +24,7 @@ class User {
   User(_userIDK, _userID, _userPW, _userNAME, _userROLE);
 
   User.fromJson(Map<String, dynamic> json)
-      : _userIDK = json['userROLE'],
+      : _userIDK = json['userIDK'],
         _userID = json['userID'],
         _userPW = json['userPW'],
         _userNAME = json['userNAME'],
