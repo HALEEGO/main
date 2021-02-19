@@ -1,52 +1,113 @@
+import 'dart:convert';
+
 import 'package:calendar/components/rounded_button.dart';
 import 'package:calendar/components/rounded_input_field.dart';
+import 'package:calendar/data/User.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 
-class ChangeName extends StatelessWidget {
+class ChangeName extends StatefulWidget {
+  final String id;
+  ChangeName({@required this.id});
+
+  _ChangeNameState createState() => _ChangeNameState();
+}
+
+class _ChangeNameState extends State<ChangeName> {
+  String id;
+  String newname;
+
+  User user = User(null, null, null, null, null);
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    id = widget.id;
+  }
+
+  Future<String> getNameApi(id) async {
+    Response response =
+        await get("http://3.35.39.202:8000/calendar/read/user/$id");
+    var userInfo = jsonDecode(response.body);
+
+    return userInfo["userNAME"];
+  }
+
+  void reName() async {
+    user.setUserNAME = newname;
+    var json = jsonEncode(user);
+
+    Response response = await put(
+        "http://3.35.39.202:8000/calendar/put/user/$id",
+        body: json,
+        headers: {'Content-Type': "application/json"});
+    print('response.body');
+    print('$newname');
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            SizedBox(height: 70),
-            Text(
-              'RENAME PAGE',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 70),
-            Container(
-              child: Column(
-                children: <Widget>[
-                  SizedBox(height: 20),
-                  RoundedInputField(
-                    hintText: '',
+        body: FutureBuilder(
+            future: getNameApi(id),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(height: 70),
+                      Text(
+                        'RENAME PAGE',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20),
+                      ),
+                      SizedBox(height: 60),
+                      Container(
+                        child: Column(
+                          children: <Widget>[
+                            SizedBox(height: 20),
+                            RoundedInputField(
+                              hintText: '',
+                              onChanged: (value) {
+                                newname = value;
+                              },
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              '《 ${snapshot.data}님, Enter your new name 》\n',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                                '※ If you don\'t want to change, press back button\n'),
+                            Text('※ Namelength range is 2 to 8\n'),
+                            Text('※ 상기내용을 읽고 이해하였으며 이에 동의합니다.')
+                          ],
+                        ),
+                        // margin: const EdgeInsets.only(top: 25),
+                        width: size.width * 0.95,
+                        height: size.height * 0.42,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black, width: 0.4),
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                        ),
+                      ),
+                      SizedBox(height: 30),
+                      RoundedButton(
+                        text: 'CHANGE',
+                        press: () async {
+                          reName();
+                          // 변경완료 팝업창후 내정보페이지
+                        },
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 10),
-                  Text('대충\n주\n의\n사\n항\n또는 닉네임규칙'),
-                ],
-              ),
-              // margin: const EdgeInsets.only(top: 25),
-              width: size.width * 0.95,
-              height: size.height * 0.42,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.black, width: 0.4),
-                borderRadius: BorderRadius.all(Radius.circular(20)),
-              ),
-            ),
-            SizedBox(height: 30),
-            RoundedButton(
-              text: 'CHANGE',
-              press: () {
-                // ~ 으로 변경완료되었다는 알림창 후 내정보페이지로
-              },
-            ),
-          ],
-        ),
-      ),
-    );
+                );
+              } else {
+                return new Container();
+              }
+            }));
   }
 }
