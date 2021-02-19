@@ -1,14 +1,12 @@
 import 'dart:convert';
 
 import 'package:calendar/data/Calendar.dart';
-import 'package:calendar/screen/Home/home_screen.dart';
 import 'package:calendar/screen/Main/mainmenu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 import 'APIget.dart';
 
-var fu = List<dynamic>();
 List fuu;
 
 class WithFriend extends StatefulWidget {
@@ -20,7 +18,7 @@ class WithFriend extends StatefulWidget {
   final String startTIME;
   final String finishTIME;
   final String scheduleLOCATION;
-  final bool write;
+  final bool isWrite;
   WithFriend(
       {@required this.id,
       this.calendarNUM,
@@ -30,7 +28,7 @@ class WithFriend extends StatefulWidget {
       this.finishTIME,
       this.startTIME,
       @required this.scheduleLOCATION,
-      @required this.write});
+      @required this.isWrite});
   @override
   _WithFriendState createState() => _WithFriendState();
 }
@@ -58,15 +56,10 @@ class _WithFriendState extends State<WithFriend> {
   }
 
   Widget pickedFriend(friendList, write) {
-    bool vr = false;
-    print("리스트만들기 시작");
     int tmp = 0;
-    print("${friendList}");
 
     friendList == null ? tmp = 0 : tmp = friendList.length;
-    print("리스트만들기끝");
     if (write) {
-      print("사실여깁니다~");
       return ListView.builder(
           physics: BouncingScrollPhysics(),
           itemCount: tmp,
@@ -76,11 +69,8 @@ class _WithFriendState extends State<WithFriend> {
             return CheckboxListTile(
               value: _isChecked[i],
               onChanged: (value) {
-                print("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ$value ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
                 setState(() {
                   _isChecked[i] = value;
-                  print(
-                      "mmmmmmmmmmmmmmmmmmmmmmmmm$_isChecked mmmmmmmmmmmmmmmmm");
                 });
               },
               controlAffinity: ListTileControlAffinity.leading,
@@ -88,7 +78,6 @@ class _WithFriendState extends State<WithFriend> {
             );
           });
     } else {
-      print("여기이옵니다~");
       return ListView.builder(
         physics: BouncingScrollPhysics(),
         itemCount: tmp,
@@ -129,14 +118,12 @@ class _WithFriendState extends State<WithFriend> {
     print(calendar.getFriendLIST);
     var json = jsonEncode(calendar);
     if (calendarNUM == null) {
-      print("얜가요?");
       print(json);
       print(calendar.toJson());
       Response response = await post("$URL/insert/calendar",
           body: json, headers: {'Content-Type': "application/json"});
       print(response.body.toString());
     } else if (calendarNUM != null) {
-      print("얠까요?");
       Response response = await post("$URL/insert/calendar",
           body: json, headers: {'Content-Type': "application/json"});
       Response res = await delete("$URL/delete/calendar/$calendarNUM");
@@ -156,7 +143,7 @@ class _WithFriendState extends State<WithFriend> {
     startTIME = widget.startTIME;
     finishTIME = widget.finishTIME;
     scheduleLOCATION = widget.scheduleLOCATION;
-    write = widget.write;
+    write = widget.isWrite;
   }
 
   @override
@@ -170,9 +157,7 @@ class _WithFriendState extends State<WithFriend> {
               ? IconButton(
                   icon: Icon(Icons.save),
                   onPressed: () {
-                    print("object");
                     addwithFriend(_isChecked, _friend);
-                    print("object");
                     submit(
                         id,
                         calendarNUM,
@@ -199,10 +184,8 @@ class _WithFriendState extends State<WithFriend> {
               : nochangedsearchFriend(calendarNUM),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              print("퓨쳐빌더 시작");
               return pickedFriend(fuu, write);
             } else {
-              print("퓨쳐빌더 엘스문 시작");
               return Container();
             }
           }),
