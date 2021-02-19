@@ -3,12 +3,8 @@ import 'dart:ui';
 import 'package:calendar/screen/AddCalendar/addCalendar.dart';
 import 'package:flutter/material.dart';
 
-void showmenu(
-  DateTime day,
-  Map<DateTime, List> _allEvents,
-  BuildContext context,
-  _animationController,
-) {
+void showmenu(DateTime day, Map<DateTime, List> _allEvents,
+    BuildContext context, _animationController, id) {
   var sizecount = 0;
   final size = MediaQuery.of(context).size;
   Alignment _dragAlignment = Alignment.center;
@@ -88,6 +84,7 @@ void showmenu(
                                   itemCount: eventCount, //일정의 갯수
                                   itemBuilder: (BuildContext context, int i) {
                                     //_allEvents에 일정PK도 넣어놔서 홀수번째 index에는 listtile을 만들면안됨
+
                                     if (i % 2 != 0) {
                                       return SizedBox();
                                     } else {
@@ -99,15 +96,18 @@ void showmenu(
                                             "${_allEvents[DateTime.parse(day.toString().replaceAll("12", "00").replaceAll("Z", ""))][i]}"),
                                         trailing: Icon(Icons.ac_unit),
                                         onTap: () {
+                                          // print("object");
                                           Navigator.push(
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
+                                                      // print("object");
                                                       AddCalendar(
                                                         title:
                                                             "${_allEvents[DateTime.parse(day.toString().replaceAll("12", "00").replaceAll("Z", ""))][i]}",
                                                         calendarNUM:
                                                             "${_allEvents[DateTime.parse(day.toString().replaceAll("12", "00").replaceAll("Z", ""))][i + 1]}",
+                                                        id: id,
                                                       )));
                                         },
                                       );

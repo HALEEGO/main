@@ -13,6 +13,8 @@ class Calendar {
 
   String _scheduleLOCATION;
 
+  var _friendLIST = List<String>();
+
   int get getCalendarNUM => _calendarNUM;
   String get getScheduleTYPE => _scheduleTYPE;
   String get getScheduleDETAIL => _scheduleDETAIL;
@@ -20,6 +22,7 @@ class Calendar {
   String get getStartTIME => _startTIME;
   String get getFinishTIME => _finishTIME;
   String get getScheduleLOCATION => _scheduleLOCATION;
+  List get getFriendLIST => _friendLIST;
 
   set setCalendarNUM(int calendarNUM) => _calendarNUM = calendarNUM;
   set setScheduleTYPE(String scheduleTYPE) => _scheduleTYPE = scheduleTYPE;
@@ -30,8 +33,19 @@ class Calendar {
   set setFinishTIME(String finishTIME) => _finishTIME = finishTIME;
   set setScheduleLOCATION(String scheduleLOCATION) =>
       _scheduleLOCATION = scheduleLOCATION;
-  Calendar(_calendarNUM, _scheduleTYPE, _scheduleDETAIL, _scheduleDATE,
-      _startTIME, _finishTIME, _scheduleLOCATION);
+  void setFriendLIST(friend) {
+    _friendLIST.add(friend);
+  }
+
+  Calendar(
+    this._calendarNUM,
+    this._scheduleTYPE,
+    this._scheduleDETAIL,
+    this._scheduleDATE,
+    this._startTIME,
+    this._finishTIME,
+    this._scheduleLOCATION,
+  );
   void pALL() {
     print(_calendarNUM);
     print(_scheduleTYPE);
@@ -40,6 +54,7 @@ class Calendar {
     print(_startTIME);
     print(_finishTIME);
     print(_scheduleLOCATION);
+    print(_friendLIST.toString());
   }
 
   Calendar.fromJson(Map<String, dynamic> json)
@@ -52,11 +67,13 @@ class Calendar {
         _scheduleLOCATION = json['scheduleLOCATION'];
 
   Map<String, dynamic> toJson() => {
-        '_scheduleTYPE': _scheduleTYPE,
-        '_scheduleDETAIL': _scheduleDETAIL,
-        '_scheduleDATE': _scheduleDATE,
-        '_startTIME': _startTIME,
-        '_finishTIME': _finishTIME,
-        '_scheduleLOCATION': _scheduleLOCATION,
+        'calendarNUM': _calendarNUM,
+        'scheduleTYPE': _scheduleTYPE,
+        'scheduleDETAIL': _scheduleDETAIL,
+        'scheduleDATE': _scheduleDATE,
+        'startTIME': _startTIME,
+        'finishTIME': _finishTIME,
+        'scheduleLOCATION': _scheduleLOCATION,
+        'friendLIST': _friendLIST
       };
 }
