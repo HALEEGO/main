@@ -33,7 +33,7 @@ class _AddCalendarState extends State<AddCalendar> {
       scheduleLOCATION;
   String localid;
   bool write = false;
-
+  bool tmp = true;
   @override
   void initState() {
     super.initState();
@@ -51,10 +51,14 @@ class _AddCalendarState extends State<AddCalendar> {
 
   void isMe(id) async {
     localid = await storage.read(key: "login");
-    if (id == localid) {
+    if (id == localid && calendarNUM == null) {
       write = true;
     }
-    print("object");
+    if (id == localid) {
+      tmp = true;
+    } else {
+      tmp = false;
+    }
   }
 
   final String URL = "http://3.35.39.202:8000/calendar";
@@ -73,7 +77,6 @@ class _AddCalendarState extends State<AddCalendar> {
           TextEditingController(text: "${resMAP["startTIME"]}");
       finishtimecontroller =
           TextEditingController(text: "${resMAP["finishTIME"]}");
-      resMAP.containsKey("calendarNUM") ? write = false : write = true;
       print("aaaaaa");
       return "a";
     } else {
@@ -130,7 +133,30 @@ class _AddCalendarState extends State<AddCalendar> {
                               scheduleLOCATION: scheduleLOCATION,
                               startTIME: startTIME,
                               finishTIME: finishTIME,
+                              write: write,
                             )));
+              }),
+          IconButton(
+              icon: Icon(Icons.add_circle_outline),
+              onPressed: () {
+                if (tmp) {
+                  setState(() {
+                    write = !write;
+                  });
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0)),
+                        title: new Text("변경할수 없음"),
+                        content: SingleChildScrollView(
+                            child: new Text("내 일정이 아닙니다.")),
+                      );
+                    },
+                  );
+                }
               })
         ],
       ),
@@ -402,6 +428,7 @@ class _AddCalendarState extends State<AddCalendar> {
                                                     scheduleLOCATION,
                                                 startTIME: startTIME,
                                                 finishTIME: finishTIME,
+                                                write: write,
                                               )));
                                 },
                                 icon: Icon(
