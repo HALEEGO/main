@@ -84,6 +84,7 @@ void showmenu(DateTime day, Map<DateTime, List> _allEvents,
                                   itemCount: eventCount, //일정의 갯수
                                   itemBuilder: (BuildContext context, int i) {
                                     //_allEvents에 일정PK도 넣어놔서 홀수번째 index에는 listtile을 만들면안됨
+
                                     if (i % 2 != 0) {
                                       return SizedBox();
                                     } else {
