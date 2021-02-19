@@ -77,10 +77,8 @@ class _AddCalendarState extends State<AddCalendar> {
           TextEditingController(text: "${resMAP["startTIME"]}");
       finishtimecontroller =
           TextEditingController(text: "${resMAP["finishTIME"]}");
-      print("aaaaaa");
       return "a";
     } else {
-      print("bbbbbb");
       return "d";
     }
   }
@@ -133,7 +131,7 @@ class _AddCalendarState extends State<AddCalendar> {
                               scheduleLOCATION: scheduleLOCATION,
                               startTIME: startTIME,
                               finishTIME: finishTIME,
-                              write: write,
+                              isWrite: write,
                             )));
               }),
           IconButton(
@@ -428,7 +426,7 @@ class _AddCalendarState extends State<AddCalendar> {
                                                     scheduleLOCATION,
                                                 startTIME: startTIME,
                                                 finishTIME: finishTIME,
-                                                write: write,
+                                                isWrite: write,
                                               )));
                                 },
                                 icon: Icon(
