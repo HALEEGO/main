@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:calendar/screen/AddCalendar/Function/withFriend.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 
 import '../../data/Calendar.dart';
@@ -18,6 +19,7 @@ class AddCalendar extends StatefulWidget {
 }
 
 class _AddCalendarState extends State<AddCalendar> {
+  static final storage = new FlutterSecureStorage();
   GlobalKey<FormState> _fKey = GlobalKey<FormState>();
   bool autovalidate = false;
   String id;
@@ -29,16 +31,30 @@ class _AddCalendarState extends State<AddCalendar> {
       startTIME,
       finishTIME,
       scheduleLOCATION;
+  String localid;
+  bool write = false;
 
   @override
   void initState() {
     super.initState();
     title = widget.title;
-    if (widget.calendarNUM != null) {
-      calendarNUM = widget.calendarNUM;
-    }
     id = widget.id;
     calendar.setFriendLIST(id);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      isMe(id);
+    });
+    if (widget.calendarNUM != null) {
+      print(widget.calendarNUM);
+      calendarNUM = widget.calendarNUM;
+    }
+  }
+
+  void isMe(id) async {
+    localid = await storage.read(key: "login");
+    if (id == localid) {
+      write = true;
+    }
+    print("object");
   }
 
   final String URL = "http://3.35.39.202:8000/calendar";
@@ -57,8 +73,11 @@ class _AddCalendarState extends State<AddCalendar> {
           TextEditingController(text: "${resMAP["startTIME"]}");
       finishtimecontroller =
           TextEditingController(text: "${resMAP["finishTIME"]}");
+      resMAP.containsKey("calendarNUM") ? write = false : write = true;
+      print("aaaaaa");
       return "a";
     } else {
+      print("bbbbbb");
       return "d";
     }
   }
@@ -127,6 +146,7 @@ class _AddCalendarState extends State<AddCalendar> {
                     TextFormField(
                       maxLength: 20,
                       controller: scheduleTYPEcontroller,
+                      enabled: write,
                       decoration: InputDecoration(
                         labelText: '일정제목',
                         labelStyle: TextStyle(
@@ -154,6 +174,7 @@ class _AddCalendarState extends State<AddCalendar> {
                     TextFormField(
                       maxLength: 20,
                       controller: scheduleDETAILcontroller,
+                      enabled: write,
                       decoration: InputDecoration(
                         labelText: '일정내용',
                         labelStyle: TextStyle(
@@ -181,6 +202,7 @@ class _AddCalendarState extends State<AddCalendar> {
                     TextFormField(
                       maxLength: 20,
                       controller: scheduleLOCATIONcontroller,
+                      enabled: write,
                       decoration: InputDecoration(
                         labelText: '위치',
                         labelStyle: TextStyle(
@@ -217,9 +239,11 @@ class _AddCalendarState extends State<AddCalendar> {
                       trailing: Switch(
                         value: allDaySwitch,
                         onChanged: (value) {
-                          setState(() {
-                            allDaySwitch = value;
-                          });
+                          if (write) {
+                            setState(() {
+                              allDaySwitch = value;
+                            });
+                          } else {}
                         },
                       ),
                     ),
@@ -235,9 +259,11 @@ class _AddCalendarState extends State<AddCalendar> {
                       trailing: Switch(
                         value: endTimeisSwitch,
                         onChanged: (value) {
-                          setState(() {
-                            endTimeisSwitch = value;
-                          });
+                          if (write) {
+                            setState(() {
+                              endTimeisSwitch = value;
+                            });
+                          } else {}
                         },
                       ),
                     ),
@@ -252,7 +278,9 @@ class _AddCalendarState extends State<AddCalendar> {
                         Expanded(
                           flex: 6,
                           child: GestureDetector(
-                            onTap: yearMonthDayPicker,
+                            onTap: () {
+                              write ? yearMonthDayPicker() : {};
+                            },
                             child: AbsorbPointer(
                               child: TextFormField(
                                 controller: datecontroller,
@@ -289,7 +317,9 @@ class _AddCalendarState extends State<AddCalendar> {
                               Expanded(
                                 flex: 6,
                                 child: GestureDetector(
-                                  onTap: startTimePicker,
+                                  onTap: () {
+                                    write ? startTimePicker() : {};
+                                  },
                                   child: AbsorbPointer(
                                     child: TextFormField(
                                       controller: starttimecontroller,
@@ -325,7 +355,9 @@ class _AddCalendarState extends State<AddCalendar> {
                               Expanded(
                                 flex: 6,
                                 child: GestureDetector(
-                                  onTap: finishTimePicker,
+                                  onTap: () {
+                                    write ? finishTimePicker() : {};
+                                  },
                                   child: AbsorbPointer(
                                     child: TextFormField(
                                       controller: finishtimecontroller,
@@ -350,33 +382,36 @@ class _AddCalendarState extends State<AddCalendar> {
                     SizedBox(
                       height: 20,
                     ),
-                    Container(
-                      margin: const EdgeInsets.only(left: 10, right: 10),
-                      child: ButtonTheme(
-                        child: OutlinedButton.icon(
-                          onPressed: () {
-                            submit();
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => WithFriend(
-                                          id: id,
-                                          calendarNUM: calendarNUM,
-                                          scheduleDATE: scheduleDATE,
-                                          scheduleTYPE: scheduleTYPE,
-                                          scheduleDETAIL: scheduleDETAIL,
-                                          scheduleLOCATION: scheduleLOCATION,
-                                          startTIME: startTIME,
-                                          finishTIME: finishTIME,
-                                        )));
-                          },
-                          icon: Icon(
-                            Icons.person_add_alt_1,
-                          ),
-                          label: Text('함께하는 친구 설정하기'),
-                        ),
-                      ),
-                    ),
+                    write
+                        ? Container(
+                            margin: const EdgeInsets.only(left: 10, right: 10),
+                            child: ButtonTheme(
+                              child: OutlinedButton.icon(
+                                onPressed: () {
+                                  submit();
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => WithFriend(
+                                                id: id,
+                                                calendarNUM: calendarNUM,
+                                                scheduleDATE: scheduleDATE,
+                                                scheduleTYPE: scheduleTYPE,
+                                                scheduleDETAIL: scheduleDETAIL,
+                                                scheduleLOCATION:
+                                                    scheduleLOCATION,
+                                                startTIME: startTIME,
+                                                finishTIME: finishTIME,
+                                              )));
+                                },
+                                icon: Icon(
+                                  Icons.person_add_alt_1,
+                                ),
+                                label: Text('함께하는 친구 설정하기'),
+                              ),
+                            ),
+                          )
+                        : new Container(),
                   ],
                 ),
               );
