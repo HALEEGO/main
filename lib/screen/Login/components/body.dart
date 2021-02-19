@@ -105,9 +105,7 @@ class _BodyState extends State<Body> {
                     Navigator.pushReplacement(
                         context,
                         CupertinoPageRoute(
-                            builder: (context) => Mainmenu(
-                                  id: _id,
-                                )));
+                            builder: (context) => Mainmenu(id: _id)));
                   } else {
                     showAlertDialog(context, "비밀번호");
                   }
