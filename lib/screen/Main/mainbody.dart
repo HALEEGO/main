@@ -128,14 +128,6 @@ class _MainBodyState extends State<MainBody> {
               title: Text('CALENDAR'),
               icon: Icon(Icons.calendar_today),
             ),
-            BottomNavigationBarItem(
-              title: Text('ALARM'),
-              icon: Icon(Icons.alarm),
-            ),
-            BottomNavigationBarItem(
-              title: Text('SETTING'),
-              icon: Icon(Icons.settings),
-            ),
           ],
         ),
         body: Center(
@@ -150,18 +142,6 @@ class _MainBodyState extends State<MainBody> {
     null,
     null,
     null,
-    Text(
-      'News',
-      style: TextStyle(
-        fontSize: 30,
-      ),
-    ),
-    Text(
-      'News',
-      style: TextStyle(
-        fontSize: 30,
-      ),
-    ),
   ];
   void firstPage() {
     _widgetOptions[0] = HomeScreen(
