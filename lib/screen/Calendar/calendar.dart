@@ -1,5 +1,8 @@
+import 'package:calendar/screen/Calendar/Function/showmenu.dart';
 import 'package:calendar/screen/Calendar/tablecalendar.dart';
+import 'package:calendar/screen/Calendar/tmp.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_swipe_action_cell/core/controller.dart';
 import 'package:table_calendar/table_calendar.dart';
 import './Function/APIget.dart';
 
@@ -15,6 +18,7 @@ class _CalendarState extends State<Calendar> with TickerProviderStateMixin {
   String id; //user의 id
   AnimationController _animationController;
   CalendarController _calendarController;
+  SwipeActionController swipecontroller;
 
   @override
   void initState() {
@@ -26,6 +30,10 @@ class _CalendarState extends State<Calendar> with TickerProviderStateMixin {
       vsync: this,
       duration: const Duration(milliseconds: 400),
     );
+    swipecontroller = SwipeActionController(selectedIndexPathsChangeCallback:
+        (changedIndexPaths, selected, currentCount) {
+      setState(() {});
+    });
 
     _animationController.forward();
   }
@@ -48,8 +56,8 @@ class _CalendarState extends State<Calendar> with TickerProviderStateMixin {
             future: searchcalendar(id),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return buildTableCalendarWithBuilders(
-                    _calendarController, _animationController, context, id);
+                return buildTableCalendarWithBuilders(_calendarController,
+                    _animationController, context, id, swipecontroller);
               } else {
                 return Expanded(
                     child: Container(
@@ -61,6 +69,12 @@ class _CalendarState extends State<Calendar> with TickerProviderStateMixin {
           )
         ],
       ),
+      floatingActionButton: FloatingActionButton(onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => SwipeActionPage()),
+        );
+      }),
     );
   }
 
