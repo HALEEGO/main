@@ -5,9 +5,6 @@ import 'package:flutter/material.dart';
 
 void showmenu(DateTime day, Map<DateTime, List> _allEvents,
     BuildContext context, _animationController, id) {
-  var sizecount = 0;
-  final size = MediaQuery.of(context).size;
-  Alignment _dragAlignment = Alignment.center;
   //날짜 클릭하면 뜨는 메뉴
   bool haveEvent = _allEvents.containsKey(DateTime.parse(day
       .toString()
@@ -126,10 +123,4 @@ void showmenu(DateTime day, Map<DateTime, List> _allEvents,
           ),
         );
       });
-}
-
-// var sizecount = 0;
-void count(sizecount) {
-  sizecount == 0 ? sizecount = 1 : sizecount = 0;
-  print("1111111");
 }

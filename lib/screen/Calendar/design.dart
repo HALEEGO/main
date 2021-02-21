@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//선택된날짜
 Widget selectedDayBuildertoday(date) {
   return Container(
     alignment: Alignment.center,
@@ -15,6 +16,7 @@ Widget selectedDayBuildertoday(date) {
   );
 }
 
+//오늘
 Widget todayDayBuilder(date) {
   return Container(
     alignment: Alignment.center,
@@ -30,6 +32,7 @@ Widget todayDayBuilder(date) {
   );
 }
 
+//모든 날짜
 Widget dayBuilder(date) {
   return Container(
     padding: const EdgeInsets.only(top: 5),
@@ -46,6 +49,7 @@ Widget dayBuilder(date) {
   );
 }
 
+//주말
 Widget weekendDayBuilder(date) {
   return Container(
     padding: const EdgeInsets.only(top: 5),
@@ -65,6 +69,7 @@ Widget weekendDayBuilder(date) {
   );
 }
 
+// 이번달 밖 평일
 Widget outsideDayBuilder(date) {
   return Container(
     padding: const EdgeInsets.only(top: 5),
@@ -84,6 +89,7 @@ Widget outsideDayBuilder(date) {
   );
 }
 
+//이번달 밖 주말
 Widget outsideWeekendDayBuilder(date) {
   return Container(
     padding: const EdgeInsets.only(top: 5),
@@ -103,6 +109,7 @@ Widget outsideWeekendDayBuilder(date) {
   );
 }
 
+//같이하는일정
 Widget buildEventsMarker(DateTime date, List events) {
   return AnimatedContainer(
     duration: const Duration(milliseconds: 300),
@@ -121,6 +128,7 @@ Widget buildEventsMarker(DateTime date, List events) {
   );
 }
 
+//나만있는 일정
 Widget buildHolidaysMarker(DateTime date, List holiday) {
   return AnimatedContainer(
     duration: const Duration(milliseconds: 300),
