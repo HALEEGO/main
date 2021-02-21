@@ -47,7 +47,8 @@ class _CalendarState extends State<Calendar> with TickerProviderStateMixin {
 //////////////////////////////////////메인 빌드////////////////////////////////////////////////////////////
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SafeArea(
+        child: Scaffold(
       body: Column(
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
@@ -68,7 +69,7 @@ class _CalendarState extends State<Calendar> with TickerProviderStateMixin {
           )
         ],
       ),
-    );
+    ));
   }
 
 ////////////////////////////////////////메인 빌드/////////////////////////////////////////////
