@@ -33,91 +33,114 @@ class _MainBodyState extends State<MainBody> {
     thirdPage(); // first페이지로 id전달
   }
 
+  Future<bool> _onbackpressed() {
+    return showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text("앱을 종료하시겠습니까?"),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text("NO"),
+                  onPressed: () => Navigator.pop(context, false),
+                ),
+                FlatButton(
+                  child: Text("OK"),
+                  onPressed: () => Navigator.pop(context, true),
+                )
+              ],
+            ));
+  }
+
   int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: Icon(
-          Icons.calendar_today_sharp,
-          color: kPrimaryColor,
-        ),
-        title: Text(
-          '${widget.id}의' + '\n' + 'SNS CALENDAR',
-          style: TextStyle(color: kPrimaryColor),
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(
-              Icons.add_circle_outline,
-              color: kPrimaryColor,
-            ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return AddCalendar(
-                      title: "일정 추가하기",
-                      id: id,
-                    );
-                  },
-                ),
-              );
-            },
+    return WillPopScope(
+      onWillPop: _onbackpressed,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          leading: Icon(
+            Icons.calendar_today_sharp,
+            color: kPrimaryColor,
           ),
-          IconButton(
+          title: Text(
+            '${widget.id}의' + '\n' + 'SNS CALENDAR',
+            style: TextStyle(color: kPrimaryColor),
+          ),
+          actions: [
+            IconButton(
               icon: Icon(
-                Icons.person_pin_outlined,
+                Icons.add_circle_outline,
                 color: kPrimaryColor,
               ),
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => UserInfo(id: id)));
-                //내정보 확인할 수 있는 페이지로
-              }),
-          Padding(padding: EdgeInsets.only(left: 10)),
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.grey,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white.withOpacity(.60),
-        selectedFontSize: 14,
-        unselectedFontSize: 10,
-        currentIndex: _selectedIndex, //현재 선택된 Index
-        onTap: (int index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
-        items: [
-          BottomNavigationBarItem(
-            title: Text('HOME'),
-            icon: Icon(Icons.home),
-          ),
-          BottomNavigationBarItem(
-            title: Text('FRIEND'),
-            icon: Icon(Icons.people),
-          ),
-          BottomNavigationBarItem(
-            title: Text('CALENDAR'),
-            icon: Icon(Icons.calendar_today),
-          ),
-          BottomNavigationBarItem(
-            title: Text('ALARM'),
-            icon: Icon(Icons.alarm),
-          ),
-          BottomNavigationBarItem(
-            title: Text('SETTING'),
-            icon: Icon(Icons.settings),
-          ),
-        ],
-      ),
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return AddCalendar(
+                        title: "일정 추가하기",
+                        id: id,
+                      );
+                    },
+                  ),
+                );
+              },
+            ),
+            IconButton(
+                icon: Icon(
+                  Icons.person_pin_outlined,
+                  color: kPrimaryColor,
+                ),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => UserInfo(id: id)));
+                  //내정보 확인할 수 있는 페이지로
+                }),
+            Padding(padding: EdgeInsets.only(left: 10)),
+          ],
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: Colors.grey,
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.white.withOpacity(.60),
+          selectedFontSize: 14,
+          unselectedFontSize: 10,
+          currentIndex: _selectedIndex, //현재 선택된 Index
+          onTap: (int index) {
+            setState(() {
+              _selectedIndex = index;
+            });
+          },
+          items: [
+            BottomNavigationBarItem(
+              title: Text('HOME'),
+              icon: Icon(Icons.home),
+            ),
+            BottomNavigationBarItem(
+              title: Text('FRIEND'),
+              icon: Icon(Icons.people),
+            ),
+            BottomNavigationBarItem(
+              title: Text('CALENDAR'),
+              icon: Icon(Icons.calendar_today),
+            ),
+            BottomNavigationBarItem(
+              title: Text('ALARM'),
+              icon: Icon(Icons.alarm),
+            ),
+            BottomNavigationBarItem(
+              title: Text('SETTING'),
+              icon: Icon(Icons.settings),
+            ),
+          ],
+        ),
+        body: Center(
+          child: _widgetOptions.elementAt(_selectedIndex),
+        ),
       ),
     );
   }
