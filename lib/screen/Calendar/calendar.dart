@@ -1,6 +1,5 @@
 import 'package:calendar/screen/Calendar/Function/showmenu.dart';
 import 'package:calendar/screen/Calendar/tablecalendar.dart';
-import 'package:calendar/screen/Calendar/tmp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swipe_action_cell/core/controller.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -69,12 +68,6 @@ class _CalendarState extends State<Calendar> with TickerProviderStateMixin {
           )
         ],
       ),
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => SwipeActionPage()),
-        );
-      }),
     );
   }
 
