@@ -93,7 +93,7 @@ class _BodyState extends State<Body> {
                 },
               ),
               RoundedButton(
-                text: "Sign In",
+                text: "SIGNIN",
                 press: () async {
                   Response response = await get("$URL/read/user/${_id}");
                   Map<String, dynamic> userInfo = json.decode(response.body);
