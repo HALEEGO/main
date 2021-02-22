@@ -8,6 +8,7 @@ import 'package:http/http.dart';
 import 'APIget.dart';
 
 List fuu;
+int userIDK;
 
 class WithFriend extends StatefulWidget {
   final String id;
@@ -49,13 +50,14 @@ class _WithFriendState extends State<WithFriend> {
   String scheduleLOCATION;
   String localid;
   bool write = false;
+
   void isMe(id) async {
     localid = await storage.read(key: "login");
     if (id == localid) {}
     print("object");
   }
 
-  Widget pickedFriend(friendList, write) {
+  Widget pickedFriend(friendList, write, userIDK) {
     int tmp = 0;
 
     friendList == null ? tmp = 0 : tmp = friendList.length;
@@ -82,7 +84,18 @@ class _WithFriendState extends State<WithFriend> {
         physics: BouncingScrollPhysics(),
         itemCount: tmp,
         itemBuilder: (BuildContext context, int i) {
-          return ListTile(title: Text("${friendList[i]["userNAME"]}"));
+          if (friendList[i]["userIDK"] == userIDK) {
+            print("$userIDK");
+            return ListTile(
+              title: Text("${friendList[i]["userNAME"]}"),
+              trailing: Icon(Icons.person_outline),
+            );
+          } else {
+            print("$userIDK");
+            return ListTile(
+              title: Text("${friendList[i]["userNAME"]}"),
+            );
+          }
         },
       );
     }
@@ -181,10 +194,10 @@ class _WithFriendState extends State<WithFriend> {
       body: FutureBuilder(
           future: write
               ? searchFriend(widget.id)
-              : nochangedsearchFriend(calendarNUM),
+              : nochangedsearchFriend(calendarNUM, id),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return pickedFriend(fuu, write);
+              return pickedFriend(fuu, write, userIDK);
             } else {
               return Container();
             }
