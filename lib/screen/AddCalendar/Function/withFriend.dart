@@ -8,6 +8,9 @@ import 'package:http/http.dart';
 import 'APIget.dart';
 
 List fuu;
+List fuuu;
+int userIDK;
+int calhostNUM;
 
 class WithFriend extends StatefulWidget {
   final String id;
@@ -48,41 +51,80 @@ class _WithFriendState extends State<WithFriend> {
   String finishTIME;
   String scheduleLOCATION;
   String localid;
+  int hostNUM;
   bool write = false;
+
   void isMe(id) async {
     localid = await storage.read(key: "login");
     if (id == localid) {}
     print("object");
   }
 
-  Widget pickedFriend(friendList, write) {
+  Widget pickedFriend(friendList, write, userIDK, calendarNUM, fuuu) {
     int tmp = 0;
 
     friendList == null ? tmp = 0 : tmp = friendList.length;
     if (write) {
-      return ListView.builder(
-          physics: BouncingScrollPhysics(),
-          itemCount: tmp,
-          itemBuilder: (BuildContext context, int i) {
-            _isChecked.add(false);
-            _friend.add("${friendList[i]["userID"]}");
-            return CheckboxListTile(
-              value: _isChecked[i],
-              onChanged: (value) {
-                setState(() {
-                  _isChecked[i] = value;
-                });
-              },
-              controlAffinity: ListTileControlAffinity.leading,
-              title: Text("${friendList[i]["userNAME"]}"),
-            );
-          });
+      if (calendarNUM != null) {
+        return ListView.builder(
+            physics: BouncingScrollPhysics(),
+            itemCount: tmp,
+            itemBuilder: (BuildContext context, int i) {
+              for (int j = 0; j < fuuu.length; j++) {
+                if (friendList[i]["userIDK"] == fuuu[j]["userIDK"]) {
+                  _isChecked.add(true);
+                  break;
+                }
+              }
+              _isChecked.add(false);
+              _friend.add("${friendList[i]["userID"]}");
+              return CheckboxListTile(
+                value: _isChecked[i],
+                onChanged: (value) {
+                  setState(() {
+                    _isChecked[i] = value;
+                  });
+                },
+                controlAffinity: ListTileControlAffinity.leading,
+                title: Text("${friendList[i]["userNAME"]}"),
+              );
+            });
+      } else {
+        return ListView.builder(
+            physics: BouncingScrollPhysics(),
+            itemCount: tmp,
+            itemBuilder: (BuildContext context, int i) {
+              _isChecked.add(false);
+              _friend.add("${friendList[i]["userID"]}");
+              return CheckboxListTile(
+                value: _isChecked[i],
+                onChanged: (value) {
+                  setState(() {
+                    _isChecked[i] = value;
+                  });
+                },
+                controlAffinity: ListTileControlAffinity.leading,
+                title: Text("${friendList[i]["userNAME"]}"),
+              );
+            });
+      }
     } else {
       return ListView.builder(
         physics: BouncingScrollPhysics(),
         itemCount: tmp,
         itemBuilder: (BuildContext context, int i) {
-          return ListTile(title: Text("${friendList[i]["userNAME"]}"));
+          if (friendList[i]["userIDK"] == userIDK) {
+            print("$userIDK");
+            return ListTile(
+              title: Text("${friendList[i]["userNAME"]}"),
+              trailing: Icon(Icons.person_outline),
+            );
+          } else {
+            print("$userIDK");
+            return ListTile(
+              title: Text("${friendList[i]["userNAME"]}"),
+            );
+          }
         },
       );
     }
@@ -96,20 +138,13 @@ class _WithFriendState extends State<WithFriend> {
   }
 
   void submit(id, calendarNUM, schuduleTYPE, scheduleDETAIL, scheduleDATE,
-      startTIME, finishTIME, scheduleLOCATION, _pickedfriend) async {
+      startTIME, finishTIME, scheduleLOCATION, _pickedfriend, hostNUM) async {
     if (calendarNUM == null) {
     } else {
       calendarNUM = int.parse(calendarNUM);
     }
-    Calendar calendar = Calendar(
-      null,
-      scheduleTYPE,
-      scheduleDETAIL,
-      scheduleDATE,
-      startTIME,
-      finishTIME,
-      scheduleLOCATION,
-    );
+    Calendar calendar = Calendar(null, scheduleTYPE, scheduleDETAIL,
+        scheduleDATE, startTIME, finishTIME, scheduleLOCATION, hostNUM);
     for (int i = 0; i < _pickedfriend.length; i++) {
       calendar.setFriendLIST(_pickedfriend[i]);
     }
@@ -144,6 +179,7 @@ class _WithFriendState extends State<WithFriend> {
     finishTIME = widget.finishTIME;
     scheduleLOCATION = widget.scheduleLOCATION;
     write = widget.isWrite;
+    hostNUM = userIDK;
   }
 
   @override
@@ -167,7 +203,8 @@ class _WithFriendState extends State<WithFriend> {
                         startTIME,
                         finishTIME,
                         scheduleLOCATION,
-                        _pickedfriend);
+                        _pickedfriend,
+                        userIDK);
                     Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
@@ -180,11 +217,11 @@ class _WithFriendState extends State<WithFriend> {
       ),
       body: FutureBuilder(
           future: write
-              ? searchFriend(widget.id)
-              : nochangedsearchFriend(calendarNUM),
+              ? searchFriend(widget.id, calendarNUM)
+              : nochangedsearchFriend(calendarNUM, id),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return pickedFriend(fuu, write);
+              return pickedFriend(fuu, write, userIDK, calendarNUM, fuuu);
             } else {
               return Container();
             }

@@ -55,3 +55,10 @@ Future<String> searchcalendar(id) async {
   }
   return "abc"; //futurebuilder에 리턴값이 있어야해서 임시설정
 }
+
+Future<String> deletecalendar(calendarNUM) async {
+  Response response = await delete("$URL/delete/calendar/$calendarNUM");
+  print(response.body);
+
+  return response.body.toString();
+}

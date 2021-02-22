@@ -1,10 +1,47 @@
 import 'dart:ui';
 
 import 'package:calendar/screen/AddCalendar/addCalendar.dart';
+import 'package:calendar/screen/Calendar/Function/APIget.dart';
+import 'package:calendar/screen/Main/mainmenu.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_swipe_action_cell/core/cell.dart';
+import 'package:flutter_swipe_action_cell/core/controller.dart';
 
 void showmenu(DateTime day, Map<DateTime, List> _allEvents,
-    BuildContext context, _animationController, id) {
+    BuildContext context, _animationController, id, swipecontroller) {
+  void showAlertDialog(BuildContext context, i) async {
+    String result = await showDialog(
+      context: context,
+      barrierDismissible: true, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('일정 삭제'),
+          content: Text("이 일정을 삭제하시겠습니까?"),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('NO'),
+              onPressed: () {
+                Navigator.pop(context, "NO");
+              },
+            ),
+            FlatButton(
+              child: Text('OK'),
+              onPressed: () {
+                deletecalendar(
+                    "${_allEvents[DateTime.parse(day.toString().replaceAll("12", "00").replaceAll("Z", ""))][i + 1]}");
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => Mainmenu(id: id)),
+                    (route) => false);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   //날짜 클릭하면 뜨는 메뉴
   bool haveEvent = _allEvents.containsKey(DateTime.parse(day
       .toString()
@@ -86,28 +123,64 @@ void showmenu(DateTime day, Map<DateTime, List> _allEvents,
                                       return SizedBox();
                                     } else {
                                       // 0,짝수번째 index만 listTile만들기
-                                      return ListTile(
-                                        leading: Icon(Icons.people),
-                                        title: Text(
-                                            //이벤트 짝수 인덱스만 출력
-                                            "${_allEvents[DateTime.parse(day.toString().replaceAll("12", "00").replaceAll("Z", ""))][i]}"),
-                                        trailing: Icon(Icons.ac_unit),
-                                        onTap: () {
-                                          // print("object");
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      // print("object");
-                                                      AddCalendar(
-                                                        title:
-                                                            "${_allEvents[DateTime.parse(day.toString().replaceAll("12", "00").replaceAll("Z", ""))][i]}",
-                                                        calendarNUM:
-                                                            "${_allEvents[DateTime.parse(day.toString().replaceAll("12", "00").replaceAll("Z", ""))][i + 1]}",
-                                                        id: id,
-                                                      )));
-                                        },
-                                      );
+                                      return SwipeActionCell(
+                                          backgroundColor: Color(0xff344955),
+                                          key: ValueKey(i),
+                                          index: i,
+                                          controller: swipecontroller,
+                                          performsFirstActionWithFullSwipe:
+                                              true,
+                                          trailingActions: [
+                                            SwipeAction(
+                                                title: "삭제",
+                                                nestedAction: SwipeNestedAction(
+                                                    title: "삭제하기"),
+                                                onTap: (handler) async {
+                                                  showAlertDialog(context, i);
+                                                }),
+                                            SwipeAction(
+                                              title: "일정",
+                                              color: Colors.grey,
+                                              onTap: (handler) async {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            // print("object");
+                                                            AddCalendar(
+                                                              title:
+                                                                  "${_allEvents[DateTime.parse(day.toString().replaceAll("12", "00").replaceAll("Z", ""))][i]}",
+                                                              calendarNUM:
+                                                                  "${_allEvents[DateTime.parse(day.toString().replaceAll("12", "00").replaceAll("Z", ""))][i + 1]}",
+                                                              id: id,
+                                                            )));
+                                              },
+                                            )
+                                          ],
+                                          child: ListTile(
+                                            leading: Icon(
+                                                Icons.calendar_today_outlined),
+                                            title: Text(
+                                                //이벤트 짝수 인덱스만 출력
+                                                "${_allEvents[DateTime.parse(day.toString().replaceAll("12", "00").replaceAll("Z", ""))][i]}"),
+                                            trailing: Icon(Icons
+                                                .arrow_forward_ios_rounded),
+                                            onTap: () {
+                                              // print("object");
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          // print("object");
+                                                          AddCalendar(
+                                                            title:
+                                                                "${_allEvents[DateTime.parse(day.toString().replaceAll("12", "00").replaceAll("Z", ""))][i]}",
+                                                            calendarNUM:
+                                                                "${_allEvents[DateTime.parse(day.toString().replaceAll("12", "00").replaceAll("Z", ""))][i + 1]}",
+                                                            id: id,
+                                                          )));
+                                            },
+                                          ));
                                     }
                                   }),
                             ),

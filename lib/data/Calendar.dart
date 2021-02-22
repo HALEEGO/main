@@ -13,6 +13,8 @@ class Calendar {
 
   String _scheduleLOCATION;
 
+  int _hostNUM;
+
   var _friendLIST = List<String>();
 
   int get getCalendarNUM => _calendarNUM;
@@ -38,14 +40,14 @@ class Calendar {
   }
 
   Calendar(
-    this._calendarNUM,
-    this._scheduleTYPE,
-    this._scheduleDETAIL,
-    this._scheduleDATE,
-    this._startTIME,
-    this._finishTIME,
-    this._scheduleLOCATION,
-  );
+      this._calendarNUM,
+      this._scheduleTYPE,
+      this._scheduleDETAIL,
+      this._scheduleDATE,
+      this._startTIME,
+      this._finishTIME,
+      this._scheduleLOCATION,
+      this._hostNUM);
   void pALL() {
     print(_calendarNUM);
     print(_scheduleTYPE);
@@ -64,9 +66,11 @@ class Calendar {
         _scheduleDATE = json['scheduleDATE'],
         _startTIME = json['startTIME'],
         _finishTIME = json['finishTIME'],
-        _scheduleLOCATION = json['scheduleLOCATION'];
+        _scheduleLOCATION = json['scheduleLOCATION'],
+        _hostNUM = json['hostNUM'];
 
   Map<String, dynamic> toJson() => {
+        'hostNUM': _hostNUM,
         'calendarNUM': _calendarNUM,
         'scheduleTYPE': _scheduleTYPE,
         'scheduleDETAIL': _scheduleDETAIL,

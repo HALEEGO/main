@@ -54,7 +54,7 @@ class _AddCalendarState extends State<AddCalendar> {
     if (id == localid && calendarNUM == null) {
       write = true;
     }
-    if (id == localid) {
+    if (userIDK == calhostNUM) {
       tmp = true;
     } else {
       tmp = false;
@@ -83,15 +83,7 @@ class _AddCalendarState extends State<AddCalendar> {
     }
   }
 
-  Calendar calendar = Calendar(
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-  );
+  Calendar calendar = Calendar(null, null, null, null, null, null, null, null);
   TextEditingController scheduleTYPEcontroller = TextEditingController();
   TextEditingController scheduleDETAILcontroller = TextEditingController();
   TextEditingController scheduleLOCATIONcontroller = TextEditingController();
