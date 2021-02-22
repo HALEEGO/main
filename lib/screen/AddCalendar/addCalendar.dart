@@ -54,7 +54,7 @@ class _AddCalendarState extends State<AddCalendar> {
     if (id == localid && calendarNUM == null) {
       write = true;
     }
-    if (id == localid) {
+    if (userIDK == calhostNUM) {
       tmp = true;
     } else {
       tmp = false;

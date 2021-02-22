@@ -10,6 +10,7 @@ import 'APIget.dart';
 List fuu;
 List fuuu;
 int userIDK;
+int calhostNUM;
 
 class WithFriend extends StatefulWidget {
   final String id;
