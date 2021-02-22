@@ -37,97 +37,49 @@ class _MainBodyState extends State<MainBody> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: (_selectedIndex != 1)
-          ? AppBar(
-              backgroundColor: Colors.white,
-              leading: Icon(
-                Icons.calendar_today_sharp,
-                color: kPrimaryColor,
-              ),
-              title: Text(
-                '${widget.id}의' + '\n' + 'SNS CALENDAR',
-                style: TextStyle(color: kPrimaryColor),
-              ),
-              actions: [
-                IconButton(
-                  icon: Icon(
-                    Icons.add_circle_outline,
-                    color: kPrimaryColor,
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return AddCalendar(
-                            title: "일정 추가하기",
-                            id: id,
-                          );
-                        },
-                      ),
-                    );
-                  },
-                ),
-                IconButton(
-                    icon: Icon(
-                      Icons.person_pin_outlined,
-                      color: kPrimaryColor,
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => UserInfo(id: id)));
-                      //내정보 확인할 수 있는 페이지로
-                    }),
-                Padding(padding: EdgeInsets.only(left: 10)),
-              ],
-            )
-          : AppBar(
-              backgroundColor: Colors.white,
-              leading: Icon(
-                Icons.calendar_today_sharp,
-                color: kPrimaryColor,
-              ),
-              title: Text(
-                '${widget.id}의' + '\n' + '친구',
-                style: TextStyle(color: kPrimaryColor),
-              ),
-              actions: [
-                IconButton(
-                  icon: Icon(
-                    Icons.add_circle_outline,
-                    color: kPrimaryColor,
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return AddCalendar(
-                            title: "일정 추가하기",
-                            id: id,
-                          );
-                        },
-                      ),
-                    );
-                  },
-                ),
-                IconButton(
-                    icon: Icon(
-                      Icons.person_pin_outlined,
-                      color: kPrimaryColor,
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => UserInfo(id: id)));
-                      //내정보 확인할 수 있는 페이지로
-                    }),
-                Padding(padding: EdgeInsets.only(left: 10)),
-              ],
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading: Icon(
+          Icons.calendar_today_sharp,
+          color: kPrimaryColor,
+        ),
+        title: Text(
+          '${widget.id}의' + '\n' + 'SNS CALENDAR',
+          style: TextStyle(color: kPrimaryColor),
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.add_circle_outline,
+              color: kPrimaryColor,
             ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return AddCalendar(
+                      title: "일정 추가하기",
+                      id: id,
+                    );
+                  },
+                ),
+              );
+            },
+          ),
+          IconButton(
+              icon: Icon(
+                Icons.person_pin_outlined,
+                color: kPrimaryColor,
+              ),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => UserInfo(id: id)));
+                //내정보 확인할 수 있는 페이지로
+              }),
+          Padding(padding: EdgeInsets.only(left: 10)),
+        ],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.grey,
