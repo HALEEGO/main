@@ -28,7 +28,7 @@ class _BodyState extends State<Body> {
     }
   }
 
-  bool followSelect;
+  bool followSelect = true;
   Future<List<User>> fetchedFriend;
   String id;
   @override
@@ -39,6 +39,13 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
+    (followSelect)
+        ? setState(() {
+            fetchedFriend = fetchFriend(Follow);
+          })
+        : setState(() {
+            fetchedFriend = fetchFriend(Followed);
+          });
     String dropdownValue;
     Size size = MediaQuery.of(context).size;
     return Background(
@@ -53,7 +60,7 @@ class _BodyState extends State<Body> {
               GestureDetector(
                   onTap: () {
                     setState(() {
-                      fetchedFriend = fetchFriend(Follow);
+                      followSelect = true;
                     });
                   },
                   child: Container(
@@ -65,7 +72,7 @@ class _BodyState extends State<Body> {
               GestureDetector(
                   onTap: () {
                     setState(() {
-                      fetchedFriend = fetchFriend(Followed);
+                      followSelect = false;
                     });
                   },
                   child: Container(
@@ -82,70 +89,74 @@ class _BodyState extends State<Body> {
                   future: fetchedFriend,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      return ListView.separated(
-                          physics: BouncingScrollPhysics(),
-                          itemCount: snapshot.data.length,
-                          itemBuilder: (BuildContext context, int i) {
-                            return ListTile(
-                              leading: Icon(Icons.emoji_people),
-                              title: Text("${snapshot.data[i].getUserNAME}"),
-                              trailing: DropdownButton<String>(
-                                icon: Icon(Icons.more_vert_outlined),
-                                iconSize: 24,
-                                underline: Container(
-                                  color: Colors.white,
-                                ),
-                                focusColor: Colors.blue,
-                                dropdownColor: Colors.white,
-                                value: dropdownValue,
-                                style: TextStyle(color: Colors.black),
-                                onChanged: (String newValue) {
-                                  setState(() {
-                                    dropdownValue = newValue;
-                                  });
-                                  (dropdownValue == '상세정보')
-                                      ? showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return AlertDialog(
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          8.0)),
-                                              title: new Text(
-                                                  "상세한 ${snapshot.data[i].getUserNAME} 정보"),
-                                              content: SingleChildScrollView(
-                                                  child: new Text(
-                                                      "이름이 ${snapshot.data[i].getUserNAME}임")),
+                      return (snapshot.data.length == 0)
+                          ? Text("친구가 없네요 ^^7")
+                          : ListView.separated(
+                              physics: BouncingScrollPhysics(),
+                              itemCount: snapshot.data.length,
+                              itemBuilder: (BuildContext context, int i) {
+                                return ListTile(
+                                  leading: Icon(Icons.emoji_people),
+                                  title:
+                                      Text("${snapshot.data[i].getUserNAME}"),
+                                  trailing: DropdownButton<String>(
+                                    icon: Icon(Icons.more_vert_outlined),
+                                    iconSize: 24,
+                                    underline: Container(
+                                      color: Colors.white,
+                                    ),
+                                    focusColor: Colors.blue,
+                                    dropdownColor: Colors.white,
+                                    value: dropdownValue,
+                                    style: TextStyle(color: Colors.black),
+                                    onChanged: (String newValue) {
+                                      setState(() {
+                                        dropdownValue = newValue;
+                                      });
+                                      (dropdownValue == '상세정보')
+                                          ? showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8.0)),
+                                                  title: new Text(
+                                                      "상세한 ${snapshot.data[i].getUserNAME} 정보"),
+                                                  content: SingleChildScrollView(
+                                                      child: new Text(
+                                                          "이름이 ${snapshot.data[i].getUserNAME}임")),
+                                                );
+                                              },
+                                            )
+                                          : Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      Calendar(
+                                                          title: snapshot
+                                                              .data[i]
+                                                              .getUserID)),
                                             );
-                                          },
-                                        )
-                                      : Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => Calendar(
-                                                  title: snapshot
-                                                      .data[i].getUserID)),
-                                        );
-                                },
-                                items: <String>[
-                                  '상세정보',
-                                  '달력보기'
-                                ].map<DropdownMenuItem<String>>((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value),
-                                  );
-                                }).toList(),
-                              ),
-                              onTap: () {},
-                            );
-                          },
-                          separatorBuilder: (BuildContext context, int i) {
-                            return const Divider();
-                          });
-                    } else if (snapshot.hasData == false) {
-                      return Text("친구가 없어");
+                                    },
+                                    items: <String>['상세정보', '달력보기']
+                                        .map<DropdownMenuItem<String>>(
+                                            (String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value),
+                                      );
+                                    }).toList(),
+                                  ),
+                                  onTap: () {},
+                                );
+                              },
+                              separatorBuilder: (BuildContext context, int i) {
+                                return const Divider();
+                              });
+                    } else if (snapshot.hasError) {
+                      return Text("${snapshot.error}");
                     }
                     return CircularProgressIndicator();
                   })))
