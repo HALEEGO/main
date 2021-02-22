@@ -16,6 +16,7 @@ class Body extends StatelessWidget {
   String pw;
   String name;
   User user = User(null, null, null, null, null);
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -43,7 +44,7 @@ class Body extends StatelessWidget {
                 },
               ),
               RoundedInputField(
-                hintText: "Your Email",
+                hintText: "Your ID",
                 onChanged: (value) {
                   id = value;
                 },
@@ -51,7 +52,6 @@ class Body extends StatelessWidget {
               RoundedPasswordField(
                 onChanged: (value) {
                   pw = value;
-                  print(pw);
                 },
               ),
               RoundedButton(
