@@ -11,6 +11,8 @@ Future<List> searchFriend(id, calnum) async {
   fuu = tmp;
   Response res = await get("$URL/read/calendaruser/$calnum");
   List temp = jsonDecode(response.body);
+  Response re = await get("$URL/read/user/$id");
+  userIDK = jsonDecode(re.body)["userIDK"];
   fuuu = tmp;
   return fuu;
 }

@@ -50,6 +50,7 @@ class _WithFriendState extends State<WithFriend> {
   String finishTIME;
   String scheduleLOCATION;
   String localid;
+  int hostNUM;
   bool write = false;
 
   void isMe(id) async {
@@ -136,20 +137,13 @@ class _WithFriendState extends State<WithFriend> {
   }
 
   void submit(id, calendarNUM, schuduleTYPE, scheduleDETAIL, scheduleDATE,
-      startTIME, finishTIME, scheduleLOCATION, _pickedfriend) async {
+      startTIME, finishTIME, scheduleLOCATION, _pickedfriend, hostNUM) async {
     if (calendarNUM == null) {
     } else {
       calendarNUM = int.parse(calendarNUM);
     }
-    Calendar calendar = Calendar(
-      null,
-      scheduleTYPE,
-      scheduleDETAIL,
-      scheduleDATE,
-      startTIME,
-      finishTIME,
-      scheduleLOCATION,
-    );
+    Calendar calendar = Calendar(null, scheduleTYPE, scheduleDETAIL,
+        scheduleDATE, startTIME, finishTIME, scheduleLOCATION, hostNUM);
     for (int i = 0; i < _pickedfriend.length; i++) {
       calendar.setFriendLIST(_pickedfriend[i]);
     }
@@ -184,6 +178,7 @@ class _WithFriendState extends State<WithFriend> {
     finishTIME = widget.finishTIME;
     scheduleLOCATION = widget.scheduleLOCATION;
     write = widget.isWrite;
+    hostNUM = userIDK;
   }
 
   @override
@@ -207,7 +202,8 @@ class _WithFriendState extends State<WithFriend> {
                         startTIME,
                         finishTIME,
                         scheduleLOCATION,
-                        _pickedfriend);
+                        _pickedfriend,
+                        userIDK);
                     Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
