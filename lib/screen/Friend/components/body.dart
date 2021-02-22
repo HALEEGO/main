@@ -144,7 +144,7 @@ class _BodyState extends State<Body> {
                           separatorBuilder: (BuildContext context, int i) {
                             return const Divider();
                           });
-                    } else if (snapshot.hasError) {
+                    } else if (snapshot.hasData == false) {
                       return Text("친구가 없어");
                     }
                     return CircularProgressIndicator();
