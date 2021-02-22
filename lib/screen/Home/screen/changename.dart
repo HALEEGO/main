@@ -4,6 +4,7 @@ import 'package:calendar/components/rounded_button.dart';
 import 'package:calendar/components/rounded_input_field.dart';
 import 'package:calendar/data/User.dart';
 import 'package:calendar/screen/Home/screen/userInfo_screen.dart';
+import 'package:calendar/screen/Main/mainbody.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
@@ -104,12 +105,10 @@ class _ChangeNameState extends State<ChangeName> {
                           Widget okButton = FlatButton(
                             child: Text("OK"),
                             onPressed: () {
-                              Navigator.pop(context);
-                              Navigator.pop(context);
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => UserInfo(id: id)));
+                                      builder: (context) => MainBody(id: id)));
                             },
                           );
                           return AlertDialog(
@@ -117,7 +116,7 @@ class _ChangeNameState extends State<ChangeName> {
                                 borderRadius: BorderRadius.circular(8.0)),
                             title: new Text("NAME CHANGED"),
                             content: SingleChildScrollView(
-                                child: new Text("return User Information")),
+                                child: new Text("return Main Screen")),
                             actions: [okButton],
                           );
                         },
