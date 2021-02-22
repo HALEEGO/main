@@ -75,8 +75,11 @@ class _WithFriendState extends State<WithFriend> {
                   _isChecked.add(true);
                   break;
                 }
+                if (j == fuuu.length - 1) {
+                  _isChecked.add(false);
+                }
               }
-              _isChecked.add(false);
+
               _friend.add("${friendList[i]["userID"]}");
               return CheckboxListTile(
                 value: _isChecked[i],

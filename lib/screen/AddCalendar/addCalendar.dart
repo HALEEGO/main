@@ -8,6 +8,9 @@ import '../../data/Calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
+int uIDK;
+int hNUM;
+
 class AddCalendar extends StatefulWidget {
   final String title;
   final String calendarNUM;
@@ -49,20 +52,29 @@ class _AddCalendarState extends State<AddCalendar> {
     }
   }
 
-  void isMe(id) async {
-    localid = await storage.read(key: "login");
-    if (id == localid && calendarNUM == null) {
+  void isMe(id) {
+    print("씨ㅡ발$uIDK");
+    print("씨ㅡ발$hNUM");
+
+    if (calendarNUM == null) {
       write = true;
-    }
-    if (userIDK == calhostNUM) {
       tmp = true;
     } else {
+      if (uIDK == hNUM) {
+        tmp = true;
+      } else {
+        tmp = false;
+      }
+    }
+    if (localid != id) {
       tmp = false;
+
+      print("saknsdakfnsakafnkjsaf");
     }
   }
 
   final String URL = "http://3.35.39.202:8000/calendar";
-  Future<String> api() async {
+  Future<String> api(idd) async {
     if (calendarNUM != null) {
       Response response = await get("$URL/read/calendar/$calendarNUM");
       Map<String, dynamic> resMAP = jsonDecode(response.body);
@@ -77,6 +89,11 @@ class _AddCalendarState extends State<AddCalendar> {
           TextEditingController(text: "${resMAP["startTIME"]}");
       finishtimecontroller =
           TextEditingController(text: "${resMAP["finishTIME"]}");
+      Response re = await get("$URL/read/user/$idd");
+      uIDK = jsonDecode(re.body)["userIDK"];
+      Response r = await get("$URL/read/calendar/$calendarNUM");
+      hNUM = jsonDecode(r.body)["hostNUM"];
+      localid = await storage.read(key: "login");
       return "a";
     } else {
       return "d";
@@ -108,50 +125,55 @@ class _AddCalendarState extends State<AddCalendar> {
         ),
         centerTitle: true,
         actions: [
-          IconButton(
-              icon: Icon(Icons.arrow_forward),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => WithFriend(
-                              id: id,
-                              calendarNUM: calendarNUM,
-                              scheduleDATE: scheduleDATE,
-                              scheduleTYPE: scheduleTYPE,
-                              scheduleDETAIL: scheduleDETAIL,
-                              scheduleLOCATION: scheduleLOCATION,
-                              startTIME: startTIME,
-                              finishTIME: finishTIME,
-                              isWrite: write,
-                            )));
-              }),
-          IconButton(
-              icon: Icon(Icons.add_circle_outline),
-              onPressed: () {
-                if (tmp) {
-                  setState(() {
-                    write = !write;
-                  });
-                } else {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0)),
-                        title: new Text("변경할수 없음"),
-                        content: SingleChildScrollView(
-                            child: new Text("내 일정이 아닙니다.")),
+          calendarNUM == null
+              ? Icon(Icons.ac_unit_outlined)
+              : IconButton(
+                  icon: Icon(Icons.arrow_forward),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => WithFriend(
+                                  id: id,
+                                  calendarNUM: calendarNUM,
+                                  scheduleDATE: scheduleDATE,
+                                  scheduleTYPE: scheduleTYPE,
+                                  scheduleDETAIL: scheduleDETAIL,
+                                  scheduleLOCATION: scheduleLOCATION,
+                                  startTIME: startTIME,
+                                  finishTIME: finishTIME,
+                                  isWrite: write,
+                                )));
+                  }),
+          calendarNUM == null
+              ? Icon(Icons.ac_unit)
+              : IconButton(
+                  icon: Icon(Icons.add_circle_outline),
+                  onPressed: () {
+                    isMe(id);
+                    if (tmp) {
+                      setState(() {
+                        write = !write;
+                      });
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0)),
+                            title: new Text("변경할수 없음"),
+                            content: SingleChildScrollView(
+                                child: new Text("내 일정이 아닙니다.")),
+                          );
+                        },
                       );
-                    },
-                  );
-                }
-              })
+                    }
+                  })
         ],
       ),
       body: FutureBuilder(
-          future: api(),
+          future: api(id),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return Form(

@@ -10,12 +10,13 @@ Future<List> searchFriend(id, calnum) async {
   List tmp = jsonDecode(response.body);
   fuu = tmp;
   Response res = await get("$URL/read/calendaruser/$calnum");
-  List temp = jsonDecode(response.body);
+  List temp = jsonDecode(res.body);
   Response re = await get("$URL/read/user/$id");
   userIDK = jsonDecode(re.body)["userIDK"];
-  Response r = await get("$URL/read/user/$id");
+  Response r = await get("$URL/read/calendar/$calnum");
   calhostNUM = jsonDecode(r.body)["hostNUM"];
-  fuuu = tmp;
+  fuuu = temp;
+  print("rkrmkrmkrfmklnrgngnrg$temp");
   return fuu;
 }
 
@@ -25,7 +26,7 @@ Future<List> nochangedsearchFriend(calnum, id) async {
   fuu = tmp;
   Response res = await get("$URL/read/user/$id");
   userIDK = jsonDecode(res.body)["userIDK"];
-  Response r = await get("$URL/read/user/$id");
+  Response r = await get("$URL/read/calendar/$calnum");
   calhostNUM = jsonDecode(r.body)["hostNUM"];
   print("${res.body}");
   print("api통신끝");
