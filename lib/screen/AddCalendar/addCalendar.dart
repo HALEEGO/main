@@ -8,11 +8,8 @@ import '../../data/Calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-int uIDK;
-int hNUM;
-
 class AddCalendar extends StatefulWidget {
-  final String title;
+  final String title; //scheduleTYPE
   final String calendarNUM;
   final String id;
   AddCalendar({@required this.title, this.calendarNUM, @required this.id});
@@ -25,8 +22,8 @@ class _AddCalendarState extends State<AddCalendar> {
   static final storage = new FlutterSecureStorage();
   GlobalKey<FormState> _fKey = GlobalKey<FormState>();
   bool autovalidate = false;
-  String id;
-  String title;
+  String id; //userid
+  String title; //scheduleTYPE
   String calendarNUM;
   String scheduleTYPE,
       scheduleDETAIL,
@@ -34,6 +31,8 @@ class _AddCalendarState extends State<AddCalendar> {
       startTIME,
       finishTIME,
       scheduleLOCATION;
+  int userIDK;
+  int hostNUM;
   String localid;
   bool write = false;
   bool tmp = true;
@@ -53,14 +52,14 @@ class _AddCalendarState extends State<AddCalendar> {
   }
 
   void isMe(id) {
-    print("씨ㅡ발$uIDK");
-    print("씨ㅡ발$hNUM");
+    print("씨ㅡ발$userIDK");
+    print("씨ㅡ발$hostNUM");
 
     if (calendarNUM == null) {
       write = true;
       tmp = true;
     } else {
-      if (uIDK == hNUM) {
+      if (userIDK == hostNUM) {
         tmp = true;
       } else {
         tmp = false;
@@ -68,13 +67,16 @@ class _AddCalendarState extends State<AddCalendar> {
     }
     if (localid != id) {
       tmp = false;
-
-      print("saknsdakfnsakafnkjsaf");
     }
   }
 
   final String URL = "http://3.35.39.202:8000/calendar";
-  Future<String> api(idd) async {
+  Future<String> api(id) async {
+    print(id);
+    Response re = await get("$URL/read/user/$id"); // 유저정보
+    userIDK = jsonDecode(re.body)["userIDK"]; //userIDK
+    print("kakndsalkdnsalkdnladksnldskandlaknadslkdnalkdasnlksdan $userIDK");
+    localid = await storage.read(key: "login"); // 로그인시 저장했던 id
     if (calendarNUM != null) {
       Response response = await get("$URL/read/calendar/$calendarNUM");
       Map<String, dynamic> resMAP = jsonDecode(response.body);
@@ -89,14 +91,18 @@ class _AddCalendarState extends State<AddCalendar> {
           TextEditingController(text: "${resMAP["startTIME"]}");
       finishtimecontroller =
           TextEditingController(text: "${resMAP["finishTIME"]}");
-      Response re = await get("$URL/read/user/$idd");
-      uIDK = jsonDecode(re.body)["userIDK"];
-      Response r = await get("$URL/read/calendar/$calendarNUM");
-      hNUM = jsonDecode(r.body)["hostNUM"];
-      localid = await storage.read(key: "login");
+      if (resMAP["hostNUM"] != null) {
+        print(
+            "kakndsalkdnsalkdnladksnldskandlaknadslkdnalkdasnlksdan $userIDK");
+        hostNUM = resMAP["hostNUM"];
+      }
+      // hostNUM
+      print(hostNUM);
+      print("object");
+      localid = await storage.read(key: "login"); // 로그인시 저장했던 id
       return "a";
     } else {
-      return "d";
+      return "b";
     }
   }
 
@@ -125,24 +131,28 @@ class _AddCalendarState extends State<AddCalendar> {
         ),
         centerTitle: true,
         actions: [
-          calendarNUM == null
-              ? Icon(Icons.ac_unit_outlined)
+          calendarNUM == null || write
+              ? SizedBox()
               : IconButton(
                   icon: Icon(Icons.arrow_forward),
                   onPressed: () {
+                    print(userIDK);
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => WithFriend(
                                   id: id,
                                   calendarNUM: calendarNUM,
-                                  scheduleDATE: scheduleDATE,
-                                  scheduleTYPE: scheduleTYPE,
-                                  scheduleDETAIL: scheduleDETAIL,
-                                  scheduleLOCATION: scheduleLOCATION,
-                                  startTIME: startTIME,
-                                  finishTIME: finishTIME,
+                                  // scheduleDATE: scheduleDATE,
+                                  // scheduleTYPE: scheduleTYPE,
+                                  // scheduleDETAIL: scheduleDETAIL,
+                                  // scheduleLOCATION: scheduleLOCATION,
+                                  // startTIME: startTIME,
+                                  // finishTIME: finishTIME,
                                   isWrite: write,
+                                  hostNUM: hostNUM,
+                                  userIDK: userIDK,
+                                  localid: localid,
                                 )));
                   }),
           calendarNUM == null
@@ -431,17 +441,19 @@ class _AddCalendarState extends State<AddCalendar> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => WithFriend(
-                                                id: id,
-                                                calendarNUM: calendarNUM,
-                                                scheduleDATE: scheduleDATE,
-                                                scheduleTYPE: scheduleTYPE,
-                                                scheduleDETAIL: scheduleDETAIL,
-                                                scheduleLOCATION:
-                                                    scheduleLOCATION,
-                                                startTIME: startTIME,
-                                                finishTIME: finishTIME,
-                                                isWrite: write,
-                                              )));
+                                              id: id,
+                                              calendarNUM: calendarNUM,
+                                              scheduleDATE: scheduleDATE,
+                                              scheduleTYPE: scheduleTYPE,
+                                              scheduleDETAIL: scheduleDETAIL,
+                                              scheduleLOCATION:
+                                                  scheduleLOCATION,
+                                              startTIME: startTIME,
+                                              finishTIME: finishTIME,
+                                              isWrite: write,
+                                              userIDK: userIDK,
+                                              localid: localid,
+                                              hostNUM: hostNUM)));
                                 },
                                 icon: Icon(
                                   Icons.person_add_alt_1,
