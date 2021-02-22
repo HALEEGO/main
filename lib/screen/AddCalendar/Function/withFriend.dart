@@ -8,6 +8,7 @@ import 'package:http/http.dart';
 import 'APIget.dart';
 
 List fuu;
+List fuuu;
 int userIDK;
 
 class WithFriend extends StatefulWidget {
@@ -57,28 +58,54 @@ class _WithFriendState extends State<WithFriend> {
     print("object");
   }
 
-  Widget pickedFriend(friendList, write, userIDK) {
+  Widget pickedFriend(friendList, write, userIDK, calendarNUM, fuuu) {
     int tmp = 0;
 
     friendList == null ? tmp = 0 : tmp = friendList.length;
     if (write) {
-      return ListView.builder(
-          physics: BouncingScrollPhysics(),
-          itemCount: tmp,
-          itemBuilder: (BuildContext context, int i) {
-            _isChecked.add(false);
-            _friend.add("${friendList[i]["userID"]}");
-            return CheckboxListTile(
-              value: _isChecked[i],
-              onChanged: (value) {
-                setState(() {
-                  _isChecked[i] = value;
-                });
-              },
-              controlAffinity: ListTileControlAffinity.leading,
-              title: Text("${friendList[i]["userNAME"]}"),
-            );
-          });
+      if (calendarNUM != null) {
+        return ListView.builder(
+            physics: BouncingScrollPhysics(),
+            itemCount: tmp,
+            itemBuilder: (BuildContext context, int i) {
+              for (int j = 0; j < fuuu.length; j++) {
+                if (friendList[i]["userIDK"] == fuuu[j]["userIDK"]) {
+                  _isChecked.add(true);
+                  break;
+                }
+              }
+              _isChecked.add(false);
+              _friend.add("${friendList[i]["userID"]}");
+              return CheckboxListTile(
+                value: _isChecked[i],
+                onChanged: (value) {
+                  setState(() {
+                    _isChecked[i] = value;
+                  });
+                },
+                controlAffinity: ListTileControlAffinity.leading,
+                title: Text("${friendList[i]["userNAME"]}"),
+              );
+            });
+      } else {
+        return ListView.builder(
+            physics: BouncingScrollPhysics(),
+            itemCount: tmp,
+            itemBuilder: (BuildContext context, int i) {
+              _isChecked.add(false);
+              _friend.add("${friendList[i]["userID"]}");
+              return CheckboxListTile(
+                value: _isChecked[i],
+                onChanged: (value) {
+                  setState(() {
+                    _isChecked[i] = value;
+                  });
+                },
+                controlAffinity: ListTileControlAffinity.leading,
+                title: Text("${friendList[i]["userNAME"]}"),
+              );
+            });
+      }
     } else {
       return ListView.builder(
         physics: BouncingScrollPhysics(),
@@ -193,11 +220,11 @@ class _WithFriendState extends State<WithFriend> {
       ),
       body: FutureBuilder(
           future: write
-              ? searchFriend(widget.id)
+              ? searchFriend(widget.id, calendarNUM)
               : nochangedsearchFriend(calendarNUM, id),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return pickedFriend(fuu, write, userIDK);
+              return pickedFriend(fuu, write, userIDK, calendarNUM, fuuu);
             } else {
               return Container();
             }
