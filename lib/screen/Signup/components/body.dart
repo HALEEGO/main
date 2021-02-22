@@ -68,6 +68,51 @@ class Body extends StatelessWidget {
                       body: json,
                       headers: {'Content-Type': "application/json"});
                   print(response.body);
+
+                  if (response.body == 'ok') {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        Widget okButton = FlatButton(
+                          child: Text("OK"),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LoginScreen()));
+                          },
+                        );
+                        return AlertDialog(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0)),
+                          title: new Text("SIGNUP COMPLETE"),
+                          content: SingleChildScrollView(
+                              child: new Text("return LOGIN SCREEN")),
+                          actions: [okButton],
+                        );
+                      },
+                    );
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        Widget okButton = FlatButton(
+                          child: Text("OK"),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        );
+                        return AlertDialog(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0)),
+                          title: new Text("SIGNUP FAILED"),
+                          content: SingleChildScrollView(
+                              child: new Text("TRY AGAIN")),
+                          actions: [okButton],
+                        );
+                      },
+                    );
+                  }
                 },
               ),
               SizedBox(height: size.height * 0.03),
