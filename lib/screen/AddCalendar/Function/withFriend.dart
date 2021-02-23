@@ -9,8 +9,8 @@ import 'APIget.dart';
 
 List fuu;
 List fuuu;
-int userIDK;
-int calhostNUM;
+// int userIDK;
+// int calhostNUM;
 
 class WithFriend extends StatefulWidget {
   final String id;
@@ -22,16 +22,22 @@ class WithFriend extends StatefulWidget {
   final String finishTIME;
   final String scheduleLOCATION;
   final bool isWrite;
+  final String localid;
+  final int userIDK;
+  final int hostNUM;
   WithFriend(
       {@required this.id,
       this.calendarNUM,
-      @required this.scheduleTYPE,
-      @required this.scheduleDETAIL,
-      @required this.scheduleDATE,
+      this.scheduleTYPE,
+      this.scheduleDETAIL,
+      this.scheduleDATE,
       this.finishTIME,
       this.startTIME,
-      @required this.scheduleLOCATION,
-      @required this.isWrite});
+      this.scheduleLOCATION,
+      @required this.isWrite,
+      @required this.userIDK,
+      @required this.hostNUM,
+      @required this.localid});
   @override
   _WithFriendState createState() => _WithFriendState();
 }
@@ -52,13 +58,8 @@ class _WithFriendState extends State<WithFriend> {
   String scheduleLOCATION;
   String localid;
   int hostNUM;
+  int userIDK;
   bool write = false;
-
-  void isMe(id) async {
-    localid = await storage.read(key: "login");
-    if (id == localid) {}
-    print("object");
-  }
 
   Widget pickedFriend(friendList, write, userIDK, calendarNUM, fuuu) {
     int tmp = 0;
@@ -75,9 +76,13 @@ class _WithFriendState extends State<WithFriend> {
                   _isChecked.add(true);
                   break;
                 }
+                if (j == fuuu.length - 1) {
+                  _isChecked.add(false);
+                }
               }
-              _isChecked.add(false);
+
               _friend.add("${friendList[i]["userID"]}");
+
               return CheckboxListTile(
                 value: _isChecked[i],
                 onChanged: (value) {
@@ -96,6 +101,7 @@ class _WithFriendState extends State<WithFriend> {
             itemBuilder: (BuildContext context, int i) {
               _isChecked.add(false);
               _friend.add("${friendList[i]["userID"]}");
+              print("리뷰빌더 : $friendList[i]");
               return CheckboxListTile(
                 value: _isChecked[i],
                 onChanged: (value) {
@@ -109,6 +115,7 @@ class _WithFriendState extends State<WithFriend> {
             });
       }
     } else {
+      print("에바지");
       return ListView.builder(
         physics: BouncingScrollPhysics(),
         itemCount: tmp,
@@ -139,18 +146,33 @@ class _WithFriendState extends State<WithFriend> {
 
   void submit(id, calendarNUM, schuduleTYPE, scheduleDETAIL, scheduleDATE,
       startTIME, finishTIME, scheduleLOCATION, _pickedfriend, hostNUM) async {
-    if (calendarNUM == null) {
-    } else {
-      calendarNUM = int.parse(calendarNUM);
+    if (scheduleTYPE == null ||
+        scheduleDETAIL == null ||
+        scheduleDATE == null ||
+        scheduleLOCATION == null) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0)),
+            title: new Text("정보부족!"),
+            content: SingleChildScrollView(
+                child: new Text("이전 페이지에서 정보를 입력하여 주세요.")),
+          );
+        },
+      );
     }
+    if (hostNUM == null) {
+      hostNUM = userIDK;
+    }
+    print("ssssssssssssssssssssssssss${hostNUM}");
     Calendar calendar = Calendar(null, scheduleTYPE, scheduleDETAIL,
         scheduleDATE, startTIME, finishTIME, scheduleLOCATION, hostNUM);
     for (int i = 0; i < _pickedfriend.length; i++) {
       calendar.setFriendLIST(_pickedfriend[i]);
     }
-
-    print(_pickedfriend);
-    print(calendar.getFriendLIST);
+    print("withFriend.dart의 submit함수 scheduleTYPE : $scheduleTYPE");
     var json = jsonEncode(calendar);
     if (calendarNUM == null) {
       print(json);
@@ -162,7 +184,8 @@ class _WithFriendState extends State<WithFriend> {
       Response response = await post("$URL/insert/calendar",
           body: json, headers: {'Content-Type': "application/json"});
       Response res = await delete("$URL/delete/calendar/$calendarNUM");
-      print(res.body);
+      print("삭제되었습니다 ${res.body}");
+      print("여기는 : $json");
       print(response.body.toString());
     }
   }
@@ -171,6 +194,9 @@ class _WithFriendState extends State<WithFriend> {
   void initState() {
     super.initState();
     id = widget.id;
+    print(
+        "withFriend 의 intitState의 calendarNUM, scheduleTYPE : $calendarNUM , $scheduleTYPE");
+    print("withFriend 의 intitState의  : $id");
     calendarNUM = widget.calendarNUM;
     scheduleTYPE = widget.scheduleTYPE;
     scheduleDETAIL = widget.scheduleDETAIL;
@@ -179,7 +205,10 @@ class _WithFriendState extends State<WithFriend> {
     finishTIME = widget.finishTIME;
     scheduleLOCATION = widget.scheduleLOCATION;
     write = widget.isWrite;
-    hostNUM = userIDK;
+    print("withFriend 의 intitState의  : $userIDK");
+    hostNUM = widget.hostNUM;
+    userIDK = widget.userIDK;
+    localid = widget.localid;
   }
 
   @override
@@ -217,13 +246,15 @@ class _WithFriendState extends State<WithFriend> {
       ),
       body: FutureBuilder(
           future: write
-              ? searchFriend(widget.id, calendarNUM)
+              ? searchFriend(id, calendarNUM)
               : nochangedsearchFriend(calendarNUM, id),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return pickedFriend(fuu, write, userIDK, calendarNUM, fuuu);
             } else {
-              return Container();
+              return Container(
+                child: Text("aaaaaaaaaaaaaaaaaaa"),
+              );
             }
           }),
     );
