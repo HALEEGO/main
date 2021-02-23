@@ -6,6 +6,7 @@ import 'package:calendar/screen/Main/mainmenu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:flutter_swipe_action_cell/core/controller.dart';
+import 'package:path/path.dart';
 
 void showmenu(DateTime day, Map<DateTime, List> _allEvents,
     BuildContext context, _animationController, id, swipecontroller) {
@@ -62,55 +63,42 @@ void showmenu(DateTime day, Map<DateTime, List> _allEvents,
       context: context,
       builder: (BuildContext context) {
         return Container(
-          //테두리 박스
+          height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(16.0),
-              topRight: Radius.circular(16.0),
-            ),
-            color: Color(0xff232f34),
+            color: Color.fromRGBO(65, 65, 65, 1),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
               Container(
-                height: 36,
+                height: 40,
+                color: Color.fromRGBO(65, 65, 65, 1),
+                padding: EdgeInsets.only(left: 10),
+                child: Text(
+                  "${day.toString().split("-")[1]}월  ${day.toString().split("-")[2].split(" ")[0]}일 ",
+                  style: TextStyle(
+                    color: Color.fromRGBO(147, 147, 147, 1),
+                    fontSize: 20,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                alignment: Alignment.centerLeft,
               ),
               SizedBox(
-                  height: (45 * 6).toDouble(), //안쪽 컨테이너 높이
+                  height:
+                      MediaQuery.of(context).size.height * 0.485, //안쪽 컨테이너 높이
                   child: Container(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(16.0),
-                          topRight: Radius.circular(16.0),
-                        ),
-                        color: Color(0xff344955),
-                      ),
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(16.0),
+                            topRight: Radius.circular(16.0),
+                          ),
+                          color: Color.fromRGBO(65, 65, 65, 1)),
                       child: Stack(
                         alignment: Alignment(0, 0),
                         overflow: Overflow.visible,
                         children: <Widget>[
-                          Positioned(
-                            top: -36,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(50)),
-                                  border: Border.all(
-                                      color: Color(0xff232f34), width: 10)),
-                              child: Center(
-                                child: ClipOval(
-                                  child: Image.asset(
-                                    "assets/images/HA/yang2.jpg", //중간 아이콘 사진
-                                    fit: BoxFit.cover,
-                                    height: 36,
-                                    width: 36,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
                           Positioned(
                             child: GestureDetector(
                               child: ListView.builder(
@@ -124,7 +112,8 @@ void showmenu(DateTime day, Map<DateTime, List> _allEvents,
                                     } else {
                                       // 0,짝수번째 index만 listTile만들기
                                       return SwipeActionCell(
-                                          backgroundColor: Color(0xff344955),
+                                          backgroundColor:
+                                              Color.fromRGBO(65, 65, 65, 1),
                                           key: ValueKey(i),
                                           index: i,
                                           controller: swipecontroller,
@@ -159,12 +148,21 @@ void showmenu(DateTime day, Map<DateTime, List> _allEvents,
                                           ],
                                           child: ListTile(
                                             leading: Icon(
-                                                Icons.calendar_today_outlined),
+                                              Icons.calendar_today_outlined,
+                                              color: Color.fromRGBO(
+                                                  147, 147, 147, 1),
+                                            ),
                                             title: Text(
-                                                //이벤트 짝수 인덱스만 출력
-                                                "${_allEvents[DateTime.parse(day.toString().replaceAll("12", "00").replaceAll("Z", ""))][i]}"),
-                                            trailing: Icon(Icons
-                                                .arrow_forward_ios_rounded),
+                                              //이벤트 짝수 인덱스만 출력
+                                              "${_allEvents[DateTime.parse(day.toString().replaceAll("12", "00").replaceAll("Z", ""))][i]}",
+                                              style: TextStyle(
+                                                  color: Colors.white70),
+                                            ),
+                                            trailing: Icon(
+                                              Icons.arrow_forward_ios_rounded,
+                                              color: Color.fromRGBO(
+                                                  147, 147, 147, 1),
+                                            ),
                                             onTap: () {
                                               // print("object");
                                               Navigator.push(
@@ -187,11 +185,6 @@ void showmenu(DateTime day, Map<DateTime, List> _allEvents,
                           )
                         ],
                       ))),
-              Container(
-                //일정알림창에 밑에 있는 의미없는박스 , 지워봤는데 안이뻐서 다시넣음
-                height: 56,
-                color: Color(0xff4a6572),
-              )
             ],
           ),
         );
