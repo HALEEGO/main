@@ -74,13 +74,14 @@ void showmenu(DateTime day, Map<DateTime, List> _allEvents,
               Container(
                 height: 40,
                 color: Color.fromRGBO(65, 65, 65, 1),
-                padding: EdgeInsets.only(left: 5),
+                padding: EdgeInsets.only(left: 10),
                 child: Text(
                   "${day.toString().split("-")[1]}월  ${day.toString().split("-")[2].split(" ")[0]}일 ",
                   style: TextStyle(
                     color: Color.fromRGBO(147, 147, 147, 1),
                     fontSize: 20,
                   ),
+                  textAlign: TextAlign.center,
                 ),
                 alignment: Alignment.centerLeft,
               ),
@@ -155,9 +156,7 @@ void showmenu(DateTime day, Map<DateTime, List> _allEvents,
                                               //이벤트 짝수 인덱스만 출력
                                               "${_allEvents[DateTime.parse(day.toString().replaceAll("12", "00").replaceAll("Z", ""))][i]}",
                                               style: TextStyle(
-                                                color: Color.fromRGBO(
-                                                    147, 147, 147, 1),
-                                              ),
+                                                  color: Colors.white70),
                                             ),
                                             trailing: Icon(
                                               Icons.arrow_forward_ios_rounded,

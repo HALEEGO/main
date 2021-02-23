@@ -49,25 +49,27 @@ class _CalendarState extends State<Calendar> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      body: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          FutureBuilder(
-            future: searchcalendar(id),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return buildTableCalendarWithBuilders(_calendarController,
-                    _animationController, context, id, swipecontroller);
-              } else {
-                return Expanded(
-                    child: Container(
-                  alignment: Alignment.center,
-                  child: CircularProgressIndicator(),
-                ));
-              }
-            },
-          )
-        ],
+      body: Container(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            FutureBuilder(
+              future: searchcalendar(id),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return buildTableCalendarWithBuilders(_calendarController,
+                      _animationController, context, id, swipecontroller);
+                } else {
+                  return Expanded(
+                      child: Container(
+                    alignment: Alignment.center,
+                    child: CircularProgressIndicator(),
+                  ));
+                }
+              },
+            )
+          ],
+        ),
       ),
     ));
   }

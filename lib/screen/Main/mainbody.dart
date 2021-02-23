@@ -58,20 +58,20 @@ class _MainBodyState extends State<MainBody> {
       onWillPop: _onbackpressed,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.white10,
           leading: Icon(
             Icons.calendar_today_sharp,
-            color: kPrimaryColor,
+            color: Colors.white60,
           ),
           title: Text(
             '${widget.id}의' + '\n' + 'SNS CALENDAR',
-            style: TextStyle(color: kPrimaryColor),
+            style: TextStyle(color: Colors.white60),
           ),
           actions: [
             IconButton(
               icon: Icon(
                 Icons.add_circle_outline,
-                color: kPrimaryColor,
+                color: Colors.red[400],
               ),
               onPressed: () {
                 Navigator.push(
@@ -90,7 +90,7 @@ class _MainBodyState extends State<MainBody> {
             IconButton(
                 icon: Icon(
                   Icons.person_pin_outlined,
-                  color: kPrimaryColor,
+                  color: Colors.red[400],
                 ),
                 onPressed: () {
                   Navigator.push(
@@ -104,9 +104,9 @@ class _MainBodyState extends State<MainBody> {
         ),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.grey,
+          backgroundColor: Colors.white10,
           selectedItemColor: Colors.white,
-          unselectedItemColor: Colors.white.withOpacity(.60),
+          unselectedItemColor: Colors.white38,
           selectedFontSize: 14,
           unselectedFontSize: 10,
           currentIndex: _selectedIndex, //현재 선택된 Index
