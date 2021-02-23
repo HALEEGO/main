@@ -93,7 +93,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                       Text(
                         'CHANGE PASSWORD PAGE',
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20),
                       ),
                       SizedBox(height: 60),
                       Container(
@@ -117,12 +119,22 @@ class _ChangePasswordState extends State<ChangePassword> {
                             SizedBox(height: 10),
                             Text(
                               '《 $id, Enter your new PASSWORD 》\n',
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
                             ),
                             Text(
-                                '※ If you don\'t want to change, press back button\n'),
-                            Text('※ Password range is 2 to 8\n'),
-                            Text('※ 상기내용을 읽고 이해하였으며 이에 동의합니다.')
+                              '※ If you don\'t want to change, press back button\n',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            Text(
+                              '※ Password range is 2 to 8\n',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            Text(
+                              '※ 상기내용을 읽고 이해하였으며 이에 동의합니다.',
+                              style: TextStyle(color: Colors.white),
+                            )
                           ],
                         ),
                         // margin: const EdgeInsets.only(top: 25),
@@ -130,7 +142,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                         height: size.height * 0.52,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black, width: 0.4),
+                          color: Colors.white10,
+                          border: Border.all(color: Colors.white30, width: 0.4),
                           borderRadius: BorderRadius.all(Radius.circular(20)),
                         ),
                       ),
