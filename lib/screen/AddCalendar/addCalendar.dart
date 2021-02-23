@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:calendar/constants.dart';
 import 'package:calendar/screen/AddCalendar/Function/withFriend.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
@@ -120,21 +121,29 @@ class _AddCalendarState extends State<AddCalendar> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white10,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.white70,
+          ),
           onPressed: () {
             Navigator.pop(context); // 뒤로가기
           },
         ),
         title: Text(
           '$title',
+          style: TextStyle(color: Colors.white70),
         ),
         centerTitle: true,
         actions: [
           calendarNUM == null || write
               ? SizedBox()
               : IconButton(
-                  icon: Icon(Icons.arrow_forward),
+                  icon: Icon(
+                    Icons.arrow_forward,
+                    color: Colors.white70,
+                  ),
                   onPressed: () {
                     print(userIDK);
                     Navigator.push(
@@ -156,9 +165,12 @@ class _AddCalendarState extends State<AddCalendar> {
                                 )));
                   }),
           calendarNUM == null
-              ? Icon(Icons.ac_unit)
+              ? SizedBox()
               : IconButton(
-                  icon: Icon(Icons.add_circle_outline),
+                  icon: Icon(
+                    Icons.add_circle_outline,
+                    color: Colors.red,
+                  ),
                   onPressed: () {
                     isMe(id);
                     if (tmp) {
@@ -192,22 +204,26 @@ class _AddCalendarState extends State<AddCalendar> {
                   physics: BouncingScrollPhysics(),
                   children: <Widget>[
                     TextFormField(
+                      style: TextStyle(color: Colors.white, fontSize: 20),
                       maxLength: 20,
+                      cursorColor: Colors.white,
                       controller: scheduleTYPEcontroller,
                       enabled: write,
                       decoration: InputDecoration(
-                        labelText: '일정제목',
-                        labelStyle: TextStyle(
-                          color: Colors.grey[900],
-                          fontSize: 12,
-                        ),
-                        icon: Icon(
-                          Icons.title,
-                        ),
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey[900]),
-                        ),
-                      ),
+                          labelText: '일정제목',
+                          labelStyle: TextStyle(
+                            color: Colors.white70,
+                            fontSize: 12,
+                          ),
+                          icon: Icon(
+                            Icons.title,
+                            color: Colors.white70,
+                          ),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white10),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white))),
                       onSaved: (val) {
                         scheduleTYPE = scheduleTYPEcontroller.text;
                         print(scheduleTYPE);
@@ -221,21 +237,24 @@ class _AddCalendarState extends State<AddCalendar> {
                     ),
                     TextFormField(
                       maxLength: 20,
+                      style: TextStyle(color: Colors.white, fontSize: 20),
                       controller: scheduleDETAILcontroller,
                       enabled: write,
                       decoration: InputDecoration(
-                        labelText: '일정내용',
-                        labelStyle: TextStyle(
-                          color: Colors.grey[900],
-                          fontSize: 12,
-                        ),
-                        icon: Icon(
-                          Icons.title,
-                        ),
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey[900]),
-                        ),
-                      ),
+                          labelText: '일정내용',
+                          labelStyle: TextStyle(
+                            color: Colors.white70,
+                            fontSize: 12,
+                          ),
+                          icon: Icon(
+                            Icons.library_books_outlined,
+                            color: Colors.white70,
+                          ),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white10),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white))),
                       onSaved: (val) {
                         scheduleDETAIL = scheduleDETAILcontroller.text;
                         print(scheduleDETAIL);
@@ -248,22 +267,25 @@ class _AddCalendarState extends State<AddCalendar> {
                       },
                     ),
                     TextFormField(
+                      style: TextStyle(color: Colors.white, fontSize: 20),
                       maxLength: 20,
                       controller: scheduleLOCATIONcontroller,
                       enabled: write,
                       decoration: InputDecoration(
-                        labelText: '위치',
-                        labelStyle: TextStyle(
-                          color: Colors.grey[900],
-                          fontSize: 12,
-                        ),
-                        icon: Icon(
-                          Icons.title,
-                        ),
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey[900]),
-                        ),
-                      ),
+                          labelText: '위치',
+                          labelStyle: TextStyle(
+                            color: Colors.white70,
+                            fontSize: 12,
+                          ),
+                          icon: Icon(
+                            Icons.location_on_outlined,
+                            color: Colors.white70,
+                          ),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white10),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white))),
                       onSaved: (val) {
                         scheduleLOCATION = scheduleLOCATIONcontroller.text;
                         print(scheduleLOCATION);
@@ -276,15 +298,19 @@ class _AddCalendarState extends State<AddCalendar> {
                       },
                     ),
                     ListTile(
-                      leading: Icon(Icons.timer),
+                      leading: Icon(
+                        Icons.timer,
+                        color: Colors.white70,
+                      ),
                       title: Text(
                         '하루종일',
                         style: TextStyle(
-                          color: Colors.grey[900],
+                          color: Colors.white70,
                           fontSize: 12,
                         ),
                       ),
                       trailing: Switch(
+                        activeColor: Colors.green[600],
                         value: allDaySwitch,
                         onChanged: (value) {
                           if (write) {
@@ -296,15 +322,19 @@ class _AddCalendarState extends State<AddCalendar> {
                       ),
                     ),
                     ListTile(
-                      leading: Icon(Icons.timer),
+                      leading: Icon(
+                        Icons.timer,
+                        color: Colors.white70,
+                      ),
                       title: Text(
                         '종료시간 설정하기',
                         style: TextStyle(
-                          color: Colors.grey[900],
+                          color: Colors.white70,
                           fontSize: 12,
                         ),
                       ),
                       trailing: Switch(
+                        activeColor: Colors.green[600],
                         value: endTimeisSwitch,
                         onChanged: (value) {
                           if (write) {
@@ -321,6 +351,7 @@ class _AddCalendarState extends State<AddCalendar> {
                           flex: 1,
                           child: Icon(
                             Icons.schedule,
+                            color: Colors.white70,
                           ),
                         ),
                         Expanded(
@@ -331,11 +362,20 @@ class _AddCalendarState extends State<AddCalendar> {
                             },
                             child: AbsorbPointer(
                               child: TextFormField(
+                                style: TextStyle(color: Colors.white),
                                 controller: datecontroller,
                                 decoration: InputDecoration(
-                                  labelText: '날짜선택',
-                                  filled: true,
-                                ),
+                                    labelText: '날짜선택',
+                                    labelStyle:
+                                        TextStyle(color: Colors.white70),
+                                    filled: true,
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.white10),
+                                    ),
+                                    focusedBorder: UnderlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.white))),
                                 onSaved: (val) {
                                   scheduleDATE = datecontroller.text;
                                   print(scheduleDATE);
@@ -360,6 +400,7 @@ class _AddCalendarState extends State<AddCalendar> {
                                 flex: 1,
                                 child: Icon(
                                   Icons.schedule,
+                                  color: Colors.white70,
                                 ),
                               ),
                               Expanded(
@@ -370,11 +411,20 @@ class _AddCalendarState extends State<AddCalendar> {
                                   },
                                   child: AbsorbPointer(
                                     child: TextFormField(
+                                      style: TextStyle(color: Colors.white),
                                       controller: starttimecontroller,
                                       decoration: InputDecoration(
-                                        labelText: '시작시간선택',
-                                        filled: true,
-                                      ),
+                                          labelText: '시작시간선택',
+                                          labelStyle:
+                                              TextStyle(color: Colors.white70),
+                                          filled: true,
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Colors.white10),
+                                          ),
+                                          focusedBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.white))),
                                       onSaved: (val) {
                                         startTIME = starttimecontroller.text;
                                         print(startTIME);
@@ -398,6 +448,7 @@ class _AddCalendarState extends State<AddCalendar> {
                                 flex: 1,
                                 child: Icon(
                                   Icons.schedule,
+                                  color: Colors.white70,
                                 ),
                               ),
                               Expanded(
@@ -408,11 +459,20 @@ class _AddCalendarState extends State<AddCalendar> {
                                   },
                                   child: AbsorbPointer(
                                     child: TextFormField(
+                                      style: TextStyle(color: Colors.white),
                                       controller: finishtimecontroller,
                                       decoration: InputDecoration(
-                                        labelText: '종료시간선택',
-                                        filled: true,
-                                      ),
+                                          labelText: '종료시간선택',
+                                          filled: true,
+                                          labelStyle:
+                                              TextStyle(color: Colors.white70),
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Colors.white10),
+                                          ),
+                                          focusedBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.white))),
                                       onSaved: (val) {
                                         finishTIME = finishtimecontroller.text;
                                         print(startTIME);
@@ -458,7 +518,10 @@ class _AddCalendarState extends State<AddCalendar> {
                                 icon: Icon(
                                   Icons.person_add_alt_1,
                                 ),
-                                label: Text('함께하는 친구 설정하기'),
+                                label: Text(
+                                  '함께하는 친구 설정하기',
+                                  style: TextStyle(color: Colors.white70),
+                                ),
                               ),
                             ),
                           )

@@ -14,7 +14,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         color: Colors.grey,
         theme: ThemeData(
-
+          primaryColor: kPrimaryColor,
+          scaffoldBackgroundColor: Color.fromRGBO(30, 30, 30, 1),
+        ),
         home: WelcomeScreen());
   }
 }
