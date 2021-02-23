@@ -28,7 +28,8 @@ class Body extends StatelessWidget {
             children: <Widget>[
               Text(
                 "SIGNUP",
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: size.height * 0.03),
               SvgPicture.asset(

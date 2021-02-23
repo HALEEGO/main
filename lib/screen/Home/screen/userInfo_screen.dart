@@ -52,7 +52,8 @@ class _UserInfoState extends State<UserInfo> {
                   children: <Widget>[
                     Text(
                       'User Information',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
                       height: 50,
@@ -84,6 +85,8 @@ class _UserInfoState extends State<UserInfo> {
                           //   ),
                           // ),
                           Container(
+                            // width: size.width * 0.8,
+                            // color: Colors.white10,
                             child: Expanded(
                               child: Row(
                                 children: <Widget>[
@@ -94,7 +97,8 @@ class _UserInfoState extends State<UserInfo> {
                                     height: size.height * 0.14,
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.black),
+                                      color: Colors.white,
+                                      border: Border.all(color: Colors.white),
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(100)),
                                     ),
@@ -111,12 +115,14 @@ class _UserInfoState extends State<UserInfo> {
                                           Text(
                                             '$id',
                                             style: TextStyle(
+                                                color: Colors.white,
                                                 fontWeight: FontWeight.bold),
                                           ),
                                           SizedBox(height: 30),
                                           Text(
                                             '${snapshot.data}',
                                             style: TextStyle(
+                                                color: Colors.white,
                                                 fontWeight: FontWeight.bold),
                                           ),
                                         ],
@@ -176,11 +182,16 @@ class _UserInfoState extends State<UserInfo> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text('App ver 0.1'),
+                          Text(
+                            'App ver 0.1',
+                            style: TextStyle(color: Colors.white),
+                          ),
                           SizedBox(width: 5),
                           Text(
                             '문의하기',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),

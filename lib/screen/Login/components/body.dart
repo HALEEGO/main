@@ -69,7 +69,8 @@ class _BodyState extends State<Body> {
             children: <Widget>[
               Text(
                 "LOGIN",
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
               ),
               SizedBox(
                 height: size.height * 0.03,

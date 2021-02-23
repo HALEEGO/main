@@ -57,8 +57,9 @@ class _BodyState extends State<Body> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              "Welcome to SC",
-              style: TextStyle(fontWeight: FontWeight.bold),
+              "HA LEE GO",
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: size.height * 0.03),
             SvgPicture.asset(
