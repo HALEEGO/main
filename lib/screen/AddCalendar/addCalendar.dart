@@ -467,7 +467,7 @@ class _AddCalendarState extends State<AddCalendar> {
                 ),
               );
             } else {
-              return Container();
+              return Center(child: CircularProgressIndicator());
             }
           }),
     );

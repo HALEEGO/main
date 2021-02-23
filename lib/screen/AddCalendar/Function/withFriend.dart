@@ -252,9 +252,7 @@ class _WithFriendState extends State<WithFriend> {
             if (snapshot.hasData) {
               return pickedFriend(fuu, write, userIDK, calendarNUM, fuuu);
             } else {
-              return Container(
-                child: Text("aaaaaaaaaaaaaaaaaaa"),
-              );
+              return Center(child: CircularProgressIndicator());
             }
           }),
     );
