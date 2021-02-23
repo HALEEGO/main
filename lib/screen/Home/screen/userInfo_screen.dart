@@ -53,7 +53,9 @@ class _UserInfoState extends State<UserInfo> {
                     Text(
                       'User Information',
                       style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 23),
                     ),
                     SizedBox(
                       height: 50,
@@ -101,6 +103,10 @@ class _UserInfoState extends State<UserInfo> {
                                       border: Border.all(color: Colors.white),
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(100)),
+                                    ),
+                                    child: Icon(
+                                      Icons.person_outline,
+                                      size: 65,
                                     ),
                                   ),
                                   // 익명 아이콘 가득채우기 + 유저이름 뜨게하기
@@ -164,7 +170,7 @@ class _UserInfoState extends State<UserInfo> {
                       height: 5,
                     ),
                     RoundedButton(
-                      text: 'LOG OUT',
+                      text: 'LOG OUT', textColor: Colors.redAccent,
                       press: () {
                         storage.delete(key: "login");
                         Navigator.pushReplacement(

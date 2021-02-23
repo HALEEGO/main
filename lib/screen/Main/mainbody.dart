@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:calendar/constants.dart';
+import 'package:calendar/data/User.dart';
 import 'package:calendar/screen/AddCalendar/addCalendar.dart';
 import 'package:calendar/screen/Calendar/calendar.dart';
 import 'package:calendar/screen/Friend/Friend_screen.dart';
@@ -8,6 +11,7 @@ import 'package:calendar/screen/Welcome/welcome_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart';
 import '../Home/home_screen.dart';
 
 class MainBody extends StatefulWidget {
@@ -22,7 +26,7 @@ class _MainBodyState extends State<MainBody> {
   static final storage = FlutterSecureStorage();
   String userInfo;
   String id = '';
-
+  User user = User(null, null, null, null, null);
   @override
   void initState() {
     super.initState();
@@ -51,90 +55,106 @@ class _MainBodyState extends State<MainBody> {
             ));
   }
 
+  Future<String> getNameApi(id) async {
+    Response response =
+        await get("http://3.35.39.202:8000/calendar/read/user/$id");
+    var userInfo = jsonDecode(response.body);
+    print("object");
+    return userInfo["userNAME"];
+  }
+
   int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: _onbackpressed,
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white10,
-          leading: Icon(
-            Icons.calendar_today_sharp,
-            color: Colors.white60,
-          ),
-          title: Text(
-            '${widget.id}의' + '\n' + 'SNS CALENDAR',
-            style: TextStyle(color: Colors.white60),
-          ),
-          actions: [
-            IconButton(
-              icon: Icon(
-                Icons.add_circle_outline,
-                color: Colors.red[400],
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return AddCalendar(
-                        title: "일정 추가하기",
-                        id: id,
-                      );
-                    },
+    return FutureBuilder(
+        future: getNameApi(id),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return WillPopScope(
+              onWillPop: _onbackpressed,
+              child: Scaffold(
+                appBar: AppBar(
+                  backgroundColor: Colors.white10,
+                  leading: Icon(
+                    Icons.calendar_today_sharp,
+                    color: Colors.white60,
                   ),
-                );
-              },
-            ),
-            IconButton(
-                icon: Icon(
-                  Icons.person_pin_outlined,
-                  color: Colors.red[400],
+                  title: Text(
+                    '${snapshot.data}의' + '\n' + 'SNS CALENDAR',
+                    style: TextStyle(color: Colors.white60),
+                  ),
+                  actions: [
+                    IconButton(
+                      icon: Icon(
+                        Icons.add_circle_outline,
+                        color: Colors.red[400],
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return AddCalendar(
+                                title: "일정 추가하기",
+                                id: id,
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                    IconButton(
+                        icon: Icon(
+                          Icons.person_pin_outlined,
+                          color: Colors.red[400],
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => UserInfo(id: id)));
+                          //내정보 확인할 수 있는 페이지로
+                        }),
+                    Padding(padding: EdgeInsets.only(left: 10)),
+                  ],
                 ),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => UserInfo(id: id)));
-                  //내정보 확인할 수 있는 페이지로
-                }),
-            Padding(padding: EdgeInsets.only(left: 10)),
-          ],
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.white10,
-          selectedItemColor: Colors.white,
-          unselectedItemColor: Colors.white38,
-          selectedFontSize: 14,
-          unselectedFontSize: 10,
-          currentIndex: _selectedIndex, //현재 선택된 Index
-          onTap: (int index) {
-            setState(() {
-              _selectedIndex = index;
-            });
-          },
-          items: [
-            BottomNavigationBarItem(
-              title: Text('HOME'),
-              icon: Icon(Icons.home),
-            ),
-            BottomNavigationBarItem(
-              title: Text('FRIEND'),
-              icon: Icon(Icons.people),
-            ),
-            BottomNavigationBarItem(
-              title: Text('CALENDAR'),
-              icon: Icon(Icons.calendar_today),
-            ),
-          ],
-        ),
-        body: Center(
-          child: _widgetOptions.elementAt(_selectedIndex),
-        ),
-      ),
-    );
+                bottomNavigationBar: BottomNavigationBar(
+                  type: BottomNavigationBarType.fixed,
+                  backgroundColor: Colors.white10,
+                  selectedItemColor: Colors.white,
+                  unselectedItemColor: Colors.white38,
+                  selectedFontSize: 14,
+                  unselectedFontSize: 10,
+                  currentIndex: _selectedIndex, //현재 선택된 Index
+                  onTap: (int index) {
+                    setState(() {
+                      _selectedIndex = index;
+                    });
+                  },
+                  items: [
+                    BottomNavigationBarItem(
+                      title: Text('HOME'),
+                      icon: Icon(Icons.home),
+                    ),
+                    BottomNavigationBarItem(
+                      title: Text('FRIEND'),
+                      icon: Icon(Icons.people),
+                    ),
+                    BottomNavigationBarItem(
+                      title: Text('CALENDAR'),
+                      icon: Icon(Icons.calendar_today),
+                    ),
+                  ],
+                ),
+                body: Center(
+                  child: _widgetOptions.elementAt(_selectedIndex),
+                ),
+              ),
+            );
+          } else {
+            return new Container();
+          }
+        });
   }
 
   List _widgetOptions = [
