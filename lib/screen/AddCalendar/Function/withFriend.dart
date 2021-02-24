@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:calendar/constants.dart';
 import 'package:calendar/data/Calendar.dart';
 import 'package:calendar/screen/Main/mainmenu.dart';
 import 'package:flutter/material.dart';
@@ -64,9 +65,13 @@ class _WithFriendState extends State<WithFriend> {
   Widget pickedFriend(friendList, write, userIDK, calendarNUM, fuuu) {
     int tmp = 0;
 
+    print(friendList);
     friendList == null ? tmp = 0 : tmp = friendList.length;
+    print("samfklamklamdldkmlgdsm");
+    print(fuuu);
     if (write) {
       if (calendarNUM != null) {
+        print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         return ListView.builder(
             physics: BouncingScrollPhysics(),
             itemCount: tmp,
@@ -91,7 +96,10 @@ class _WithFriendState extends State<WithFriend> {
                   });
                 },
                 controlAffinity: ListTileControlAffinity.leading,
-                title: Text("${friendList[i]["userNAME"]}"),
+                title: Text(
+                  "${friendList[i]["userNAME"]}",
+                  style: TextStyle(color: Colors.white),
+                ),
               );
             });
       } else {
@@ -103,6 +111,8 @@ class _WithFriendState extends State<WithFriend> {
               _friend.add("${friendList[i]["userID"]}");
               print("리뷰빌더 : $friendList[i]");
               return CheckboxListTile(
+                checkColor: Colors.yellow[400],
+                activeColor: Colors.white10,
                 value: _isChecked[i],
                 onChanged: (value) {
                   setState(() {
@@ -110,7 +120,8 @@ class _WithFriendState extends State<WithFriend> {
                   });
                 },
                 controlAffinity: ListTileControlAffinity.leading,
-                title: Text("${friendList[i]["userNAME"]}"),
+                title: Text("${friendList[i]["userNAME"]}",
+                    style: TextStyle(color: Colors.white70)),
               );
             });
       }
@@ -123,13 +134,22 @@ class _WithFriendState extends State<WithFriend> {
           if (friendList[i]["userIDK"] == userIDK) {
             print("$userIDK");
             return ListTile(
-              title: Text("${friendList[i]["userNAME"]}"),
-              trailing: Icon(Icons.person_outline),
+              title: Text(
+                "${friendList[i]["userNAME"]}",
+                style: TextStyle(color: Colors.white70),
+              ),
+              trailing: Icon(
+                Icons.person_outline,
+                color: Colors.white70,
+              ),
             );
           } else {
             print("$userIDK");
             return ListTile(
-              title: Text("${friendList[i]["userNAME"]}"),
+              title: Text(
+                "${friendList[i]["userNAME"]},",
+                style: TextStyle(color: Colors.white70),
+              ),
             );
           }
         },
@@ -195,7 +215,7 @@ class _WithFriendState extends State<WithFriend> {
     super.initState();
     id = widget.id;
     print(
-        "withFriend 의 intitState의 calendarNUM, scheduleTYPE : $calendarNUM , $scheduleTYPE");
+        "withFriend 의 intitState의 calendarNUM, scheduleTYPE : ${widget.calendarNUM} , $scheduleTYPE");
     print("withFriend 의 intitState의  : $id");
     calendarNUM = widget.calendarNUM;
     scheduleTYPE = widget.scheduleTYPE;
@@ -215,12 +235,29 @@ class _WithFriendState extends State<WithFriend> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: write ? Text("친구선택") : Text("함께하는 친구"),
+        leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.white70,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            }),
+        backgroundColor: Colors.white10,
+        title: write
+            ? Text(
+                "친구선택",
+                style: TextStyle(color: Colors.white70),
+              )
+            : Text("함께하는 친구", style: TextStyle(color: Colors.white70)),
         centerTitle: true,
         actions: [
           write
               ? IconButton(
-                  icon: Icon(Icons.save),
+                  icon: Icon(
+                    Icons.save,
+                    color: Colors.red[600],
+                  ),
                   onPressed: () {
                     addwithFriend(_isChecked, _friend);
                     submit(
@@ -241,7 +278,7 @@ class _WithFriendState extends State<WithFriend> {
                                 Mainmenu(id: id)),
                         (route) => false);
                   })
-              : Icon(Icons.access_alarm_rounded),
+              : SizedBox(),
         ],
       ),
       body: FutureBuilder(
