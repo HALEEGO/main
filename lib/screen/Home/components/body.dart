@@ -54,7 +54,7 @@ class _BodyState extends State<Body> {
               height: size.height * 0.35,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.black, width: 0.4),
+                border: Border.all(color: Colors.white, width: 0.4),
                 borderRadius: BorderRadius.all(Radius.circular(20)),
               ),
               child: Column(
@@ -66,11 +66,12 @@ class _BodyState extends State<Body> {
                     height: size.height * 0.07,
                     decoration: BoxDecoration(
                       border: Border(
-                          bottom: BorderSide(color: Colors.black, width: 0.3)),
+                          bottom: BorderSide(color: Colors.white, width: 0.3)),
                     ),
                     child: Text(
                       "오늘의 TODO",
-                      style: TextStyle(fontWeight: FontWeight.w400),
+                      style: TextStyle(
+                          fontWeight: FontWeight.w400, color: Colors.white),
                     ),
                   ),
                   Container(
@@ -81,8 +82,9 @@ class _BodyState extends State<Body> {
                             future: fetchedCalendar,
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
-                                return (snapshot.data.length == 0)
-                                    ? Text("일정이 없네요 ^^7")
+                                return snapshot.data.length == 0
+                                    ? Text("일정이 없네요 ^^7",
+                                        style: TextStyle(color: Colors.white))
                                     : ListView.separated(
                                         physics: BouncingScrollPhysics(),
                                         itemCount: snapshot.data.length,
@@ -90,11 +92,18 @@ class _BodyState extends State<Body> {
                                             (BuildContext context, int i) {
                                           return ListTile(
                                             leading: Text(
-                                                snapshot.data[i].getStartTIME),
+                                                snapshot.data[i].getStartTIME,
+                                                style: TextStyle(
+                                                    color: Colors.white)),
                                             title: Text(
-                                                snapshot.data[i].getFinishTIME),
-                                            trailing: Text(snapshot
-                                                .data[i].getScheduleTYPE),
+                                                snapshot.data[i].getFinishTIME,
+                                                style: TextStyle(
+                                                    color: Colors.white)),
+                                            trailing: Text(
+                                                snapshot
+                                                    .data[i].getScheduleTYPE,
+                                                style: TextStyle(
+                                                    color: Colors.white)),
                                           );
                                         },
                                         separatorBuilder:
@@ -122,7 +131,8 @@ class _BodyState extends State<Body> {
               //     border: Border.all(width: 1, color: Colors.black)),
               child: Text(
                 "일정",
-                style: TextStyle(fontWeight: FontWeight.w400),
+                style:
+                    TextStyle(fontWeight: FontWeight.w400, color: Colors.white),
               ),
             ),
             Container(
@@ -134,11 +144,12 @@ class _BodyState extends State<Body> {
                   itemBuilder: (context, int indexx) {
                     return new Container(
                       margin: const EdgeInsets.only(left: 10, right: 10),
-                      width: 300,
-                      height: 100,
+                      width: size.width * 0.7,
+                      height: size.height * 0.3,
                       decoration: BoxDecoration(
                         border: Border.all(width: 0.3),
                         borderRadius: BorderRadius.all(Radius.circular(20)),
+                        color: Colors.white,
                       ),
                       child: Column(children: [
                         Container(
@@ -148,18 +159,20 @@ class _BodyState extends State<Body> {
                           alignment: Alignment.topLeft,
                           decoration:
                               BoxDecoration(border: Border.all(width: 0.3)),
-                          child: Text("$monthstamp월 ${todaystamp + indexx}일"),
+                          child: Text("$monthstamp월 ${todaystamp + indexx}일",
+                              style: TextStyle(color: Colors.white)),
                         ),
-                        ListView.builder(
-                            physics: BouncingScrollPhysics(),
-                            itemCount: 5,
-                            itemBuilder: (context, int index) {
-                              return ListTile(
-                                leading: Icon(Icons.ac_unit),
-                                title: Text("data"),
-                                trailing: Icon(Icons.ac_unit_outlined),
-                              );
-                            })
+                        Container(
+                            child: ListView.builder(
+                                physics: BouncingScrollPhysics(),
+                                itemCount: 5,
+                                itemBuilder: (context, int index) {
+                                  return ListTile(
+                                    leading: Icon(Icons.ac_unit),
+                                    title: Text("data"),
+                                    trailing: Icon(Icons.ac_unit_outlined),
+                                  );
+                                }))
                       ]),
                     ); // 여기임
                   }),
