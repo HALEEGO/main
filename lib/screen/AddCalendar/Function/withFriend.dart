@@ -65,9 +65,13 @@ class _WithFriendState extends State<WithFriend> {
   Widget pickedFriend(friendList, write, userIDK, calendarNUM, fuuu) {
     int tmp = 0;
 
+    print(friendList);
     friendList == null ? tmp = 0 : tmp = friendList.length;
+    print("samfklamklamdldkmlgdsm");
+    print(fuuu);
     if (write) {
       if (calendarNUM != null) {
+        print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         return ListView.builder(
             physics: BouncingScrollPhysics(),
             itemCount: tmp,
@@ -211,7 +215,7 @@ class _WithFriendState extends State<WithFriend> {
     super.initState();
     id = widget.id;
     print(
-        "withFriend 의 intitState의 calendarNUM, scheduleTYPE : $calendarNUM , $scheduleTYPE");
+        "withFriend 의 intitState의 calendarNUM, scheduleTYPE : ${widget.calendarNUM} , $scheduleTYPE");
     print("withFriend 의 intitState의  : $id");
     calendarNUM = widget.calendarNUM;
     scheduleTYPE = widget.scheduleTYPE;
@@ -231,10 +235,14 @@ class _WithFriendState extends State<WithFriend> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(
-          Icons.arrow_back,
-          color: Colors.white70,
-        ),
+        leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.white70,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            }),
         backgroundColor: Colors.white10,
         title: write
             ? Text(
