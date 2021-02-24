@@ -18,17 +18,19 @@ class Background extends StatelessWidget {
         alignment: Alignment.center,
         children: <Widget>[
           Positioned(
-            top: 0,
+            top: -50,
             left: 0,
-            child: Image.asset("assets/images/HA/song2.jpg",
-                width: size.width * 0.3),
+            child: Image.asset(
+              "assets/images/HA/song2.jpg",
+              width: size.width * 1,
+            ),
           ),
           Positioned(
             bottom: 0,
             left: 0,
             child: Image.asset(
               "assets/images/HA/songE.jpg",
-              width: size.width * 0.3,
+              width: size.width * 1,
             ),
           ),
           child,

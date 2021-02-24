@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:calendar/constants.dart';
+import 'package:calendar/data/User.dart';
 import 'package:calendar/screen/AddCalendar/addCalendar.dart';
 import 'package:calendar/screen/Calendar/calendar.dart';
 import 'package:calendar/screen/Friend/Friend_screen.dart';
@@ -8,6 +11,7 @@ import 'package:calendar/screen/Welcome/welcome_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart';
 import '../Home/home_screen.dart';
 
 class MainBody extends StatefulWidget {
@@ -22,7 +26,7 @@ class _MainBodyState extends State<MainBody> {
   static final storage = FlutterSecureStorage();
   String userInfo;
   String id = '';
-
+  User user = User(null, null, null, null, null);
   @override
   void initState() {
     super.initState();
@@ -51,14 +55,21 @@ class _MainBodyState extends State<MainBody> {
             ));
   }
 
+  Future<String> getNameApi(id) async {
+    Response response =
+        await get("http://3.35.39.202:8000/calendar/read/user/$id");
+    var userInfo = jsonDecode(response.body);
+    print("object");
+    return userInfo["userNAME"];
+  }
+
   int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
+
     return WillPopScope(
       onWillPop: _onbackpressed,
       child: Scaffold(
-
-=======
         appBar: (_selectedIndex == 1)
             ? AppBar(
                 backgroundColor: Colors.white,
