@@ -190,15 +190,49 @@ class _UserInfoState extends State<UserInfo> {
                         children: [
                           Text(
                             'App ver 0.1',
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(color: Colors.white60),
                           ),
                           SizedBox(width: 5),
-                          Text(
-                            '문의하기',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
+                          GestureDetector(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  Widget okButton = FlatButton(
+                                    child: Text("OK"),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                  );
+                                  return AlertDialog(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0)),
+                                    title: new Text(
+                                      "DEVELOPOER",
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    content: SingleChildScrollView(
+                                        child: new Text(
+                                      "\n\n010-3625-1217",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold),
+                                    )),
+                                    actions: [okButton],
+                                  );
+                                },
+                              );
+                            },
+                            child: Text(
+                              '문의하기',
+                              style: TextStyle(
+                                  color: Colors.white70,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14),
+                            ),
+                          )
                         ],
                       ),
                     )
