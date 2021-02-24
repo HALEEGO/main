@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:calendar/components/ok_notice.dart';
 import 'package:calendar/constants.dart';
 import 'package:calendar/data/User.dart';
 import 'package:calendar/screen/AddCalendar/addCalendar.dart';
@@ -94,23 +95,13 @@ class _MainBodyState extends State<MainBody> {
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    backgroundColor: Colors.blueGrey[800],
-                                    title: new Text(
-                                      "친추",
-                                      style: TextStyle(color: Colors.white70),
-                                    ),
-                                    content: SingleChildScrollView(
-                                        child: new Text(
-                                      "예정",
-                                      style: TextStyle(color: Colors.white70),
-                                    )),
+                                  return Ok(
+                                    titleText: 'test',
+                                    bodyText: 'please',
                                   );
                                 },
                               );
+                              //
                             },
                           ),
                         ],
