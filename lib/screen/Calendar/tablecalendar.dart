@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:calendar/screen/Calendar/Function/showmenu.dart';
 import 'package:calendar/screen/Calendar/design.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 import 'package:table_calendar/table_calendar.dart';
 import './Function/APIget.dart';
 
@@ -54,9 +55,19 @@ Widget buildTableCalendarWithBuilders(
       weekendStyle: TextStyle().copyWith(color: Colors.red),
     ),
     headerStyle: HeaderStyle(
+      titleTextStyle: TextStyle(color: Colors.white70),
       centerHeaderTitle: true, //년 , 월 중간에
       formatButtonVisible: false, //병찬이가 좋아하던 버튼 없앰
+      leftChevronIcon: Icon(
+        Icons.chevron_left,
+        color: Colors.white60,
+      ),
+      rightChevronIcon: Icon(
+        Icons.chevron_right,
+        color: Colors.white60,
+      ),
     ),
+
     builders: CalendarBuilders(
       selectedDayBuilder: (context, date, _) {
         if (_calendarController.isToday(date)) {
@@ -74,8 +85,12 @@ Widget buildTableCalendarWithBuilders(
               height: 100,
               child: Text(
                 '${date.day}',
-                style: TextStyle().copyWith(fontSize: 16.0),
+                style:
+                    TextStyle(color: Colors.white70).copyWith(fontSize: 16.0),
               ),
+              decoration: BoxDecoration(
+                  border: Border(
+                      bottom: BorderSide(width: 0.1, color: Colors.white70))),
             ),
           );
         }

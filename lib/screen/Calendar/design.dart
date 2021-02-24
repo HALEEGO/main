@@ -41,11 +41,10 @@ Widget dayBuilder(date) {
     height: 100,
     child: Text(
       '${date.day}',
-      style: TextStyle().copyWith(fontSize: 16.0),
+      style: TextStyle(color: Colors.white70).copyWith(fontSize: 16.0),
     ),
     decoration: BoxDecoration(
-        border:
-            Border(bottom: BorderSide(color: Colors.grey[900], width: 0.2))),
+        border: Border(bottom: BorderSide(color: Colors.white70, width: 0.2))),
   );
 }
 
@@ -58,14 +57,12 @@ Widget weekendDayBuilder(date) {
     height: 100,
     child: Text(
       '${date.day}',
-      style: TextStyle().copyWith(
+      style: TextStyle(color: Colors.red[400]).copyWith(
         fontSize: 16.0,
-        color: Colors.red,
       ),
     ),
     decoration: BoxDecoration(
-        border:
-            Border(bottom: BorderSide(color: Colors.grey[900], width: 0.2))),
+        border: Border(bottom: BorderSide(color: Colors.white70, width: 0.2))),
   );
 }
 
@@ -78,9 +75,8 @@ Widget outsideDayBuilder(date) {
     height: 100,
     child: Text(
       '${date.day}',
-      style: TextStyle().copyWith(
+      style: TextStyle(color: Colors.white30).copyWith(
         fontSize: 16.0,
-        color: Colors.black38,
       ),
     ),
     decoration: BoxDecoration(

@@ -61,7 +61,10 @@ class _ChangeNameState extends State<ChangeName> {
                   SizedBox(height: 70),
                   Text(
                     'RENAME PAGE',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20),
                   ),
                   SizedBox(height: 60),
                   Container(
@@ -77,12 +80,21 @@ class _ChangeNameState extends State<ChangeName> {
                         SizedBox(height: 10),
                         Text(
                           '《 ${snapshot.data}님, Enter your new name 》\n',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
                         ),
                         Text(
-                            '※ If you don\'t want to change, press back button\n'),
-                        Text('※ Namelength range is 2 to 8\n'),
-                        Text('※ 상기내용을 읽고 이해하였으며 이에 동의합니다.')
+                          '※ If you don\'t want to change, press back button\n',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        Text(
+                          '※ Namelength range is 2 to 8\n',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        Text(
+                          '※ 상기내용을 읽고 이해하였으며 이에 동의합니다.',
+                          style: TextStyle(color: Colors.white),
+                        )
                       ],
                     ),
                     // margin: const EdgeInsets.only(top: 25),
@@ -90,7 +102,8 @@ class _ChangeNameState extends State<ChangeName> {
                     height: size.height * 0.42,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black, width: 0.4),
+                      color: Colors.white10,
+                      border: Border.all(color: Colors.white30, width: 0.4),
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                     ),
                   ),

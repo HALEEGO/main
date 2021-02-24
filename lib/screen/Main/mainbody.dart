@@ -57,6 +57,8 @@ class _MainBodyState extends State<MainBody> {
     return WillPopScope(
       onWillPop: _onbackpressed,
       child: Scaffold(
+
+=======
         appBar: (_selectedIndex == 1)
             ? AppBar(
                 backgroundColor: Colors.white,
@@ -96,6 +98,7 @@ class _MainBodyState extends State<MainBody> {
                 leading: Icon(
                   Icons.calendar_today_sharp,
                   color: kPrimaryColor,
+
                 ),
                 title: Text(
                   '${widget.id}의' + '\n' + 'SNS CALENDAR',
@@ -138,9 +141,9 @@ class _MainBodyState extends State<MainBody> {
               ),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.grey,
+          backgroundColor: Colors.white10,
           selectedItemColor: Colors.white,
-          unselectedItemColor: Colors.white.withOpacity(.60),
+          unselectedItemColor: Colors.white38,
           selectedFontSize: 14,
           unselectedFontSize: 10,
           currentIndex: _selectedIndex, //현재 선택된 Index
