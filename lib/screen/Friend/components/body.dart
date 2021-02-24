@@ -52,7 +52,7 @@ class _BodyState extends State<Body> {
         child: Column(children: [
       Container(
           decoration: BoxDecoration(
-            border: Border.all(color: Colors.black, width: 0.4),
+            border: Border.all(color: Colors.white, width: 0.4),
           ),
           height: 50,
           child: Row(
@@ -65,10 +65,12 @@ class _BodyState extends State<Body> {
                   },
                   child: Container(
                       decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black, width: 0.4),
+                        border: Border.all(color: Colors.white, width: 0.4),
                         borderRadius: BorderRadius.all(Radius.circular(20)),
                       ),
-                      child: Center(child: Text("Following")))),
+                      child: Center(
+                          child: Text("Following",
+                              style: TextStyle(color: Colors.white))))),
               GestureDetector(
                   onTap: () {
                     setState(() {
@@ -77,10 +79,12 @@ class _BodyState extends State<Body> {
                   },
                   child: Container(
                       decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black, width: 0.4),
+                        border: Border.all(color: Colors.white, width: 0.4),
                         borderRadius: BorderRadius.all(Radius.circular(20)),
                       ),
-                      child: Center(child: Text("Follower"))))
+                      child: Center(
+                          child: Text("Follower",
+                              style: TextStyle(color: Colors.white)))))
             ],
           )),
       Expanded(
@@ -90,15 +94,16 @@ class _BodyState extends State<Body> {
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return (snapshot.data.length == 0)
-                          ? Text("친구가 없네요 ^^7")
+                          ? Text("친구가 없네요 ^^7",
+                              style: TextStyle(color: Colors.white))
                           : ListView.separated(
                               physics: BouncingScrollPhysics(),
                               itemCount: snapshot.data.length,
                               itemBuilder: (BuildContext context, int i) {
                                 return ListTile(
                                   leading: Icon(Icons.emoji_people),
-                                  title:
-                                      Text("${snapshot.data[i].getUserNAME}"),
+                                  title: Text("${snapshot.data[i].getUserNAME}",
+                                      style: TextStyle(color: Colors.white)),
                                   trailing: DropdownButton<String>(
                                     icon: Icon(Icons.more_vert_outlined),
                                     iconSize: 24,
@@ -108,7 +113,7 @@ class _BodyState extends State<Body> {
                                     focusColor: Colors.blue,
                                     dropdownColor: Colors.white,
                                     value: dropdownValue,
-                                    style: TextStyle(color: Colors.black),
+                                    style: TextStyle(color: Colors.white),
                                     onChanged: (String newValue) {
                                       setState(() {
                                         dropdownValue = newValue;
