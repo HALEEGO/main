@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:calendar/screen/AddCalendar/addCalendar.dart';
+import 'package:calendar/screen/Home/components/planFunction.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'background.dart';
@@ -17,6 +19,7 @@ class _BodyState extends State<Body> {
   var todaystamp = DateTime.now().day;
   var monthstamp = DateTime.now().month;
   var yearstamp = DateTime.now().year;
+  var now = DateTime.now();
   String nowstamp = DateFormat('yyyy-mm-dd').format(DateTime.now());
 
   String id;
@@ -122,6 +125,7 @@ class _BodyState extends State<Body> {
                 ],
               ),
             ),
+
             Container(
               width: size.width * 0.95,
               height: size.height * 0.07,
@@ -135,48 +139,144 @@ class _BodyState extends State<Body> {
                     TextStyle(fontWeight: FontWeight.w400, color: Colors.white),
               ),
             ),
+            // FutureBuilder(
+            //   future: fivecalendar(id, "$yearstamp-$monthstamp-$todaystamp"),
+            //   builder: (context,snapshot){
+            //     if(snapshot.hasData){
+
+            //     }else{
+
+            //     }
+            //   })
             Container(
-              height: size.height * 0.35,
-              child: ListView.builder(
-                  physics: BouncingScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 5,
-                  itemBuilder: (context, int indexx) {
-                    return new Container(
-                      margin: const EdgeInsets.only(left: 10, right: 10),
-                      width: size.width * 0.7,
-                      height: size.height * 0.3,
-                      decoration: BoxDecoration(
-                        border: Border.all(width: 0.3),
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                        color: Colors.white,
-                      ),
-                      child: Column(children: [
-                        Container(
-                          padding: const EdgeInsets.only(left: 10),
-                          width: 200,
-                          height: 30,
-                          alignment: Alignment.topLeft,
-                          decoration:
-                              BoxDecoration(border: Border.all(width: 0.3)),
-                          child: Text("$monthstamp월 ${todaystamp + indexx}일",
-                              style: TextStyle(color: Colors.white)),
+                height: size.height * 0.35,
+                child: ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 5,
+                    itemBuilder: (context, int index) {
+                      return Container(
+                        margin: const EdgeInsets.only(left: 10, right: 10),
+                        width: size.width * 0.7,
+                        height: size.height * 0.3,
+                        decoration: BoxDecoration(
+                            border: Border.all(width: 0.3, color: Colors.white),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.white10,
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(20),
+                                      topRight: Radius.circular(20))),
+                              alignment: Alignment.center,
+                              width: size.width * 0.7,
+                              height: size.height * 0.05,
+                              child: Text(
+                                "data",
+                                style: TextStyle(color: Colors.white70),
+                              ),
+                            ),
+                            FutureBuilder<List<Calendar>>(
+                                future: fivecalendar(
+                                    id,
+                                    now
+                                        .add(new Duration(days: index))
+                                        .toString()
+                                        .split(" ")[0]),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Container(
+                                      height: size.height * 0.25,
+                                      child: ListView.builder(
+                                          physics: BouncingScrollPhysics(),
+                                          itemCount: snapshot.data.length == 0
+                                              ? 1
+                                              : snapshot.data.length,
+                                          itemBuilder: (context, int index2) {
+                                            if (snapshot.data.length == 0) {
+                                              return ListTile(
+                                                title: Text(
+                                                  "일정이없습니다",
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                              );
+                                            } else {
+                                              return ListTile(
+                                                title: Text(
+                                                  "${snapshot.data[index2].getScheduleTYPE}",
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                                onTap: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            AddCalendar(
+                                                                title: "일정",
+                                                                id: id,
+                                                                calendarNUM: snapshot
+                                                                    .data[
+                                                                        index2]
+                                                                    .getCalendarNUM
+                                                                    .toString()),
+                                                      ));
+                                                },
+                                              );
+                                            }
+                                          }),
+                                    );
+                                  } else {
+                                    return CircularProgressIndicator();
+                                  }
+                                }),
+                          ],
                         ),
-                        Container(
-                            child: ListView.builder(
-                                physics: BouncingScrollPhysics(),
-                                itemCount: 5,
-                                itemBuilder: (context, int index) {
-                                  return ListTile(
-                                    leading: Icon(Icons.ac_unit),
-                                    title: Text("data"),
-                                    trailing: Icon(Icons.ac_unit_outlined),
-                                  );
-                                }))
-                      ]),
-                    ); // 여기임
-                  }),
-            ) //realcon
+                      );
+                    })),
+            // child: ListView.builder(
+            //     physics: BouncingScrollPhysics(),
+            //     scrollDirection: Axis.horizontal,
+            //     itemCount: 5,
+            //     itemBuilder: (context, int indexx) {
+            //       return new Container(
+            //         margin: const EdgeInsets.only(left: 10, right: 10),
+            //         width: size.width * 0.7,
+            //         height: size.height * 0.3,
+            //         decoration: BoxDecoration(
+            //           border: Border.all(width: 0.3, color: Colors.red),
+            //           borderRadius: BorderRadius.all(Radius.circular(20)),
+            //           color: Colors.white,
+            //         ),
+            //         child: Column(children: [
+            //           Container(
+            //             padding: const EdgeInsets.only(left: 10),
+            //             width: 200,
+            //             height: 30,
+            //             alignment: Alignment.topLeft,
+            //             decoration:
+            //                 BoxDecoration(border: Border.all(width: 0.3)),
+            //             child: Text("$monthstamp월 ${todaystamp + indexx}일",
+            //                 style: TextStyle(color: Colors.white)),
+            //           ),
+            //           Container(
+            //               child: ListView.builder(
+            //                   physics: BouncingScrollPhysics(),
+            //                   itemCount: 5,
+            //                   itemBuilder: (context, int index) {
+            //                     return ListTile(
+            //                       leading: Icon(Icons.ac_unit),
+            //                       title: Text("data"),
+            //                       trailing: Icon(Icons.ac_unit_outlined),
+            //                     );
+            //                   }))
+            //         ]),
+            //       ); // 여기임
+            //     }),
           ],
         ),
       ),
