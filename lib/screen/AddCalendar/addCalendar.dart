@@ -94,10 +94,15 @@ class _AddCalendarState extends State<AddCalendar> {
       scheduleLOCATIONcontroller =
           TextEditingController(text: "${resMAP["scheduleLOCATION"]}");
       datecontroller = TextEditingController(text: "${resMAP["scheduleDATE"]}");
-      starttimecontroller =
-          TextEditingController(text: "${resMAP["startTIME"]}");
-      finishtimecontroller =
-          TextEditingController(text: "${resMAP["finishTIME"]}");
+      if (resMAP["startTIME"] != null) {
+        starttimecontroller =
+            TextEditingController(text: "${resMAP["startTIME"]}");
+      }
+      if (resMAP["finishTIME"] != null) {
+        finishtimecontroller =
+            TextEditingController(text: "${resMAP["finishTIME"]}");
+      }
+
       if (resMAP["hostNUM"] != null) {
         print(
             "kakndsalkdnsalkdnladksnldskandlaknadslkdnalkdasnlksdan $userIDK");
