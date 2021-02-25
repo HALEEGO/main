@@ -13,7 +13,12 @@ class AddCalendar extends StatefulWidget {
   final String title; //scheduleTYPE
   final String calendarNUM;
   final String id;
-  AddCalendar({@required this.title, this.calendarNUM, @required this.id});
+  final String scheduleDATE;
+  AddCalendar(
+      {@required this.title,
+      this.calendarNUM,
+      @required this.id,
+      this.scheduleDATE});
 
   @override
   _AddCalendarState createState() => _AddCalendarState();
@@ -42,6 +47,7 @@ class _AddCalendarState extends State<AddCalendar> {
     super.initState();
     title = widget.title;
     id = widget.id;
+    datecontroller = TextEditingController(text: "${widget.scheduleDATE}");
     calendar.setFriendLIST(id);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       isMe(id);
