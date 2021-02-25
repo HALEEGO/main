@@ -175,7 +175,7 @@ class _BodyState extends State<Body> {
                               width: size.width * 0.7,
                               height: size.height * 0.05,
                               child: Text(
-                                "data",
+                                "${now.add(new Duration(days: index)).toString().split("-")[1]}월 ${now.add(new Duration(days: index)).toString().split("-")[2].split(" ")[0]}일",
                                 style: TextStyle(color: Colors.white70),
                               ),
                             ),
