@@ -203,6 +203,26 @@ class _BodyState extends State<Body> {
                                                   style: TextStyle(
                                                       color: Colors.white),
                                                 ),
+                                                trailing: Icon(
+                                                  Icons
+                                                      .add_circle_outline_rounded,
+                                                  color: Colors.red[400],
+                                                ),
+                                                onTap: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) => AddCalendar(
+                                                              title: "일정 추가하기",
+                                                              id: id,
+                                                              scheduleDATE: now
+                                                                  .add(new Duration(
+                                                                      days:
+                                                                          index))
+                                                                  .toString()
+                                                                  .split(
+                                                                      " ")[0])));
+                                                },
                                               );
                                             } else {
                                               return ListTile(
@@ -238,45 +258,6 @@ class _BodyState extends State<Body> {
                         ),
                       );
                     })),
-            // child: ListView.builder(
-            //     physics: BouncingScrollPhysics(),
-            //     scrollDirection: Axis.horizontal,
-            //     itemCount: 5,
-            //     itemBuilder: (context, int indexx) {
-            //       return new Container(
-            //         margin: const EdgeInsets.only(left: 10, right: 10),
-            //         width: size.width * 0.7,
-            //         height: size.height * 0.3,
-            //         decoration: BoxDecoration(
-            //           border: Border.all(width: 0.3, color: Colors.red),
-            //           borderRadius: BorderRadius.all(Radius.circular(20)),
-            //           color: Colors.white,
-            //         ),
-            //         child: Column(children: [
-            //           Container(
-            //             padding: const EdgeInsets.only(left: 10),
-            //             width: 200,
-            //             height: 30,
-            //             alignment: Alignment.topLeft,
-            //             decoration:
-            //                 BoxDecoration(border: Border.all(width: 0.3)),
-            //             child: Text("$monthstamp월 ${todaystamp + indexx}일",
-            //                 style: TextStyle(color: Colors.white)),
-            //           ),
-            //           Container(
-            //               child: ListView.builder(
-            //                   physics: BouncingScrollPhysics(),
-            //                   itemCount: 5,
-            //                   itemBuilder: (context, int index) {
-            //                     return ListTile(
-            //                       leading: Icon(Icons.ac_unit),
-            //                       title: Text("data"),
-            //                       trailing: Icon(Icons.ac_unit_outlined),
-            //                     );
-            //                   }))
-            //         ]),
-            //       ); // 여기임
-            //     }),
           ],
         ),
       ),
