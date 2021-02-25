@@ -130,6 +130,9 @@ class _MainBodyState extends State<MainBody> {
                                     return AddCalendar(
                                       title: "일정 추가하기",
                                       id: id,
+                                      scheduleDATE: DateTime.now()
+                                          .toString()
+                                          .split(" ")[0],
                                     );
                                   },
                                 ),

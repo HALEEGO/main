@@ -20,7 +20,7 @@ class _BodyState extends State<Body> {
   var monthstamp = DateTime.now().month;
   var yearstamp = DateTime.now().year;
   var now = DateTime.now();
-  String nowstamp = DateFormat('yyyy-mm-dd').format(DateTime.now());
+  String nowstamp = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
   String id;
   String URL = "http://3.35.39.202:8000/calendar";
@@ -93,21 +93,46 @@ class _BodyState extends State<Body> {
                                         itemCount: snapshot.data.length,
                                         itemBuilder:
                                             (BuildContext context, int i) {
-                                          return ListTile(
-                                            leading: Text(
-                                                snapshot.data[i].getStartTIME,
-                                                style: TextStyle(
-                                                    color: Colors.white)),
-                                            title: Text(
-                                                snapshot.data[i].getFinishTIME,
-                                                style: TextStyle(
-                                                    color: Colors.white)),
-                                            trailing: Text(
-                                                snapshot
-                                                    .data[i].getScheduleTYPE,
-                                                style: TextStyle(
-                                                    color: Colors.white)),
-                                          );
+                                          if (snapshot.data[i].getFinishTIME ==
+                                              null) {
+                                            if (snapshot.data[i].getStartTIME ==
+                                                null) {
+                                              return ListTile(
+                                                title: Text("하루종일",
+                                                    style: TextStyle(
+                                                        color: Colors.white)),
+                                                trailing: Text(
+                                                    snapshot.data[i]
+                                                        .getScheduleTYPE,
+                                                    style: TextStyle(
+                                                        color: Colors.white)),
+                                              );
+                                            } else {
+                                              return ListTile(
+                                                title: Text(
+                                                    "${snapshot.data[i].getStartTIME}",
+                                                    style: TextStyle(
+                                                        color: Colors.white)),
+                                                trailing: Text(
+                                                    snapshot.data[i]
+                                                        .getScheduleTYPE,
+                                                    style: TextStyle(
+                                                        color: Colors.white)),
+                                              );
+                                            }
+                                          } else {
+                                            return ListTile(
+                                              title: Text(
+                                                  "${snapshot.data[i].getStartTIME}~${snapshot.data[i].getFinishTIME}",
+                                                  style: TextStyle(
+                                                      color: Colors.white)),
+                                              trailing: Text(
+                                                  snapshot
+                                                      .data[i].getScheduleTYPE,
+                                                  style: TextStyle(
+                                                      color: Colors.white)),
+                                            );
+                                          }
                                         },
                                         separatorBuilder:
                                             (BuildContext context, int i) {
@@ -125,7 +150,6 @@ class _BodyState extends State<Body> {
                 ],
               ),
             ),
-
             Container(
               width: size.width * 0.95,
               height: size.height * 0.07,
@@ -139,15 +163,6 @@ class _BodyState extends State<Body> {
                     TextStyle(fontWeight: FontWeight.w400, color: Colors.white),
               ),
             ),
-            // FutureBuilder(
-            //   future: fivecalendar(id, "$yearstamp-$monthstamp-$todaystamp"),
-            //   builder: (context,snapshot){
-            //     if(snapshot.hasData){
-
-            //     }else{
-
-            //     }
-            //   })
             Container(
                 height: size.height * 0.35,
                 child: ListView.builder(
