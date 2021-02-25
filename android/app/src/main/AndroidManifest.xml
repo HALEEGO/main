@@ -2,7 +2,7 @@
     package="com.example.amurugena">
   <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="amurugena"
+        android:label="SNS CALENDAR"
         android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true">
 

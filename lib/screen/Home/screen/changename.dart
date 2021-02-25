@@ -79,7 +79,7 @@ class _ChangeNameState extends State<ChangeName> {
                         ),
                         SizedBox(height: 10),
                         Text(
-                          '《 ${snapshot.data}님, Enter your new name 》\n',
+                          '《 ${snapshot.data}, Enter your new name 》\n',
                           style: TextStyle(
                               color: Colors.white, fontWeight: FontWeight.bold),
                         ),
@@ -110,6 +110,7 @@ class _ChangeNameState extends State<ChangeName> {
                   SizedBox(height: 30),
                   RoundedButton(
                     text: 'CHANGE',
+                    textColor: Colors.red[400],
                     press: () async {
                       reName();
                       showDialog(
