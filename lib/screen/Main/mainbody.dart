@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 import '../Home/home_screen.dart';
+import '../Friend/addFriend.dart';
 
 class MainBody extends StatefulWidget {
   final String id;
@@ -91,25 +92,15 @@ class _MainBodyState extends State<MainBody> {
                               color: Colors.red[400],
                             ),
                             onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    backgroundColor: Colors.blueGrey[800],
-                                    title: new Text(
-                                      "친추",
-                                      style: TextStyle(color: Colors.white70),
-                                    ),
-                                    content: SingleChildScrollView(
-                                        child: new Text(
-                                      "예정",
-                                      style: TextStyle(color: Colors.white70),
-                                    )),
-                                  );
-                                },
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return AddFriend(
+                                      id: id,
+                                    );
+                                  },
+                                ),
                               );
                             },
                           ),
