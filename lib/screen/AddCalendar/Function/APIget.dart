@@ -8,7 +8,6 @@ String URL = "http://3.35.39.202:8000/calendar";
 Future<List> searchFriend(id, calnum) async {
   Response response = await get("$URL/read/userfriend/$id");
   List ttemp = jsonDecode(response.body);
-  fuu.clear();
   fuu = ttemp;
   if (calnum == null) {
   } else {
