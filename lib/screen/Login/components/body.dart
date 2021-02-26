@@ -68,7 +68,7 @@ class _BodyState extends State<Body> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                "LOGIN",
+                "로그인",
                 style:
                     TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
               ),
@@ -83,7 +83,7 @@ class _BodyState extends State<Body> {
                 height: size.height * 0.03,
               ),
               RoundedInputField(
-                hintText: "Your Email",
+                hintText: "E-mail",
                 onChanged: (value) {
                   _id = value;
                 },
@@ -94,7 +94,8 @@ class _BodyState extends State<Body> {
                 },
               ),
               RoundedButton(
-                text: "SIGNIN",
+                text: "로그인",
+                textColor: Colors.red[400],
                 press: () async {
                   Response response = await get("$URL/read/user/${_id}");
                   Map<String, dynamic> userInfo = json.decode(response.body);
