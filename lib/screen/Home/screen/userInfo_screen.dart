@@ -51,7 +51,7 @@ class _UserInfoState extends State<UserInfo> {
                 child: Column(
                   children: <Widget>[
                     Text(
-                      '유저 정보',
+                      '회원 정보',
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
