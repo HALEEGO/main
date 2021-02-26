@@ -152,7 +152,7 @@ class _WithFriendState extends State<WithFriend> {
             print("$userIDK");
             return ListTile(
               title: Text(
-                "${friendList[i]["userNAME"]},",
+                "${friendList[i]["userNAME"]}",
                 style: TextStyle(color: Colors.white70),
               ),
             );
@@ -163,9 +163,6 @@ class _WithFriendState extends State<WithFriend> {
   }
 
   void addwithFriend(_isChecked, _friend) {
-    if (_pickedfriend != null) {
-      _pickedfriend.clear();
-    }
     _pickedfriend.add(id);
     for (int i = 0; i < _isChecked.length; i++) {
       if (_isChecked[i]) {
@@ -215,8 +212,6 @@ class _WithFriendState extends State<WithFriend> {
     hostNUM = widget.hostNUM;
     userIDK = widget.userIDK;
     localid = widget.localid;
-    fuu.clear();
-    fuuu.clear();
   }
 
   @override
