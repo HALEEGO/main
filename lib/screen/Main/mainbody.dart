@@ -84,7 +84,7 @@ class _MainBodyState extends State<MainBody> {
                           color: Colors.white70,
                         ),
                         title: Text(
-                          '${snapshot.data}' + '의\n' + '친구보기',
+                          '${snapshot.data}' + '의\n' + 'SNS CALENDAR',
                           style: TextStyle(color: Colors.white70),
                         ),
                         actions: [

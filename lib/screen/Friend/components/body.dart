@@ -51,7 +51,8 @@ class _BodyState extends State<Body> {
     return Background(
         child: Column(children: [
       Container(
-          height: size.height * 0.05,
+          margin: const EdgeInsets.only(top: 10),
+          height: size.height * 0.071,
           child: Row(
             children: [
               GestureDetector(
@@ -62,7 +63,7 @@ class _BodyState extends State<Body> {
                   },
                   child: (followSelect)
                       ? Container(
-                          width: size.width * 0.49,
+                          width: size.width * 0.48,
                           decoration: BoxDecoration(
                             border: Border(
                                 bottom:
@@ -74,7 +75,7 @@ class _BodyState extends State<Body> {
                                       color: Colors.white,
                                       fontSize: 17)))) //focused 됐을 때
                       : Container(
-                          width: size.width * 0.49,
+                          width: size.width * 0.48,
                           decoration: BoxDecoration(
                             border: Border(
                                 bottom:
@@ -86,7 +87,7 @@ class _BodyState extends State<Body> {
                                       color: Colors.white30,
                                       fontSize: 17))))), //!focused 됐을때
               Container(
-                width: size.width * 0.01,
+                width: size.width * 0.03,
               ),
               GestureDetector(
                   onTap: () {

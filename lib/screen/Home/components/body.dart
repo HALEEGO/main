@@ -64,7 +64,7 @@ class _BodyState extends State<Body> {
                 children: <Widget>[
                   Container(
                     alignment: Alignment.center,
-                    padding: const EdgeInsets.only(left: 15),
+                    padding: const EdgeInsets.only(left: 0),
                     width: size.width * 0.95,
                     height: size.height * 0.07,
                     decoration: BoxDecoration(
@@ -72,7 +72,7 @@ class _BodyState extends State<Body> {
                           bottom: BorderSide(color: Colors.white, width: 2)),
                     ),
                     child: Text(
-                      "오늘의 TODO",
+                      "오늘의 일정",
                       style: TextStyle(
                           fontWeight: FontWeight.w400,
                           color: Colors.white,
@@ -88,8 +88,16 @@ class _BodyState extends State<Body> {
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
                                 return snapshot.data.length == 0
-                                    ? Text("일정이 없습니다.",
-                                        style: TextStyle(color: Colors.white))
+                                    ? Container(
+                                        child: Column(
+                                        children: [
+                                          Container(height: size.height * 0.05),
+                                          Text("일정이 없습니다.",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 17))
+                                        ],
+                                      ))
                                     : ListView.separated(
                                         physics: BouncingScrollPhysics(),
                                         itemCount: snapshot.data.length,
@@ -242,7 +250,8 @@ class _BodyState extends State<Body> {
                               height: size.height * 0.05,
                               child: Text(
                                 "${now.add(new Duration(days: index)).toString().split("-")[1]}월 ${now.add(new Duration(days: index)).toString().split("-")[2].split(" ")[0]}일",
-                                style: TextStyle(color: Colors.white70),
+                                style: TextStyle(
+                                    color: Colors.white70, fontSize: 16),
                               ),
                             ),
                             FutureBuilder<List<Calendar>>(
@@ -267,7 +276,8 @@ class _BodyState extends State<Body> {
                                                 title: Text(
                                                   "일정이 없습니다",
                                                   style: TextStyle(
-                                                      color: Colors.white),
+                                                      color: Colors.white,
+                                                      fontSize: 16),
                                                 ),
                                                 trailing: Icon(
                                                   Icons
