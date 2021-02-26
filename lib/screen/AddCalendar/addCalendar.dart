@@ -112,6 +112,12 @@ class _AddCalendarState extends State<AddCalendar> {
       print(hostNUM);
       print("object");
       localid = await storage.read(key: "login"); // 로그인시 저장했던 id
+      // if (calendar.getFinishTIME == null) {
+      //   endTimeisSwitch = false;
+      //   if (calendar.getStartTIME == null) {
+      //     allDaySwitch = true;
+      //   }
+      // }
 
       return "a";
     } else {
@@ -210,12 +216,6 @@ class _AddCalendarState extends State<AddCalendar> {
           future: api(id),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              if (calendar.getFinishTIME == null) {
-                endTimeisSwitch = false;
-                if (calendar.getStartTIME == null) {
-                  allDaySwitch = true;
-                }
-              }
               return Form(
                 key: _fKey,
                 child: ListView(
@@ -515,23 +515,29 @@ class _AddCalendarState extends State<AddCalendar> {
                               child: OutlinedButton.icon(
                                 onPressed: () {
                                   submit();
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => WithFriend(
-                                              id: id,
-                                              calendarNUM: calendarNUM,
-                                              scheduleDATE: scheduleDATE,
-                                              scheduleTYPE: scheduleTYPE,
-                                              scheduleDETAIL: scheduleDETAIL,
-                                              scheduleLOCATION:
-                                                  scheduleLOCATION,
-                                              startTIME: startTIME,
-                                              finishTIME: finishTIME,
-                                              isWrite: write,
-                                              userIDK: userIDK,
-                                              localid: localid,
-                                              hostNUM: hostNUM)));
+                                  print(
+                                      "ddddddddddddddddddddddddd ${starttimecontroller.text}");
+                                  if (!allDaySwitch &&
+                                      starttimecontroller.text == "") {
+                                  } else {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => WithFriend(
+                                                id: id,
+                                                calendarNUM: calendarNUM,
+                                                scheduleDATE: scheduleDATE,
+                                                scheduleTYPE: scheduleTYPE,
+                                                scheduleDETAIL: scheduleDETAIL,
+                                                scheduleLOCATION:
+                                                    scheduleLOCATION,
+                                                startTIME: startTIME,
+                                                finishTIME: finishTIME,
+                                                isWrite: write,
+                                                userIDK: userIDK,
+                                                localid: localid,
+                                                hostNUM: hostNUM)));
+                                  }
                                 },
                                 icon: Icon(
                                   Icons.person_add_alt_1,
