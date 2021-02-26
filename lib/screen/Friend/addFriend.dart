@@ -193,12 +193,14 @@ class _AddFriendState extends State<AddFriend> {
                       color: Colors.white,
                     ),
                     onPressed: () {
-                      setState(
-                        () {
-                          fetchedFriendID = fetchAddFriend();
-                          buttonOn = true;
-                        },
-                      );
+                      if (_friendID.isNotEmpty) {
+                        setState(
+                          () {
+                            fetchedFriendID = fetchAddFriend();
+                            buttonOn = true;
+                          },
+                        );
+                      }
                     })
               ]),
             ),
