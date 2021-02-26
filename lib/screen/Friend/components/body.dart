@@ -39,6 +39,7 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     (followSelect)
         ? setState(() {
             fetchedFriend = fetchFriend(Follow);
@@ -47,14 +48,10 @@ class _BodyState extends State<Body> {
             fetchedFriend = fetchFriend(Followed);
           });
     String dropdownValue;
-    Size size = MediaQuery.of(context).size;
     return Background(
         child: Column(children: [
       Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.white, width: 0.4),
-          ),
-          height: 50,
+          height: size.height * 0.05,
           child: Row(
             children: [
               GestureDetector(
@@ -63,28 +60,65 @@ class _BodyState extends State<Body> {
                       followSelect = true;
                     });
                   },
-                  child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.white, width: 0.4),
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                      ),
-                      child: Center(
-                          child: Text("Following",
-                              style: TextStyle(color: Colors.white))))),
+                  child: (followSelect)
+                      ? Container(
+                          width: size.width * 0.49,
+                          decoration: BoxDecoration(
+                            border: Border(
+                                bottom:
+                                    BorderSide(color: Colors.white, width: 2)),
+                          ),
+                          child: Center(
+                              child: Text("팔로잉",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 17)))) //focused 됐을 때
+                      : Container(
+                          width: size.width * 0.49,
+                          decoration: BoxDecoration(
+                            border: Border(
+                                bottom:
+                                    BorderSide(color: Colors.black, width: 2)),
+                          ),
+                          child: Center(
+                              child: Text("팔로잉",
+                                  style: TextStyle(
+                                      color: Colors.white30,
+                                      fontSize: 17))))), //!focused 됐을때
+              Container(
+                width: size.width * 0.01,
+              ),
               GestureDetector(
                   onTap: () {
                     setState(() {
                       followSelect = false;
                     });
                   },
-                  child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.white, width: 0.4),
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                      ),
-                      child: Center(
-                          child: Text("Follower",
-                              style: TextStyle(color: Colors.white)))))
+                  child: (followSelect != true)
+                      ? Container(
+                          width: size.width * 0.49,
+                          decoration: BoxDecoration(
+                            border: Border(
+                                bottom:
+                                    BorderSide(color: Colors.white, width: 2)),
+                          ),
+                          child: Center(
+                              child: Text("팔로워",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 17)))) //focused
+                      : Container(
+                          width: size.width * 0.49,
+                          decoration: BoxDecoration(
+                            border: Border(
+                                bottom:
+                                    BorderSide(color: Colors.black, width: 2)),
+                          ),
+                          child: Center(
+                              child: Text("팔로워",
+                                  style: TextStyle(
+                                      color: Colors.white30,
+                                      fontSize: 17))))) // !focused
             ],
           )),
       Expanded(
@@ -94,8 +128,15 @@ class _BodyState extends State<Body> {
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return (snapshot.data.length == 0)
-                          ? Text("친구가 없네요 ^^7",
-                              style: TextStyle(color: Colors.white))
+                          ? Container(
+                              child: Column(children: [
+                              Container(
+                                height: size.height * 0.1,
+                              ),
+                              Text("친구 목록이 없습니다.",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18))
+                            ]))
                           : ListView.separated(
                               physics: BouncingScrollPhysics(),
                               itemCount: snapshot.data.length,
@@ -128,10 +169,10 @@ class _BodyState extends State<Body> {
                                                           BorderRadius.circular(
                                                               8.0)),
                                                   title: new Text(
-                                                      "상세한 ${snapshot.data[i].getUserNAME} 정보"),
+                                                      "${snapshot.data[i].getUserNAME} 정보"),
                                                   content: SingleChildScrollView(
                                                       child: new Text(
-                                                          "이름이 ${snapshot.data[i].getUserNAME}임")),
+                                                          "이름: ${snapshot.data[i].getUserNAME}, 아이디: ${snapshot.data[i].getUserID}")),
                                                 );
                                               },
                                             )
@@ -150,7 +191,10 @@ class _BodyState extends State<Body> {
                                             (String value) {
                                       return DropdownMenuItem<String>(
                                         value: value,
-                                        child: Text(value),
+                                        child: Text(value,
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                            )),
                                       );
                                     }).toList(),
                                   ),
