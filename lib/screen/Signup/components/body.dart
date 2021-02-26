@@ -27,7 +27,7 @@ class Body extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                "SIGNUP",
+                "회원가입",
                 style:
                     TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
               ),
@@ -38,14 +38,14 @@ class Body extends StatelessWidget {
               ),
               SizedBox(height: size.height * 0.02),
               RoundedInputField(
-                hintText: 'Your Name',
+                hintText: '이름',
                 icon: Icons.sentiment_satisfied_alt_outlined,
                 onChanged: (value) {
                   name = value;
                 },
               ),
               RoundedInputField(
-                hintText: "Your ID",
+                hintText: "E-mail",
                 onChanged: (value) {
                   id = value;
                 },
@@ -56,7 +56,8 @@ class Body extends StatelessWidget {
                 },
               ),
               RoundedButton(
-                text: "SIGNUP",
+                text: "회원가입",
+                textColor: Colors.red[400],
                 press: () async {
                   user.setUserID = id;
                   user.setUserPW = pw;
