@@ -69,7 +69,8 @@ class _AddFriendState extends State<AddFriend> {
       if (response.statusCode == 200) {
         Map<String, dynamic> userMap = json.decode(response.body);
         User user = User.fromJson(userMap);
-        print("$user");
+        print("통신완료");
+        print("${user.getUserIDK}");
         return (user);
       } else {
         throw Exception('Failed to load addfriend');
@@ -226,12 +227,20 @@ class _AddFriendState extends State<AddFriend> {
                                       RoundedButton(
                                           text: "친구 추가",
                                           press: () {
-                                            showAlertDialog(
-                                                context,
-                                                "추가하시겠습니까?",
-                                                "친구 이름: ${snapshot.data.getUserNAME}",
-                                                true,
-                                                snapshot.data.getUserID);
+                                            (snapshot.data.getUserID ==
+                                                    widget.id)
+                                                ? showAlertDialog(
+                                                    context,
+                                                    " ",
+                                                    "나자신은 영원한 인생의 친구입니다.",
+                                                    false,
+                                                    snapshot.data.getUserID)
+                                                : showAlertDialog(
+                                                    context,
+                                                    "추가하시겠습니까?",
+                                                    "친구 이름: ${snapshot.data.getUserNAME}",
+                                                    true,
+                                                    snapshot.data.getUserID);
                                           })
                                     ],
                                   ));
