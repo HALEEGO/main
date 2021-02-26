@@ -69,7 +69,8 @@ class _BodyState extends State<Body> {
             children: <Widget>[
               Text(
                 "LOGIN",
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
               ),
               SizedBox(
                 height: size.height * 0.03,
@@ -93,7 +94,7 @@ class _BodyState extends State<Body> {
                 },
               ),
               RoundedButton(
-                text: "Sign In",
+                text: "SIGNIN",
                 press: () async {
                   Response response = await get("$URL/read/user/${_id}");
                   Map<String, dynamic> userInfo = json.decode(response.body);
@@ -102,12 +103,11 @@ class _BodyState extends State<Body> {
                   } else if (userInfo['userPW'] == _pw) {
                     await storage.write(key: "login", value: "$_id");
 
-                    Navigator.pushReplacement(
+                    Navigator.pushAndRemoveUntil(
                         context,
                         CupertinoPageRoute(
-                            builder: (context) => Mainmenu(
-                                  id: _id,
-                                )));
+                            builder: (context) => Mainmenu(id: _id)),
+                        (route) => false);
                   } else {
                     showAlertDialog(context, "비밀번호");
                   }

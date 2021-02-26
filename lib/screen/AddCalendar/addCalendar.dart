@@ -1,31 +1,134 @@
+import 'dart:convert';
+
+import 'package:calendar/constants.dart';
+import 'package:calendar/screen/AddCalendar/Function/withFriend.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart';
+
 import '../../data/Calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 class AddCalendar extends StatefulWidget {
+  final String title; //scheduleTYPE
+  final String calendarNUM;
+  final String id;
+  final String scheduleDATE;
+  AddCalendar(
+      {@required this.title,
+      this.calendarNUM,
+      @required this.id,
+      this.scheduleDATE});
+
   @override
   _AddCalendarState createState() => _AddCalendarState();
 }
 
 class _AddCalendarState extends State<AddCalendar> {
+  static final storage = new FlutterSecureStorage();
   GlobalKey<FormState> _fKey = GlobalKey<FormState>();
   bool autovalidate = false;
+  String id; //userid
+  String title; //scheduleTYPE
+  String calendarNUM;
   String scheduleTYPE,
       scheduleDETAIL,
       scheduleDATE,
       startTIME,
       finishTIME,
       scheduleLOCATION;
+  int userIDK;
+  int hostNUM;
+  String localid;
+  bool write = false;
+  bool tmp = true;
+  @override
+  void initState() {
+    super.initState();
+    title = widget.title;
+    id = widget.id;
+    datecontroller = TextEditingController(text: "${widget.scheduleDATE}");
+    calendar.setFriendLIST(id);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      isMe(id);
+    });
+    if (widget.calendarNUM != null) {
+      print(widget.calendarNUM);
+      calendarNUM = widget.calendarNUM;
+    }
+  }
 
-  Calendar calendar = Calendar(
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-  );
+  void isMe(id) {
+    print("씨ㅡ발$userIDK");
+    print("씨ㅡ발$hostNUM");
+
+    if (calendarNUM == null) {
+      write = true;
+      tmp = true;
+    } else {
+      if (userIDK == hostNUM) {
+        tmp = true;
+      } else {
+        tmp = false;
+      }
+    }
+    if (localid != id) {
+      tmp = false;
+    }
+  }
+
+  final String URL = "http://3.35.39.202:8000/calendar";
+  Future<String> api(id) async {
+    print(id);
+    Response re = await get("$URL/read/user/$id"); // 유저정보
+    userIDK = jsonDecode(re.body)["userIDK"]; //userIDK
+    print("kakndsalkdnsalkdnladksnldskandlaknadslkdnalkdasnlksdan $userIDK");
+    localid = await storage.read(key: "login"); // 로그인시 저장했던 id
+    if (calendarNUM != null) {
+      Response response = await get("$URL/read/calendar/$calendarNUM");
+      Map<String, dynamic> resMAP = jsonDecode(response.body);
+      scheduleTYPEcontroller =
+          TextEditingController(text: "${resMAP["scheduleTYPE"]}");
+      scheduleDETAILcontroller =
+          TextEditingController(text: "${resMAP["scheduleDETAIL"]}");
+      scheduleLOCATIONcontroller =
+          TextEditingController(text: "${resMAP["scheduleLOCATION"]}");
+      datecontroller = TextEditingController(text: "${resMAP["scheduleDATE"]}");
+      if (resMAP["startTIME"] != null) {
+        starttimecontroller =
+            TextEditingController(text: "${resMAP["startTIME"]}");
+      }
+      if (resMAP["finishTIME"] != null) {
+        finishtimecontroller =
+            TextEditingController(text: "${resMAP["finishTIME"]}");
+      }
+
+      if (resMAP["hostNUM"] != null) {
+        print(
+            "kakndsalkdnsalkdnladksnldskandlaknadslkdnalkdasnlksdan $userIDK");
+        hostNUM = resMAP["hostNUM"];
+      }
+      // hostNUM
+      print(hostNUM);
+      print("object");
+      localid = await storage.read(key: "login"); // 로그인시 저장했던 id
+      // if (calendar.getFinishTIME == null) {
+      //   endTimeisSwitch = false;
+      //   if (calendar.getStartTIME == null) {
+      //     allDaySwitch = true;
+      //   }
+      // }
+
+      return "a";
+    } else {
+      return "b";
+    }
+  }
+
+  Calendar calendar = Calendar(null, null, null, null, null, null, null, null);
+  TextEditingController scheduleTYPEcontroller = TextEditingController();
+  TextEditingController scheduleDETAILcontroller = TextEditingController();
+  TextEditingController scheduleLOCATIONcontroller = TextEditingController();
   TextEditingController datecontroller = TextEditingController();
   TextEditingController starttimecontroller = TextEditingController();
   TextEditingController finishtimecontroller = TextEditingController();
@@ -36,255 +139,424 @@ class _AddCalendarState extends State<AddCalendar> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white10,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.white70,
+          ),
           onPressed: () {
             Navigator.pop(context); // 뒤로가기
           },
         ),
         title: Text(
-          '새로운 이벤트',
+          '$title',
+          style: TextStyle(color: Colors.white70),
         ),
-        actions: [IconButton(icon: Icon(Icons.save), onPressed: () {})],
-      ),
-      body: Form(
-        key: _fKey,
-        child: ListView(
-          physics: BouncingScrollPhysics(),
-          children: <Widget>[
-            TextFormField(
-                maxLength: 20,
-                decoration: InputDecoration(
-                  labelText: '일정제목',
-                  labelStyle: TextStyle(
-                    color: Colors.grey[900],
-                    fontSize: 12,
-                  ),
+        centerTitle: true,
+        actions: [
+          calendarNUM == null || write
+              ? SizedBox()
+              : IconButton(
                   icon: Icon(
-                    Icons.title,
+                    Icons.arrow_forward,
+                    color: Colors.white70,
                   ),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey[900]),
-                  ),
-                ),
-                onChanged: (text) => scheduleTYPE = text),
-            TextFormField(
-                maxLength: 20,
-                decoration: InputDecoration(
-                  labelText: '일정내용',
-                  labelStyle: TextStyle(
-                    color: Colors.grey[900],
-                    fontSize: 12,
-                  ),
+                  onPressed: () {
+                    print(userIDK);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => WithFriend(
+                                  id: id,
+                                  calendarNUM: calendarNUM,
+                                  // scheduleDATE: scheduleDATE,
+                                  // scheduleTYPE: scheduleTYPE,
+                                  // scheduleDETAIL: scheduleDETAIL,
+                                  // scheduleLOCATION: scheduleLOCATION,
+                                  // startTIME: startTIME,
+                                  // finishTIME: finishTIME,
+                                  isWrite: write,
+                                  hostNUM: hostNUM,
+                                  userIDK: userIDK,
+                                  localid: localid,
+                                )));
+                  }),
+          calendarNUM == null
+              ? SizedBox()
+              : IconButton(
                   icon: Icon(
-                    Icons.title,
+                    Icons.add_circle_outline,
+                    color: Colors.red,
                   ),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey[900]),
-                  ),
-                ),
-                onChanged: (text) => scheduleDETAIL = text),
-            TextFormField(
-                maxLength: 20,
-                decoration: InputDecoration(
-                  labelText: '위치',
-                  labelStyle: TextStyle(
-                    color: Colors.grey[900],
-                    fontSize: 12,
-                  ),
-                  icon: Icon(
-                    Icons.title,
-                  ),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey[900]),
-                  ),
-                ),
-                onChanged: (text) => scheduleLOCATION = text),
-            ListTile(
-              leading: Icon(Icons.timer),
-              title: Text(
-                '하루종일',
-                style: TextStyle(
-                  color: Colors.grey[900],
-                  fontSize: 12,
-                ),
-              ),
-              trailing: Switch(
-                value: allDaySwitch,
-                onChanged: (value) {
-                  setState(() {
-                    allDaySwitch = value;
-                  });
-                },
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.timer),
-              title: Text(
-                '종료시간 설정하기',
-                style: TextStyle(
-                  color: Colors.grey[900],
-                  fontSize: 12,
-                ),
-              ),
-              trailing: Switch(
-                value: endTimeisSwitch,
-                onChanged: (value) {
-                  setState(() {
-                    endTimeisSwitch = value;
-                  });
-                },
-              ),
-            ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  flex: 1,
-                  child: Icon(
-                    Icons.schedule,
-                  ),
-                ),
-                Expanded(
-                  flex: 6,
-                  child: GestureDetector(
-                    onTap: yearMonthDayPicker,
-                    child: AbsorbPointer(
-                      child: TextFormField(
-                        controller: datecontroller,
-                        decoration: InputDecoration(
-                          labelText: '날짜선택',
-                          filled: true,
-                        ),
-                        onSaved: (val) {
-                          scheduleDATE = datecontroller.text;
-                          print(scheduleDATE);
+                  onPressed: () {
+                    isMe(id);
+                    if (tmp) {
+                      setState(() {
+                        write = !write;
+                      });
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0)),
+                            title: new Text("변경할수 없음"),
+                            content: SingleChildScrollView(
+                                child: new Text("내 일정이 아닙니다.")),
+                          );
                         },
-                        validator: (val) {
-                          if (val == null || val.isEmpty) {
-                            return '입력해야합니다.';
-                          }
-                          return null;
+                      );
+                    }
+                  })
+        ],
+      ),
+      body: FutureBuilder(
+          future: api(id),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Form(
+                key: _fKey,
+                child: ListView(
+                  physics: BouncingScrollPhysics(),
+                  children: <Widget>[
+                    TextFormField(
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                      maxLength: 20,
+                      cursorColor: Colors.white,
+                      controller: scheduleTYPEcontroller,
+                      enabled: write,
+                      decoration: InputDecoration(
+                          labelText: '일정제목',
+                          labelStyle: TextStyle(
+                            color: Colors.white70,
+                            fontSize: 12,
+                          ),
+                          icon: Icon(
+                            Icons.title,
+                            color: Colors.white70,
+                          ),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white10),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white))),
+                      onSaved: (val) {
+                        scheduleTYPE = scheduleTYPEcontroller.text;
+                        print(scheduleTYPE);
+                      },
+                      validator: (val) {
+                        if (val == null || val.isEmpty) {
+                          return '입력해야합니다.';
+                        }
+                        return null;
+                      },
+                    ),
+                    TextFormField(
+                      maxLength: 20,
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                      controller: scheduleDETAILcontroller,
+                      enabled: write,
+                      decoration: InputDecoration(
+                          labelText: '일정내용',
+                          labelStyle: TextStyle(
+                            color: Colors.white70,
+                            fontSize: 12,
+                          ),
+                          icon: Icon(
+                            Icons.library_books_outlined,
+                            color: Colors.white70,
+                          ),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white10),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white))),
+                      onSaved: (val) {
+                        scheduleDETAIL = scheduleDETAILcontroller.text;
+                        print(scheduleDETAIL);
+                      },
+                      validator: (val) {
+                        if (val == null || val.isEmpty) {
+                          return '입력해야합니다.';
+                        }
+                        return null;
+                      },
+                    ),
+                    TextFormField(
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                      maxLength: 20,
+                      controller: scheduleLOCATIONcontroller,
+                      enabled: write,
+                      decoration: InputDecoration(
+                          labelText: '위치',
+                          labelStyle: TextStyle(
+                            color: Colors.white70,
+                            fontSize: 12,
+                          ),
+                          icon: Icon(
+                            Icons.location_on_outlined,
+                            color: Colors.white70,
+                          ),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white10),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white))),
+                      onSaved: (val) {
+                        scheduleLOCATION = scheduleLOCATIONcontroller.text;
+                        print(scheduleLOCATION);
+                      },
+                      validator: (val) {
+                        if (val == null || val.isEmpty) {
+                          return '입력해야합니다.';
+                        }
+                        return null;
+                      },
+                    ),
+                    ListTile(
+                      leading: Icon(
+                        Icons.timer,
+                        color: Colors.white70,
+                      ),
+                      title: Text(
+                        '하루종일',
+                        style: TextStyle(
+                          color: Colors.white70,
+                          fontSize: 12,
+                        ),
+                      ),
+                      trailing: Switch(
+                        activeColor: Colors.green[600],
+                        value: allDaySwitch,
+                        onChanged: (value) {
+                          if (write) {
+                            setState(() {
+                              allDaySwitch = value;
+                            });
+                          } else {}
                         },
                       ),
                     ),
-                  ),
-                ),
-              ],
-            ),
-            allDaySwitch
-                ? new Container()
-                : Row(
-                    children: <Widget>[
-                      Expanded(
-                        flex: 1,
-                        child: Icon(
-                          Icons.schedule,
+                    ListTile(
+                      leading: Icon(
+                        Icons.timer,
+                        color: Colors.white70,
+                      ),
+                      title: Text(
+                        '종료시간 설정하기',
+                        style: TextStyle(
+                          color: Colors.white70,
+                          fontSize: 12,
                         ),
                       ),
-                      Expanded(
-                        flex: 6,
-                        child: GestureDetector(
-                          onTap: startTimePicker,
-                          child: AbsorbPointer(
-                            child: TextFormField(
-                              controller: starttimecontroller,
-                              decoration: InputDecoration(
-                                labelText: '시작시간선택',
-                                filled: true,
+                      trailing: Switch(
+                        activeColor: Colors.green[600],
+                        value: endTimeisSwitch,
+                        onChanged: (value) {
+                          if (write) {
+                            setState(() {
+                              endTimeisSwitch = value;
+                            });
+                          } else {}
+                        },
+                      ),
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          flex: 1,
+                          child: Icon(
+                            Icons.schedule,
+                            color: Colors.white70,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 6,
+                          child: GestureDetector(
+                            onTap: () {
+                              write ? yearMonthDayPicker() : {};
+                            },
+                            child: AbsorbPointer(
+                              child: TextFormField(
+                                style: TextStyle(color: Colors.white),
+                                controller: datecontroller,
+                                decoration: InputDecoration(
+                                    labelText: '날짜선택',
+                                    labelStyle:
+                                        TextStyle(color: Colors.white70),
+                                    filled: true,
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.white10),
+                                    ),
+                                    focusedBorder: UnderlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.white))),
+                                onSaved: (val) {
+                                  scheduleDATE = datecontroller.text;
+                                  print(scheduleDATE);
+                                },
+                                validator: (val) {
+                                  if (val == null || val.isEmpty) {
+                                    return '입력해야합니다.';
+                                  }
+                                  return null;
+                                },
                               ),
-                              onSaved: (val) {
-                                startTIME = starttimecontroller.text;
-                                print(startTIME);
-                              },
-                              validator: (val) {
-                                if (val == null || val.isEmpty) {
-                                  return '입력해야합니다.';
-                                }
-                                return null;
-                              },
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-            !allDaySwitch && endTimeisSwitch
-                ? Row(
-                    children: <Widget>[
-                      Expanded(
-                        flex: 1,
-                        child: Icon(
-                          Icons.schedule,
-                        ),
-                      ),
-                      Expanded(
-                        flex: 6,
-                        child: GestureDetector(
-                          onTap: finishTimePicker,
-                          child: AbsorbPointer(
-                            child: TextFormField(
-                              controller: finishtimecontroller,
-                              decoration: InputDecoration(
-                                labelText: '종료시간선택',
-                                filled: true,
+                      ],
+                    ),
+                    allDaySwitch
+                        ? new Container()
+                        : Row(
+                            children: <Widget>[
+                              Expanded(
+                                flex: 1,
+                                child: Icon(
+                                  Icons.schedule,
+                                  color: Colors.white70,
+                                ),
                               ),
-                              onSaved: (val) {
-                                finishTIME = finishtimecontroller.text;
-                                print(startTIME);
-                              },
-                              validator: (val) {
-                                return null;
-                              },
-                            ),
+                              Expanded(
+                                flex: 6,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    write ? startTimePicker() : {};
+                                  },
+                                  child: AbsorbPointer(
+                                    child: TextFormField(
+                                      style: TextStyle(color: Colors.white),
+                                      controller: starttimecontroller,
+                                      decoration: InputDecoration(
+                                          labelText: '시작시간선택',
+                                          labelStyle:
+                                              TextStyle(color: Colors.white70),
+                                          filled: true,
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Colors.white10),
+                                          ),
+                                          focusedBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.white))),
+                                      onSaved: (val) {
+                                        startTIME = starttimecontroller.text;
+                                        print(startTIME);
+                                      },
+                                      validator: (val) {
+                                        if (val == null || val.isEmpty) {
+                                          return '입력해야합니다.';
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                      ),
-                    ],
-                  )
-                : new Container(),
-            ListTile(
-              leading: Icon(Icons.accessibility_new),
-              title: Text(
-                '함께하는사람 설정하기',
-                style: TextStyle(
-                  color: Colors.grey[900],
-                  fontSize: 12,
-                ),
-              ),
-              trailing: Icon(Icons.chevron_right),
-              onTap: () {}, //친구 선택하는 페이지로 라우트
-            ),
-            Row(mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
-              new Container(
-                margin: const EdgeInsets.only(left: 10, right: 10),
-                child: ButtonTheme(
-                  child: OutlinedButton.icon(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: Icon(
-                      Icons.close,
+                    !allDaySwitch && endTimeisSwitch
+                        ? Row(
+                            children: <Widget>[
+                              Expanded(
+                                flex: 1,
+                                child: Icon(
+                                  Icons.schedule,
+                                  color: Colors.white70,
+                                ),
+                              ),
+                              Expanded(
+                                flex: 6,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    write ? finishTimePicker() : {};
+                                  },
+                                  child: AbsorbPointer(
+                                    child: TextFormField(
+                                      style: TextStyle(color: Colors.white),
+                                      controller: finishtimecontroller,
+                                      decoration: InputDecoration(
+                                          labelText: '종료시간선택',
+                                          filled: true,
+                                          labelStyle:
+                                              TextStyle(color: Colors.white70),
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Colors.white10),
+                                          ),
+                                          focusedBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.white))),
+                                      onSaved: (val) {
+                                        finishTIME = finishtimecontroller.text;
+                                        print(startTIME);
+                                      },
+                                      validator: (val) {
+                                        return null;
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        : new Container(),
+                    SizedBox(
+                      height: 20,
                     ),
-                    label: Text('취소하기'),
-                  ),
+                    write
+                        ? Container(
+                            margin: const EdgeInsets.only(left: 10, right: 10),
+                            child: ButtonTheme(
+                              child: OutlinedButton.icon(
+                                onPressed: () {
+                                  submit();
+                                  print(
+                                      "ddddddddddddddddddddddddd ${starttimecontroller.text}");
+                                  if (!allDaySwitch &&
+                                      starttimecontroller.text == "") {
+                                  } else {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => WithFriend(
+                                                id: id,
+                                                calendarNUM: calendarNUM,
+                                                scheduleDATE: scheduleDATE,
+                                                scheduleTYPE: scheduleTYPE,
+                                                scheduleDETAIL: scheduleDETAIL,
+                                                scheduleLOCATION:
+                                                    scheduleLOCATION,
+                                                startTIME: startTIME,
+                                                finishTIME: finishTIME,
+                                                isWrite: write,
+                                                userIDK: userIDK,
+                                                localid: localid,
+                                                hostNUM: hostNUM)));
+                                  }
+                                },
+                                icon: Icon(
+                                  Icons.person_add_alt_1,
+                                ),
+                                label: Text(
+                                  '함께하는 친구 설정하기',
+                                  style: TextStyle(color: Colors.white70),
+                                ),
+                              ),
+                            ),
+                          )
+                        : new Container(),
+                  ],
                 ),
-              ),
-              new Container(
-                margin: const EdgeInsets.only(left: 10, right: 10),
-                child: ButtonTheme(
-                  child: OutlinedButton.icon(
-                    onPressed: () => submit(),
-                    icon: Icon(
-                      Icons.save,
-                    ),
-                    label: Text('저장하기'),
-                  ),
-                ),
-              )
-            ])
-          ],
-        ),
-      ),
+              );
+            } else {
+              return Center(child: CircularProgressIndicator());
+            }
+          }),
     );
   }
 
@@ -315,8 +587,10 @@ class _AddCalendarState extends State<AddCalendar> {
     if (pickedTime != null) {
       hour = pickedTime.hour.toString();
       min = pickedTime.minute.toString();
+      hour.length == 1 ? hour = '0' + hour : hour = hour;
+      min.length == 1 ? min = '0' + min : min = min;
 
-      starttimecontroller.text = '$hour' + '시' + ' ' + '$min' + '분';
+      starttimecontroller.text = '$hour:$min';
     }
   }
 
@@ -332,26 +606,17 @@ class _AddCalendarState extends State<AddCalendar> {
     if (pickedTime != null) {
       hour = pickedTime.hour.toString();
       min = pickedTime.minute.toString();
-
-      finishtimecontroller.text = '$hour' + '시' + ' ' + '$min' + '분';
+      hour.length == 1 ? hour = '0' + hour : hour = hour;
+      min.length == 1 ? min = '0' + min : min = min;
+      finishtimecontroller.text = '$hour:$min';
     }
   }
 
   submit() {
     setState(() => autovalidate = true);
-
     if (!_fKey.currentState.validate()) {
       return;
     }
-
     _fKey.currentState.save();
-    calendar.setScheduleTYPE = scheduleTYPE;
-    calendar.setScheduleDETAIL = scheduleDETAIL;
-    calendar.setScheduleDATE = scheduleDATE;
-    calendar.setStartTIME = startTIME;
-    calendar.setFinishTIME = finishTIME;
-    calendar.setScheduleLOCATION = scheduleLOCATION;
-
-    calendar.pALL();
   }
 }

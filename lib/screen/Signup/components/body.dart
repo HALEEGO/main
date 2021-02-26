@@ -14,8 +14,9 @@ import 'package:http/http.dart';
 class Body extends StatelessWidget {
   String id;
   String pw;
-  String name = "사용자";
+  String name;
   User user = User(null, null, null, null, null);
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -27,15 +28,24 @@ class Body extends StatelessWidget {
             children: <Widget>[
               Text(
                 "SIGNUP",
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: size.height * 0.03),
               SvgPicture.asset(
                 'assets/images/HA/meeting.svg',
                 height: size.height * 0.3,
               ),
+              SizedBox(height: size.height * 0.02),
               RoundedInputField(
-                hintText: "Your Email",
+                hintText: 'Your Name',
+                icon: Icons.sentiment_satisfied_alt_outlined,
+                onChanged: (value) {
+                  name = value;
+                },
+              ),
+              RoundedInputField(
+                hintText: "Your ID",
                 onChanged: (value) {
                   id = value;
                 },
@@ -43,7 +53,6 @@ class Body extends StatelessWidget {
               RoundedPasswordField(
                 onChanged: (value) {
                   pw = value;
-                  print(pw);
                 },
               ),
               RoundedButton(
@@ -60,6 +69,51 @@ class Body extends StatelessWidget {
                       body: json,
                       headers: {'Content-Type': "application/json"});
                   print(response.body);
+
+                  if (response.body == 'ok') {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        Widget okButton = FlatButton(
+                          child: Text("OK"),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LoginScreen()));
+                          },
+                        );
+                        return AlertDialog(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0)),
+                          title: new Text("SIGNUP COMPLETE"),
+                          content: SingleChildScrollView(
+                              child: new Text("return LOGIN SCREEN")),
+                          actions: [okButton],
+                        );
+                      },
+                    );
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        Widget okButton = FlatButton(
+                          child: Text("OK"),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        );
+                        return AlertDialog(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0)),
+                          title: new Text("SIGNUP FAILED"),
+                          content: SingleChildScrollView(
+                              child: new Text("TRY AGAIN")),
+                          actions: [okButton],
+                        );
+                      },
+                    );
+                  }
                 },
               ),
               SizedBox(height: size.height * 0.03),

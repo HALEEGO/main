@@ -9,62 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-// class Body extends StatelessWidget {
-
-//   @override
-//   Widget build(BuildContext context) {
-//     Size size = MediaQuery.of(context).size;
-//     // This size provide us total height and width of screen
-//     return Background(
-//       child: SingleChildScrollView(
-//         physics: BouncingScrollPhysics(),
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: <Widget>[
-//             Text(
-//               "Welcome to SC",
-//               style: TextStyle(fontWeight: FontWeight.bold),
-//             ),
-//             SizedBox(height: size.height * 0.03),
-//             SvgPicture.asset(
-//               'assets/images/HA/meeting.svg',
-//               height: size.height * 0.45,
-//             ),
-//             SizedBox(height: size.height * 0.05),
-//             RoundedButton(
-//               text: "LOGIN",
-//               press: () {
-//                 Navigator.push(
-//                   context,
-//                   MaterialPageRoute(
-//                     builder: (context) {
-//                       return LoginScreen();
-//                     },
-//                   ),
-//                 );
-//               },
-//             ),
-//             RoundedButton(
-//               text: "SIGN UP",
-//               color: kPrimaryLightColor,
-//               textColor: Colors.black,
-//               press: () {
-//                 Navigator.push(
-//                   context,
-//                   MaterialPageRoute(
-//                     builder: (context) {
-//                       return SignUpScreen();
-//                     },
-//                   ),
-//                 );
-//               },
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
 class Body extends StatefulWidget {
   @override
   _BodyState createState() => _BodyState();
@@ -113,8 +57,9 @@ class _BodyState extends State<Body> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              "Welcome to SC",
-              style: TextStyle(fontWeight: FontWeight.bold),
+              "HA LEE GO",
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: size.height * 0.03),
             SvgPicture.asset(
