@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:calendar/constants.dart';
 import 'package:calendar/screen/AddCalendar/Function/withFriend.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
@@ -53,15 +52,11 @@ class _AddCalendarState extends State<AddCalendar> {
       isMe(id);
     });
     if (widget.calendarNUM != null) {
-      print(widget.calendarNUM);
       calendarNUM = widget.calendarNUM;
     }
   }
 
   void isMe(id) {
-    print("씨ㅡ발$userIDK");
-    print("씨ㅡ발$hostNUM");
-
     if (calendarNUM == null) {
       write = true;
       tmp = true;
@@ -79,10 +74,8 @@ class _AddCalendarState extends State<AddCalendar> {
 
   final String URL = "http://3.35.39.202:8000/calendar";
   Future<String> api(id) async {
-    print(id);
     Response re = await get("$URL/read/user/$id"); // 유저정보
     userIDK = jsonDecode(re.body)["userIDK"]; //userIDK
-    print("kakndsalkdnsalkdnladksnldskandlaknadslkdnalkdasnlksdan $userIDK");
     localid = await storage.read(key: "login"); // 로그인시 저장했던 id
     if (calendarNUM != null) {
       Response response = await get("$URL/read/calendar/$calendarNUM");
@@ -104,20 +97,10 @@ class _AddCalendarState extends State<AddCalendar> {
       }
 
       if (resMAP["hostNUM"] != null) {
-        print(
-            "kakndsalkdnsalkdnladksnldskandlaknadslkdnalkdasnlksdan $userIDK");
         hostNUM = resMAP["hostNUM"];
       }
       // hostNUM
-      print(hostNUM);
-      print("object");
       localid = await storage.read(key: "login"); // 로그인시 저장했던 id
-      // if (calendar.getFinishTIME == null) {
-      //   endTimeisSwitch = false;
-      //   if (calendar.getStartTIME == null) {
-      //     allDaySwitch = true;
-      //   }
-      // }
 
       return "a";
     } else {
@@ -163,19 +146,12 @@ class _AddCalendarState extends State<AddCalendar> {
                     color: Colors.white70,
                   ),
                   onPressed: () {
-                    print(userIDK);
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => WithFriend(
                                   id: id,
                                   calendarNUM: calendarNUM,
-                                  // scheduleDATE: scheduleDATE,
-                                  // scheduleTYPE: scheduleTYPE,
-                                  // scheduleDETAIL: scheduleDETAIL,
-                                  // scheduleLOCATION: scheduleLOCATION,
-                                  // startTIME: startTIME,
-                                  // finishTIME: finishTIME,
                                   isWrite: write,
                                   hostNUM: hostNUM,
                                   userIDK: userIDK,
@@ -244,7 +220,6 @@ class _AddCalendarState extends State<AddCalendar> {
                               borderSide: BorderSide(color: Colors.white))),
                       onSaved: (val) {
                         scheduleTYPE = scheduleTYPEcontroller.text;
-                        print(scheduleTYPE);
                       },
                       validator: (val) {
                         if (val == null || val.isEmpty) {
@@ -275,7 +250,6 @@ class _AddCalendarState extends State<AddCalendar> {
                               borderSide: BorderSide(color: Colors.white))),
                       onSaved: (val) {
                         scheduleDETAIL = scheduleDETAILcontroller.text;
-                        print(scheduleDETAIL);
                       },
                       validator: (val) {
                         if (val == null || val.isEmpty) {
@@ -306,7 +280,6 @@ class _AddCalendarState extends State<AddCalendar> {
                               borderSide: BorderSide(color: Colors.white))),
                       onSaved: (val) {
                         scheduleLOCATION = scheduleLOCATIONcontroller.text;
-                        print(scheduleLOCATION);
                       },
                       validator: (val) {
                         if (val == null || val.isEmpty) {
@@ -396,7 +369,6 @@ class _AddCalendarState extends State<AddCalendar> {
                                             BorderSide(color: Colors.white))),
                                 onSaved: (val) {
                                   scheduleDATE = datecontroller.text;
-                                  print(scheduleDATE);
                                 },
                                 validator: (val) {
                                   if (val == null || val.isEmpty) {
@@ -445,7 +417,6 @@ class _AddCalendarState extends State<AddCalendar> {
                                                   color: Colors.white))),
                                       onSaved: (val) {
                                         startTIME = starttimecontroller.text;
-                                        print(startTIME);
                                       },
                                       validator: (val) {
                                         if (val == null || val.isEmpty) {
@@ -493,7 +464,6 @@ class _AddCalendarState extends State<AddCalendar> {
                                                   color: Colors.white))),
                                       onSaved: (val) {
                                         finishTIME = finishtimecontroller.text;
-                                        print(startTIME);
                                       },
                                       validator: (val) {
                                         return null;
@@ -515,8 +485,6 @@ class _AddCalendarState extends State<AddCalendar> {
                               child: OutlinedButton.icon(
                                 onPressed: () {
                                   submit();
-                                  print(
-                                      "ddddddddddddddddddddddddd ${starttimecontroller.text}");
                                   if (!allDaySwitch &&
                                       starttimecontroller.text == "") {
                                   } else {

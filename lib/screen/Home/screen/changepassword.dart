@@ -53,9 +53,8 @@ class _ChangePasswordState extends State<ChangePassword> {
           return AlertDialog(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8.0)),
-            title: new Text("PASSWORD CHANGED"),
-            content: SingleChildScrollView(
-                child: new Text("Don\'t forget never ever")),
+            title: new Text("비밀번호 변경 성공"),
+            content: SingleChildScrollView(child: new Text("3일 후 재변경이 가능합니다.")),
           );
         },
       );
@@ -66,9 +65,8 @@ class _ChangePasswordState extends State<ChangePassword> {
           return AlertDialog(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8.0)),
-            title: new Text("CHANGING FAILED"),
-            content:
-                SingleChildScrollView(child: new Text("PASWWORD MISMACHED")),
+            title: new Text("비밀번호 변경 실패"),
+            content: SingleChildScrollView(child: new Text("기존 비밀번호를 확인해주세요.")),
           );
         },
       );
@@ -91,7 +89,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                     children: <Widget>[
                       SizedBox(height: 70),
                       Text(
-                        'CHANGE PASSWORD PAGE',
+                        '비밀번호 변경 페이지',
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -103,14 +101,14 @@ class _ChangePasswordState extends State<ChangePassword> {
                           children: <Widget>[
                             SizedBox(height: 20),
                             RoundedInputField(
-                              hintText: 'PRIOR PW',
+                              hintText: '기존 비밀번호',
                               icon: Icons.lock,
                               onChanged: (value) {
                                 priorpassword = value;
                               },
                             ),
                             RoundedInputField(
-                              hintText: 'NEW PW',
+                              hintText: '새로운 비밀번호',
                               icon: Icons.lock_clock,
                               onChanged: (value) {
                                 newpassword = value;
@@ -118,21 +116,21 @@ class _ChangePasswordState extends State<ChangePassword> {
                             ),
                             SizedBox(height: 10),
                             Text(
-                              '《 $id, Enter your new PASSWORD 》\n',
+                              '《 $id님, 새로운 비밀번호를 입력하세요 》\n',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
                             ),
                             Text(
-                              '※ If you don\'t want to change, press back button\n',
+                              '※ 비밀번호 변경을 원하지 않으면 뒤로가기를 눌러주세요.\n',
                               style: TextStyle(color: Colors.white),
                             ),
                             Text(
-                              '※ Password range is 2 to 8\n',
+                              '※ 비밀번호는 복잡도가 높을수록 좋습니다.\n',
                               style: TextStyle(color: Colors.white),
                             ),
                             Text(
-                              '※ 상기내용을 읽고 이해하였으며 이에 동의합니다.',
+                              '※ 비밀번호는 자주 바꿔주는게 좋습니다.',
                               style: TextStyle(color: Colors.white),
                             )
                           ],
@@ -149,7 +147,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                       ),
                       SizedBox(height: 30),
                       RoundedButton(
-                        text: 'CHANGE',
+                        text: '변경하기',
+                        textColor: Colors.red[400],
                         press: () {
                           putPasswordApi(snapshot.data);
                         },

@@ -51,7 +51,7 @@ class _UserInfoState extends State<UserInfo> {
                 child: Column(
                   children: <Widget>[
                     Text(
-                      'User Information',
+                      '회원 정보',
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -146,7 +146,7 @@ class _UserInfoState extends State<UserInfo> {
                       height: 40,
                     ),
                     RoundedButton(
-                      text: 'CHANGE NAME',
+                      text: '이름 변경',
                       press: () {
                         Navigator.push(
                             context,
@@ -158,7 +158,7 @@ class _UserInfoState extends State<UserInfo> {
                       height: 5,
                     ),
                     RoundedButton(
-                      text: 'CHANGE PASSWORD',
+                      text: '비밀번호 변경',
                       press: () {
                         Navigator.push(
                             context,
@@ -170,7 +170,7 @@ class _UserInfoState extends State<UserInfo> {
                       height: 5,
                     ),
                     RoundedButton(
-                      text: 'LOG OUT', textColor: Colors.redAccent,
+                      text: '로그아웃', textColor: Colors.redAccent,
                       press: () {
                         storage.delete(key: "login");
                         Navigator.pushReplacement(

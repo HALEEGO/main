@@ -58,7 +58,6 @@ Future<String> searchcalendar(id) async {
 
 Future<String> deletecalendar(calendarNUM) async {
   Response response = await delete("$URL/delete/calendar/$calendarNUM");
-  print(response.body);
 
   return response.body.toString();
 }

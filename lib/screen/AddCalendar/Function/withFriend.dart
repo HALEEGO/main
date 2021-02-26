@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:calendar/constants.dart';
 import 'package:calendar/data/Calendar.dart';
 import 'package:calendar/screen/Main/mainmenu.dart';
 import 'package:flutter/material.dart';
@@ -65,10 +64,7 @@ class _WithFriendState extends State<WithFriend> {
   Widget pickedFriend(friendList, write, userIDK, calendarNUM, calendarfriend) {
     int tmp = 0;
 
-    print("friendList : $friendList");
-    print("calendarfriend : $calendarfriend");
     friendList == null ? tmp = 0 : tmp = friendList.length;
-    print("friendList:::::  ${friendList.length}");
     if (write) {
       if (calendarNUM != null) {
         return ListView.builder(
@@ -89,15 +85,12 @@ class _WithFriendState extends State<WithFriend> {
                   }
                 }
               }
-              print(_isChecked);
               _friend.add("${friendList[i]["userID"]}");
-              print("friendList :: $friendList");
               return CheckboxListTile(
                 value: _isChecked[i],
                 onChanged: (value) {
                   setState(() {
                     _isChecked[i] = value;
-                    print(_isChecked);
                   });
                 },
                 controlAffinity: ListTileControlAffinity.leading,
@@ -114,7 +107,6 @@ class _WithFriendState extends State<WithFriend> {
             itemBuilder: (BuildContext context, int i) {
               _isChecked.add(false);
               _friend.add("${friendList[i]["userID"]}");
-              print("리뷰빌더 : $friendList[i]");
               return CheckboxListTile(
                 checkColor: Colors.yellow[400],
                 activeColor: Colors.white10,
@@ -131,13 +123,11 @@ class _WithFriendState extends State<WithFriend> {
             });
       }
     } else {
-      print("에바지");
       return ListView.builder(
         physics: BouncingScrollPhysics(),
         itemCount: tmp,
         itemBuilder: (BuildContext context, int i) {
           if (friendList[i]["userIDK"] == userIDK) {
-            print("$userIDK");
             return ListTile(
               title: Text(
                 "${friendList[i]["userNAME"]}",
@@ -149,7 +139,6 @@ class _WithFriendState extends State<WithFriend> {
               ),
             );
           } else {
-            print("$userIDK");
             return ListTile(
               title: Text(
                 "${friendList[i]["userNAME"]}",
@@ -181,7 +170,6 @@ class _WithFriendState extends State<WithFriend> {
     for (int i = 0; i < _pickedfriend.length; i++) {
       calendar.setFriendLIST(_pickedfriend[i]);
     }
-    print("calendar : ${calendar.getFriendLIST}");
     var json = jsonEncode(calendar);
     if (calendarNUM == null) {
       Response response = await post("$URL/insert/calendar",
@@ -197,9 +185,6 @@ class _WithFriendState extends State<WithFriend> {
   void initState() {
     super.initState();
     id = widget.id;
-    print(
-        "withFriend 의 intitState의 calendarNUM, scheduleTYPE : ${widget.calendarNUM} , $scheduleTYPE");
-    print("withFriend 의 intitState의  : $id");
     calendarNUM = widget.calendarNUM;
     scheduleTYPE = widget.scheduleTYPE;
     scheduleDETAIL = widget.scheduleDETAIL;
@@ -208,7 +193,6 @@ class _WithFriendState extends State<WithFriend> {
     finishTIME = widget.finishTIME;
     scheduleLOCATION = widget.scheduleLOCATION;
     write = widget.isWrite;
-    print("withFriend 의 intitState의  : $userIDK");
     hostNUM = widget.hostNUM;
     userIDK = widget.userIDK;
     localid = widget.localid;
@@ -270,7 +254,6 @@ class _WithFriendState extends State<WithFriend> {
               : nochangedsearchFriend(calendarNUM, id),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              print("여기는 바로바로바로바로바로 $fuuu");
               return pickedFriend(fuu, write, userIDK, calendarNUM, fuuu);
             } else {
               return Center(child: CircularProgressIndicator());

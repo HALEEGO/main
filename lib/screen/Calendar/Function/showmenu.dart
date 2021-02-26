@@ -5,8 +5,6 @@ import 'package:calendar/screen/Calendar/Function/APIget.dart';
 import 'package:calendar/screen/Main/mainmenu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swipe_action_cell/core/cell.dart';
-import 'package:flutter_swipe_action_cell/core/controller.dart';
-import 'package:path/path.dart';
 
 void showmenu(DateTime day, Map<DateTime, List> _allEvents,
     BuildContext context, _animationController, id, swipecontroller) {
@@ -135,7 +133,6 @@ void showmenu(DateTime day, Map<DateTime, List> _allEvents,
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
-                                                            // print("object");
                                                             AddCalendar(
                                                               title:
                                                                   "${_allEvents[DateTime.parse(day.toString().replaceAll("12", "00").replaceAll("Z", ""))][i]}",
@@ -164,12 +161,10 @@ void showmenu(DateTime day, Map<DateTime, List> _allEvents,
                                                   147, 147, 147, 1),
                                             ),
                                             onTap: () {
-                                              // print("object");
                                               Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) =>
-                                                          // print("object");
                                                           AddCalendar(
                                                             title:
                                                                 "${_allEvents[DateTime.parse(day.toString().replaceAll("12", "00").replaceAll("Z", ""))][i]}",
