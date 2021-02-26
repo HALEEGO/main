@@ -130,7 +130,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                               style: TextStyle(color: Colors.white),
                             ),
                             Text(
-                              '※ 비밀번호는 3일에 한 번 변경 가능합니다.',
+                              '※ 비밀번호는 자주 바꿔주는게 좋습니다.',
                               style: TextStyle(color: Colors.white),
                             )
                           ],
