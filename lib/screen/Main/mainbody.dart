@@ -15,6 +15,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 import '../Home/home_screen.dart';
 import '../Friend/addFriend.dart';
+import '../Friend/components/body.dart';
 
 class MainBody extends StatefulWidget {
   final String id;
@@ -83,7 +84,7 @@ class _MainBodyState extends State<MainBody> {
                           color: Colors.white70,
                         ),
                         title: Text(
-                          '${snapshot.data}' + '\n' + '친구보기',
+                          '${snapshot.data}' + '의\n' + '친구보기',
                           style: TextStyle(color: Colors.white70),
                         ),
                         actions: [
@@ -93,17 +94,17 @@ class _MainBodyState extends State<MainBody> {
                               color: Colors.red[400],
                             ),
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return AddFriend(
-                                      id: id,
-                                    );
-                                  },
+                              Navigator.of(context)
+                                  .push(MaterialPageRoute(
+                                builder: (context) => AddFriend(
+                                  id: id,
                                 ),
-                              );
-                              //
+                              ))
+                                  .then((_) {
+                                setState(() {
+                                  _selectedIndex = 0;
+                                });
+                              });
                             },
                           ),
                         ],

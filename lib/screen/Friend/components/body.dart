@@ -175,10 +175,10 @@ class _BodyState extends State<Body> {
                                                       BorderRadius.circular(
                                                           8.0)),
                                               title: new Text(
-                                                  "${snapshot.data[i].getUserNAME} 정보"),
+                                                  "${snapshot.data[i].getUserNAME}님의 정보"),
                                               content: SingleChildScrollView(
                                                   child: new Text(
-                                                      "이름: ${snapshot.data[i].getUserNAME}, 아이디: ${snapshot.data[i].getUserID}")),
+                                                      "이름: ${snapshot.data[i].getUserNAME}\n아이디: ${snapshot.data[i].getUserID}")),
                                             );
                                           },
                                         );
@@ -191,33 +191,63 @@ class _BodyState extends State<Body> {
                                                       .data[i].getUserID)),
                                         );
                                       } else {
-                                        showDialog(
-                                            context: context,
-                                            builder: (builder) {
-                                              return AlertDialog(
-                                                title: Text("삭제하시겠습니까?"),
-                                                content: Text(
-                                                    "${snapshot.data[i].getUserNAME}을 정말 삭제하시겠습니까?"),
-                                                actions: [
-                                                  FlatButton(
-                                                      onPressed: () async {
-                                                        Response response =
-                                                            await delete(
-                                                                "http://3.35.39.202:8000/calendar/delete/friend/$id/${snapshot.data[i].getUserID}");
-                                                        Navigator.pop(context,
-                                                            setState(() {
-                                                          id = widget.id;
-                                                        }));
-                                                      },
-                                                      child: Text("확인")),
-                                                  FlatButton(
-                                                      onPressed: () {
-                                                        Navigator.pop(context);
-                                                      },
-                                                      child: Text("취소"))
-                                                ],
-                                              );
-                                            });
+                                        (followSelect == false)
+                                            ? showDialog(
+                                                context: context,
+                                                builder: (builder) {
+                                                  return AlertDialog(
+                                                    content: Text(
+                                                        "${snapshot.data[i].getUserNAME}님을 정말 삭제하시겠습니까?"),
+                                                    actions: [
+                                                      FlatButton(
+                                                          onPressed: () async {
+                                                            Response response =
+                                                                await delete(
+                                                                    "http://3.35.39.202:8000/calendar/delete/friend/${snapshot.data[i].getUserID}/$id");
+                                                            Navigator.pop(
+                                                                context,
+                                                                setState(() {
+                                                              id = widget.id;
+                                                            }));
+                                                          },
+                                                          child: Text("확인")),
+                                                      FlatButton(
+                                                          onPressed: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          child: Text("취소"))
+                                                    ],
+                                                  );
+                                                })
+                                            : showDialog(
+                                                context: context,
+                                                builder: (builder) {
+                                                  return AlertDialog(
+                                                    content: Text(
+                                                        "${snapshot.data[i].getUserNAME}님을 정말 삭제하시겠습니까?"),
+                                                    actions: [
+                                                      FlatButton(
+                                                          onPressed: () async {
+                                                            Response response =
+                                                                await delete(
+                                                                    "http://3.35.39.202:8000/calendar/delete/friend/$id/${snapshot.data[i].getUserID}");
+                                                            Navigator.pop(
+                                                                context,
+                                                                setState(() {
+                                                              id = widget.id;
+                                                            }));
+                                                          },
+                                                          child: Text("확인")),
+                                                      FlatButton(
+                                                          onPressed: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          child: Text("취소"))
+                                                    ],
+                                                  );
+                                                });
                                       }
                                     },
                                     items: <String>['상세정보', '달력보기', '친구삭제']
@@ -241,7 +271,7 @@ class _BodyState extends State<Body> {
                     } else if (snapshot.hasError) {
                       return Text("${snapshot.error}");
                     }
-                    return CircularProgressIndicator();
+                    return Container();
                   })))
     ]));
   }
