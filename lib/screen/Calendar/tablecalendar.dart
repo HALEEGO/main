@@ -3,14 +3,12 @@ import 'dart:ui';
 import 'package:calendar/screen/Calendar/Function/showmenu.dart';
 import 'package:calendar/screen/Calendar/design.dart';
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
 import 'package:table_calendar/table_calendar.dart';
 import './Function/APIget.dart';
 
 void _onDaySelected(DateTime day, List events, List holidays, context,
     _animationController, id, swipecontroller) {
   //선택되는날 함수
-  print('CALLBACK: _onDaySelected');
 
   showmenu(day, allEvents, context, _animationController, id, swipecontroller);
 }
@@ -19,17 +17,13 @@ void _onVisibleDaysChanged(
     //달 이동하면 호출됨
     DateTime first,
     DateTime last,
-    CalendarFormat format) {
-  print('CALLBACK: _onVisibleDaysChanged');
-}
+    CalendarFormat format) {}
 
 void _onCalendarCreated(
     //제일처음 달력 만들어질때 호출됨
     DateTime first,
     DateTime last,
-    CalendarFormat format) {
-  print('CALLBACK: _onCalendarCreated');
-}
+    CalendarFormat format) {}
 
 Widget buildTableCalendarWithBuilders(
     _calendarController, _animationController, context, id, swipecontroller) {

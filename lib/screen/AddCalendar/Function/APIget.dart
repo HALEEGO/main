@@ -14,8 +14,6 @@ Future<List> searchFriend(id, calnum) async {
     Response re = await get("$URL/read/calendaruser/$calnum");
     fuuu = jsonDecode(re.body);
   }
-  print("fuu ::::::::::::::::::::::::::::: $fuu");
-  print("fuuu 는 :::::::::::::::::::::::::::::::$fuuu");
   return fuu;
 }
 
@@ -25,6 +23,5 @@ Future<List> nochangedsearchFriend(calnum, id) async {
   fuu = tmp;
   Response re = await get("$URL/read/calendaruser/$calnum");
   fuuu = jsonDecode(re.body);
-  print("fuu ::::::::::::::::::::::::::::: $fuu");
   return fuu;
 }
