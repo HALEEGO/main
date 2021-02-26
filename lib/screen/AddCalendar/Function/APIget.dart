@@ -6,33 +6,26 @@ import 'package:http/http.dart';
 String URL = "http://3.35.39.202:8000/calendar";
 
 Future<List> searchFriend(id, calnum) async {
-  print("$id , $calnum?");
-
   Response response = await get("$URL/read/userfriend/$id");
-  List tmp = jsonDecode(response.body);
-  fuu = tmp;
-  print("어딜까요?");
-
-  print("뿌잉뀨><?");
-  // Response re = await get("$URL/read/user/$id");
-  // userIDK = jsonDecode(re.body)["userIDK"];
-
-  print("꺄르르르르르르르르ㅡㄲ!");
+  List ttemp = jsonDecode(response.body);
+  fuu.clear();
+  fuu = ttemp;
+  if (calnum == null) {
+  } else {
+    Response re = await get("$URL/read/calendaruser/$calnum");
+    fuuu = jsonDecode(re.body);
+  }
+  print("fuu ::::::::::::::::::::::::::::: $fuu");
+  print("fuuu 는 :::::::::::::::::::::::::::::::$fuuu");
   return fuu;
 }
 
 Future<List> nochangedsearchFriend(calnum, id) async {
-  print("여기일까요?");
   Response response = await get("$URL/read/calendaruser/$calnum");
   List tmp = jsonDecode(response.body);
   fuu = tmp;
   Response re = await get("$URL/read/calendaruser/$calnum");
   fuuu = jsonDecode(re.body);
-  // Response res = await get("$URL/read/user/$id");
-  // userIDK = jsonDecode(res.body)["userIDK"];
-  // Response r = await get("$URL/read/calendar/$calnum");
-  // calhostNUM = jsonDecode(r.body)["hostNUM"];
-  // print("${res.body}");
-  print("api통신끝");
+  print("fuu ::::::::::::::::::::::::::::: $fuu");
   return fuu;
 }

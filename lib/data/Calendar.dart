@@ -39,6 +39,10 @@ class Calendar {
     _friendLIST.add(friend);
   }
 
+  void clearFriendList() {
+    _friendLIST.clear();
+  }
+
   Calendar(
       this._calendarNUM,
       this._scheduleTYPE,

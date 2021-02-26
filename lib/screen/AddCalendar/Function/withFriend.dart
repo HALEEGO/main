@@ -62,37 +62,42 @@ class _WithFriendState extends State<WithFriend> {
   int userIDK;
   bool write = false;
 
-  Widget pickedFriend(friendList, write, userIDK, calendarNUM, fuuu) {
+  Widget pickedFriend(friendList, write, userIDK, calendarNUM, calendarfriend) {
     int tmp = 0;
 
-    print(friendList);
+    print("friendList : $friendList");
+    print("calendarfriend : $calendarfriend");
     friendList == null ? tmp = 0 : tmp = friendList.length;
-    print("samfklamklamdldkmlgdsm");
-    print(fuuu);
+    print("friendList:::::  ${friendList.length}");
     if (write) {
       if (calendarNUM != null) {
-        print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         return ListView.builder(
             physics: BouncingScrollPhysics(),
             itemCount: tmp,
             itemBuilder: (BuildContext context, int i) {
-              for (int j = 0; j < fuuu.length; j++) {
-                if (friendList[i]["userIDK"] == fuuu[j]["userIDK"]) {
-                  _isChecked.add(true);
-                  break;
-                }
-                if (j == fuuu.length - 1) {
-                  _isChecked.add(false);
+              if (_isChecked.length == friendList.length) {
+              } else {
+                for (int j = 0; j < calendarfriend.length; j++) {
+                  if (friendList[i]["userIDK"] ==
+                      calendarfriend[j]["userIDK"]) {
+                    _isChecked.add(true);
+
+                    break;
+                  }
+                  if (j == calendarfriend.length - 1) {
+                    _isChecked.add(false);
+                  }
                 }
               }
-
+              print(_isChecked);
               _friend.add("${friendList[i]["userID"]}");
-
+              print("friendList :: $friendList");
               return CheckboxListTile(
                 value: _isChecked[i],
                 onChanged: (value) {
                   setState(() {
                     _isChecked[i] = value;
+                    print(_isChecked);
                   });
                 },
                 controlAffinity: ListTileControlAffinity.leading,
@@ -158,55 +163,36 @@ class _WithFriendState extends State<WithFriend> {
   }
 
   void addwithFriend(_isChecked, _friend) {
+    if (_pickedfriend != null) {
+      _pickedfriend.clear();
+    }
     _pickedfriend.add(id);
     for (int i = 0; i < _isChecked.length; i++) {
-      _isChecked[i] == true ? _pickedfriend.add(_friend[i]) : {};
+      if (_isChecked[i]) {
+        _pickedfriend.add(_friend[i]);
+      }
     }
   }
 
   void submit(id, calendarNUM, schuduleTYPE, scheduleDETAIL, scheduleDATE,
       startTIME, finishTIME, scheduleLOCATION, _pickedfriend, hostNUM) async {
-    if (scheduleTYPE == null ||
-        scheduleDETAIL == null ||
-        scheduleDATE == null ||
-        scheduleLOCATION == null) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0)),
-            title: new Text("정보부족!"),
-            content: SingleChildScrollView(
-                child: new Text("이전 페이지에서 정보를 입력하여 주세요.")),
-          );
-        },
-      );
-    }
     if (hostNUM == null) {
       hostNUM = userIDK;
     }
-    print("ssssssssssssssssssssssssss${hostNUM}");
     Calendar calendar = Calendar(null, scheduleTYPE, scheduleDETAIL,
         scheduleDATE, startTIME, finishTIME, scheduleLOCATION, hostNUM);
     for (int i = 0; i < _pickedfriend.length; i++) {
       calendar.setFriendLIST(_pickedfriend[i]);
     }
-    print("withFriend.dart의 submit함수 scheduleTYPE : $scheduleTYPE");
+    print("calendar : ${calendar.getFriendLIST}");
     var json = jsonEncode(calendar);
     if (calendarNUM == null) {
-      print(json);
-      print(calendar.toJson());
       Response response = await post("$URL/insert/calendar",
           body: json, headers: {'Content-Type': "application/json"});
-      print(response.body.toString());
     } else if (calendarNUM != null) {
       Response response = await post("$URL/insert/calendar",
           body: json, headers: {'Content-Type': "application/json"});
       Response res = await delete("$URL/delete/calendar/$calendarNUM");
-      print("삭제되었습니다 ${res.body}");
-      print("여기는 : $json");
-      print(response.body.toString());
     }
   }
 
@@ -229,6 +215,8 @@ class _WithFriendState extends State<WithFriend> {
     hostNUM = widget.hostNUM;
     userIDK = widget.userIDK;
     localid = widget.localid;
+    fuu.clear();
+    fuuu.clear();
   }
 
   @override
@@ -287,6 +275,7 @@ class _WithFriendState extends State<WithFriend> {
               : nochangedsearchFriend(calendarNUM, id),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              print("여기는 바로바로바로바로바로 $fuuu");
               return pickedFriend(fuu, write, userIDK, calendarNUM, fuuu);
             } else {
               return Center(child: CircularProgressIndicator());
