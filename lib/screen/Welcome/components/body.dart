@@ -57,7 +57,7 @@ class _BodyState extends State<Body> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              "HA LEE GO",
+              "HALEEGO Company",
               style:
                   TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
             ),
@@ -68,7 +68,7 @@ class _BodyState extends State<Body> {
             ),
             SizedBox(height: size.height * 0.05),
             RoundedButton(
-              text: "LOGIN",
+              text: "로그인",
               press: () {
                 Navigator.push(
                   context,
@@ -81,7 +81,7 @@ class _BodyState extends State<Body> {
               },
             ),
             RoundedButton(
-              text: "SIGN UP",
+              text: "회원가입",
               color: kPrimaryLightColor,
               textColor: Colors.black,
               press: () {

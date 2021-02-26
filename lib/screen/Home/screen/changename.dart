@@ -60,7 +60,7 @@ class _ChangeNameState extends State<ChangeName> {
                 children: <Widget>[
                   SizedBox(height: 70),
                   Text(
-                    'RENAME PAGE',
+                    '이름변경 페이지',
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -79,20 +79,20 @@ class _ChangeNameState extends State<ChangeName> {
                         ),
                         SizedBox(height: 10),
                         Text(
-                          '《 ${snapshot.data}, Enter your new name 》\n',
+                          '《 ${snapshot.data}님, 새로운 이름을 입력하세요 》\n',
                           style: TextStyle(
                               color: Colors.white, fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          '※ If you don\'t want to change, press back button\n',
+                          '※ 이름변경을 원하지 않으면 뒤로가기를 눌러주세요.\n',
                           style: TextStyle(color: Colors.white),
                         ),
                         Text(
-                          '※ Namelength range is 2 to 8\n',
+                          '※ 이름은 20자를 넘지 않게 해주세요\n',
                           style: TextStyle(color: Colors.white),
                         ),
                         Text(
-                          '※ 상기내용을 읽고 이해하였으며 이에 동의합니다.',
+                          '※ 비속어를 포함한 아이디는 이용상 제한이 있을 수 있습니다.',
                           style: TextStyle(color: Colors.white),
                         )
                       ],
@@ -109,7 +109,7 @@ class _ChangeNameState extends State<ChangeName> {
                   ),
                   SizedBox(height: 30),
                   RoundedButton(
-                    text: 'CHANGE',
+                    text: '변경하기',
                     textColor: Colors.red[400],
                     press: () async {
                       reName();
@@ -117,7 +117,7 @@ class _ChangeNameState extends State<ChangeName> {
                         context: context,
                         builder: (BuildContext context) {
                           Widget okButton = FlatButton(
-                            child: Text("OK"),
+                            child: Text("확인"),
                             onPressed: () {
                               Navigator.pushReplacement(
                                   context,
@@ -128,9 +128,9 @@ class _ChangeNameState extends State<ChangeName> {
                           return AlertDialog(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8.0)),
-                            title: new Text("NAME CHANGED"),
+                            title: new Text("이름변경 성공"),
                             content: SingleChildScrollView(
-                                child: new Text("return Main Screen")),
+                                child: new Text("홈 화면으로 돌아갑니다.")),
                             actions: [okButton],
                           );
                         },
