@@ -57,7 +57,7 @@ class _BodyState extends State<Body> {
               height: size.height * 0.35,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.white, width: 0.4),
+                border: Border.all(),
                 borderRadius: BorderRadius.all(Radius.circular(20)),
               ),
               child: Column(
@@ -69,12 +69,14 @@ class _BodyState extends State<Body> {
                     height: size.height * 0.07,
                     decoration: BoxDecoration(
                       border: Border(
-                          bottom: BorderSide(color: Colors.white, width: 0.3)),
+                          bottom: BorderSide(color: Colors.white, width: 2)),
                     ),
                     child: Text(
                       "오늘의 TODO",
                       style: TextStyle(
-                          fontWeight: FontWeight.w400, color: Colors.white),
+                          fontWeight: FontWeight.w400,
+                          color: Colors.white,
+                          fontSize: 20),
                     ),
                   ),
                   Container(
@@ -86,7 +88,7 @@ class _BodyState extends State<Body> {
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
                                 return snapshot.data.length == 0
-                                    ? Text("일정이 없네요 ^^7",
+                                    ? Text("일정이 없습니다.",
                                         style: TextStyle(color: Colors.white))
                                     : ListView.separated(
                                         physics: BouncingScrollPhysics(),
@@ -188,7 +190,7 @@ class _BodyState extends State<Body> {
                               } else if (snapshot.hasError) {
                                 return Text("${snapshot.error}");
                               }
-                              return CircularProgressIndicator();
+                              return Container();
                             },
                           )),
                     ),
@@ -204,9 +206,11 @@ class _BodyState extends State<Body> {
               // decoration: BoxDecoration(
               //     border: Border.all(width: 1, color: Colors.black)),
               child: Text(
-                "일정",
-                style:
-                    TextStyle(fontWeight: FontWeight.w400, color: Colors.white),
+                "주간 일정",
+                style: TextStyle(
+                    fontWeight: FontWeight.w400,
+                    color: Colors.white,
+                    fontSize: 18),
               ),
             ),
             Container(
@@ -221,14 +225,15 @@ class _BodyState extends State<Body> {
                         width: size.width * 0.7,
                         height: size.height * 0.3,
                         decoration: BoxDecoration(
-                            border: Border.all(width: 0.3, color: Colors.white),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20))),
+                            color: Colors.white10,
+                            borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(20),
+                                bottomRight: Radius.circular(20))),
                         child: Column(
                           children: <Widget>[
                             Container(
                               decoration: BoxDecoration(
-                                  color: Colors.white10,
+                                  color: Colors.red[400],
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(20),
                                       topRight: Radius.circular(20))),
@@ -260,7 +265,7 @@ class _BodyState extends State<Body> {
                                             if (snapshot.data.length == 0) {
                                               return ListTile(
                                                 title: Text(
-                                                  "일정이없습니다",
+                                                  "일정이 없습니다",
                                                   style: TextStyle(
                                                       color: Colors.white),
                                                 ),
