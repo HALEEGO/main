@@ -94,9 +94,13 @@ class _BodyState extends State<Body> {
                                         itemBuilder:
                                             (BuildContext context, int i) {
                                           if (snapshot.data[i].getFinishTIME ==
-                                              null) {
+                                                  null ||
+                                              snapshot.data[i].getFinishTIME ==
+                                                  "") {
                                             if (snapshot.data[i].getStartTIME ==
-                                                null) {
+                                                    null ||
+                                                snapshot.data[i].getStartTIME ==
+                                                    "") {
                                               return ListTile(
                                                 title: Text("하루종일",
                                                     style: TextStyle(
@@ -106,6 +110,20 @@ class _BodyState extends State<Body> {
                                                         .getScheduleTYPE,
                                                     style: TextStyle(
                                                         color: Colors.white)),
+                                                onTap: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              AddCalendar(
+                                                                title: "일정",
+                                                                id: id,
+                                                                calendarNUM: snapshot
+                                                                    .data[i]
+                                                                    .getCalendarNUM
+                                                                    .toString(),
+                                                              )));
+                                                },
                                               );
                                             } else {
                                               return ListTile(
@@ -118,6 +136,20 @@ class _BodyState extends State<Body> {
                                                         .getScheduleTYPE,
                                                     style: TextStyle(
                                                         color: Colors.white)),
+                                                onTap: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              AddCalendar(
+                                                                title: "일정",
+                                                                id: id,
+                                                                calendarNUM: snapshot
+                                                                    .data[i]
+                                                                    .getCalendarNUM
+                                                                    .toString(),
+                                                              )));
+                                                },
                                               );
                                             }
                                           } else {
@@ -131,6 +163,20 @@ class _BodyState extends State<Body> {
                                                       .data[i].getScheduleTYPE,
                                                   style: TextStyle(
                                                       color: Colors.white)),
+                                              onTap: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            AddCalendar(
+                                                              title: "일정",
+                                                              id: id,
+                                                              calendarNUM: snapshot
+                                                                  .data[i]
+                                                                  .getCalendarNUM
+                                                                  .toString(),
+                                                            )));
+                                              },
                                             );
                                           }
                                         },
@@ -266,7 +312,7 @@ class _BodyState extends State<Body> {
                                           }),
                                     );
                                   } else {
-                                    return CircularProgressIndicator();
+                                    return Container();
                                   }
                                 }),
                           ],

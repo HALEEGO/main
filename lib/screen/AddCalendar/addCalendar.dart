@@ -112,6 +112,7 @@ class _AddCalendarState extends State<AddCalendar> {
       print(hostNUM);
       print("object");
       localid = await storage.read(key: "login"); // 로그인시 저장했던 id
+
       return "a";
     } else {
       return "b";
@@ -209,6 +210,12 @@ class _AddCalendarState extends State<AddCalendar> {
           future: api(id),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              if (calendar.getFinishTIME == null) {
+                endTimeisSwitch = false;
+                if (calendar.getStartTIME == null) {
+                  allDaySwitch = true;
+                }
+              }
               return Form(
                 key: _fKey,
                 child: ListView(

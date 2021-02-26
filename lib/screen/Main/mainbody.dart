@@ -82,7 +82,7 @@ class _MainBodyState extends State<MainBody> {
                           color: Colors.white70,
                         ),
                         title: Text(
-                          '${snapshot.data}' + '\n' + '친구보깅 ^^',
+                          '${snapshot.data}' + '\n' + '친구보기',
                           style: TextStyle(color: Colors.white70),
                         ),
                         actions: [
